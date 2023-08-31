@@ -81,32 +81,30 @@ struct InputScreen: View {
     @State private var startString: String = ""
     @State private var endString: String = ""
     @State private var searchText: String = ""
-    @State private var inputLatStr: String = ""
-    @State private var inputLongStr : String = ""
-    @State private var inputLat: Double = 0.0
-    @State private var inputLong : Double = 0.0
+    
     @State private var inputUserKm : String = ""
     @State private var userKm : Double = 0.0
     @State private var showingAlert : Bool = false
     @State private var alertTitle : String = ""
     @State private var alertText : String = ""
-    
+    @State private var startStationText: String = ""
+    @State private var endStationText: String = ""
     @Binding var outputData: OutputData
     var body: some View {
         VStack {
             Form {
                 Section(header: Text("Tìm kiếm")) {
-                    TextField("Nhập điểm đến", text: $startString)
+                    TextField("Nhập điểm xuất phát", text: $startString)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
+                        .padding(10)
                     
-                    TextField("Nhập điểm đích", text: $endString)
+                    TextField("Nhập điểm đến", text: $endString)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
+                        .padding(10)
                     
                     TextField("Nhập số Km cách trạm xe buýt tối đa cách điểm đến", text: $inputUserKm)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
+                        .padding(10)
                     
                     Button("Search") {
                         searchText = "\(startString) - \(endString)"
@@ -129,35 +127,17 @@ struct InputScreen: View {
                         
                     }
                     
-                    Text(searchText)
+
+                    Text("Trạm xuất phát: \(startStationText)")
                         .bold()
-                        .font(.title)
+                        .padding()
+                    
+                    Text("Trạm đích đến: \(endStationText)")
+                        .bold()
                         .padding()
                 }
                 
-                Section(header: Text("Tìm kiếm theo tọa độ")) {
-                    TextField("Nhập latitude", text: $inputLatStr)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                    
-                    TextField("Nhập longitude", text: $inputLongStr)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                    
-                    Button("Search") {
-                        // Xử lý khi nhấn nút Search theo tọa độ...
-                        if let lat = Double(inputLatStr), let long = Double(inputLongStr) {
-                            let userCoordinate = UserCoordinate(id: "change-coordinate", lat: lat, long: long)
-                            
-                            
-                        }
-                    }
-                    
-                    Text(searchText)
-                        .bold()
-                        .font(.title)
-                        .padding()
-                }
+
             }
         }
         .alert(isPresented: $showingAlert) {
@@ -207,6 +187,8 @@ struct InputScreen: View {
                         
                         self.outputData = outputData
                         print("Output data: \(self.outputData)")
+                        self.startStationText = self.outputData.stationStartName
+                        self.endStationText = self.outputData.stationEndName
                     } catch {
                         print("Error decoding response data: \(error)")
                     }
@@ -296,9 +278,10 @@ struct MapView: UIViewRepresentable {
       let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong))
       // đánh dấu marker để hiển thị tên địa điểm
       let p1Annotation = MKPointAnnotation()
-              p1Annotation.coordinate = CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong)
-              p1Annotation.title = "Start Station"
-              mapView.addAnnotation(p1Annotation)
+             p1Annotation.coordinate = CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong)
+             p1Annotation.title = "Start Station"
+             mapView.addAnnotation(p1Annotation)
+
       
      
     // trạm đích
@@ -324,7 +307,7 @@ struct MapView: UIViewRepresentable {
     let directions = MKDirections(request: request)
     directions.calculate { response, error in
       guard let route = response?.routes.first else { return }
-      mapView.addAnnotations([p1, p2])
+      //mapView.addAnnotations([p3, p1, p2])
       mapView.addOverlay(route.polyline)
       mapView.setVisibleMapRect(
         route.polyline.boundingMapRect,
