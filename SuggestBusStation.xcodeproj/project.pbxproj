@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */; };
+		520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */; };
 		52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */; };
 		52425EA72A34BF3000AD47B6 /* InputScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52425EA62A34BF3000AD47B6 /* InputScreen.swift */; };
 		52425EA92A34BF3400AD47B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EA82A34BF3400AD47B6 /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 /* Begin PBXFileReference section */
 		2A3BEC35A81473E5A6191525 /* Pods-SuggestBusStation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuggestBusStation.debug.xcconfig"; path = "Target Support Files/Pods-SuggestBusStation/Pods-SuggestBusStation.debug.xcconfig"; sourceTree = "<group>"; };
 		40B466861CD4440F78EC6E00 /* Pods_SuggestBusStation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuggestBusStation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestView.swift; sourceTree = "<group>"; };
+		520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location Manager.swift"; sourceTree = "<group>"; };
 		52425EA12A34BF3000AD47B6 /* SuggestBusStation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuggestBusStation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestBusStationApp.swift; sourceTree = "<group>"; };
 		52425EA62A34BF3000AD47B6 /* InputScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputScreen.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 				52C8885C2A668D1E00BDD10C /* BusStations.swift */,
 				52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */,
 				52C888602A668E8500BDD10C /* UserInputLocation.swift */,
+				520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */,
+				520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */,
 			);
 			path = SuggestBusStation;
 			sourceTree = "<group>";
@@ -100,7 +106,6 @@
 				2A3BEC35A81473E5A6191525 /* Pods-SuggestBusStation.debug.xcconfig */,
 				54B5993F5827BC75D127EF82 /* Pods-SuggestBusStation.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -220,8 +225,10 @@
 			files = (
 				52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */,
 				52425EA72A34BF3000AD47B6 /* InputScreen.swift in Sources */,
+				520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */,
 				52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */,
 				52C8885B2A66858000BDD10C /* BusStation.swift in Sources */,
+				520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */,
 				52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */,
 				52C8885D2A668D1E00BDD10C /* BusStations.swift in Sources */,
 			);
@@ -356,6 +363,9 @@
 				DEVELOPMENT_TEAM = 38X863TNHZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -386,6 +396,9 @@
 				DEVELOPMENT_TEAM = 38X863TNHZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

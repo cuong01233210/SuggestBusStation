@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import GoogleMaps
 import MapKit
 import UIKit
 struct ErrorData: Codable {
@@ -37,19 +36,41 @@ struct OutputData: Codable{
         self.stationEndLong = stationEndLong
     }
 }
+
+struct MapInput {
+    var outputData : OutputData
+    var userLat: Double
+    var userLong: Double
+    var userLocationName: String
+    
+    init(outputData: OutputData, userLat: Double, userLong: Double, userLocationName: String) {
+        self.outputData = outputData
+        self.userLat = userLat
+        self.userLong = userLong
+        self.userLocationName = userLocationName
+    }
+}
 struct ContentView: View{
-    @State var outputData : OutputData
+    @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
+
+    
+    @ObservedObject var locationManager = LocationManager.shared
     var body: some View{
-        
-        NavigationView{
-            VStack {
-                InputScreen(outputData: $outputData)
-                NavigationLink(destination: ContentMapView(outputData: $outputData), label: {Text("NextPage")})
+        Group {
+            if locationManager.userLocation == nil {
+                LocationRequestView()
             }
-      
+            else {
+                if let location = locationManager.userLocation {
+                    NavigationView{
+                        VStack {
+                            InputScreen(outputData: $outputData)
+                            NavigationLink(destination: ContentMapView(outputData: $outputData, userLat: location.coordinate.latitude, userLong: location.coordinate.longitude), label: {Text("NextPage")})
+                        }
+                    }
+                }
+            }
         }
-       
-        
     }
     
     
@@ -218,9 +239,11 @@ struct ContentMapView: View {
   @State private var directions: [String] = []
   @State private var showDirections = false
     @Binding var outputData : OutputData
+    @State var userLat: Double
+    @State var userLong: Double
   var body: some View {
     VStack {
-        MapView(directions: $directions, outputData: $outputData)
+        MapView(directions: $directions, outputData: $outputData, userLat: userLat, userLong: userLong)
 
       Button(action: {
         self.showDirections.toggle()
@@ -252,6 +275,8 @@ struct MapView: UIViewRepresentable {
 
   @Binding var directions: [String]
     @Binding var outputData: OutputData
+    @State var userLat: Double
+    @State var userLong: Double
   func makeCoordinator() -> MapViewCoordinator {
       
     return MapViewCoordinator()
@@ -267,15 +292,33 @@ struct MapView: UIViewRepresentable {
       span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     mapView.setRegion(region, animated: true)
 
-    // điểm xuất phát
+    // trạm xuất phát
       let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong))
-
-    // điểm đích
+      // đánh dấu marker để hiển thị tên địa điểm
+      let p1Annotation = MKPointAnnotation()
+              p1Annotation.coordinate = CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong)
+              p1Annotation.title = "Start Station"
+              mapView.addAnnotation(p1Annotation)
+      
+     
+    // trạm đích
       let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: self.outputData.stationEndLat, longitude: self.outputData.stationEndLong))
 
+      let p2Annotation = MKPointAnnotation()
+              p2Annotation.coordinate = CLLocationCoordinate2D(latitude: self.outputData.stationEndLat, longitude: self.outputData.stationEndLong)
+              p2Annotation.title = "End Station"
+              mapView.addAnnotation(p2Annotation)
+      
+      // vị trí hiện tại của người dùng
+      let p3 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: userLat, longitude: userLong))
+      let p3Annotation = MKPointAnnotation()
+              p3Annotation.coordinate = CLLocationCoordinate2D(latitude: userLat, longitude: userLong)
+              p3Annotation.title = "Your Location"
+              mapView.addAnnotation(p3Annotation)
+      
     let request = MKDirections.Request()
-    request.source = MKMapItem(placemark: p1)
-    request.destination = MKMapItem(placemark: p2)
+    request.source = MKMapItem(placemark: p3)
+    request.destination = MKMapItem(placemark: p1)
     request.transportType = .automobile
 
     let directions = MKDirections(request: request)
