@@ -1,4 +1,4 @@
-//
+
 //  ContentView.swift
 //  SuggestBusStation
 //
@@ -36,6 +36,27 @@ struct OutputData: Codable{
         self.stationEndLong = stationEndLong
     }
 }
+class AppData: ObservableObject {
+    @Published var outputData: OutputData
+    @Published var userLat: Double
+    @Published var userLong: Double
+
+    init() {
+        self.outputData = OutputData(
+            route: "test",
+            stationStartName: "test",
+            stationEndName: "test",
+            distanceInMeters: 0,
+            stationStartLat: 21.0,
+            stationStartLong: 105.0,
+            stationEndLat: 21.1,
+            stationEndLong: 105.1
+        )
+        self.userLat = 21
+        self.userLong = 105
+    }
+}
+
 
 struct MapInput {
     var outputData : OutputData
@@ -53,7 +74,7 @@ struct MapInput {
 struct ContentView: View{
     @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
 
-    
+    @EnvironmentObject var appData: AppData
     @ObservedObject var locationManager = LocationManager.shared
     var body: some View{
         Group {
@@ -65,7 +86,9 @@ struct ContentView: View{
                     NavigationView{
                         VStack {
                             InputScreen(outputData: $outputData)
+                                
                             NavigationLink(destination: ContentMapView(outputData: $outputData, userLat: location.coordinate.latitude, userLong: location.coordinate.longitude), label: {Text("NextPage")})
+                                
                         }
                     }
                 }
@@ -90,6 +113,7 @@ struct InputScreen: View {
     @State private var startStationText: String = ""
     @State private var endStationText: String = ""
     @Binding var outputData: OutputData
+    @EnvironmentObject var appData: AppData
     var body: some View {
         VStack {
             Form {
@@ -119,6 +143,7 @@ struct InputScreen: View {
                             let userString = UserString(id: "1", startString: startString, endString: endString, userKm: userKm)
                             do{
                                 try await updateUserString(userString: userString)
+                                //appData.outputData = self.outputData
                             }
                             catch{
                                 print("Error: \(error)")
@@ -127,7 +152,7 @@ struct InputScreen: View {
                         
                     }
                     
-
+                  
                     Text("Trạm xuất phát: \(startStationText)")
                         .bold()
                         .padding()
@@ -144,7 +169,7 @@ struct InputScreen: View {
             Alert(title: Text(alertTitle), message: Text(alertText))
         }
     }
-    func updateUserString(userString: UserString) {
+    func updateUserString(userString: UserString){
         let url = URL(string: "http://localhost:8000/user-input-string/")!
         
         var urlRequest = URLRequest(url: url)
@@ -186,9 +211,11 @@ struct InputScreen: View {
                         // print("Updated user data: \(updatedUserString)")
                         
                         self.outputData = outputData
-                        print("Output data: \(self.outputData)")
+                       // appData.outputData = outputData
+                        //print("Output data: \(self.appData.outputData)")
                         self.startStationText = self.outputData.stationStartName
                         self.endStationText = self.outputData.stationEndName
+ 
                     } catch {
                         print("Error decoding response data: \(error)")
                     }
@@ -220,23 +247,24 @@ struct ContentMapView: View {
 
   @State private var directions: [String] = []
   @State private var showDirections = false
-    @Binding var outputData : OutputData
+    @EnvironmentObject var appData: AppData
+    @Binding var outputData: OutputData
     @State var userLat: Double
     @State var userLong: Double
   var body: some View {
     VStack {
-        MapView(directions: $directions, outputData: $outputData, userLat: userLat, userLong: userLong)
-
+      MapView(directions: $directions, userLat: userLat, userLong: userLong, outputData: outputData)
+            
       Button(action: {
         self.showDirections.toggle()
       }, label: {
-        Text("Show directions")
+        Text("Hiển thị đường đi")
       })
       .disabled(directions.isEmpty)
       .padding()
     }.sheet(isPresented: $showDirections, content: {
       VStack(spacing: 0) {
-        Text("Directions")
+        Text("Đường đi")
           .font(.largeTitle)
           .bold()
           .padding()
@@ -254,60 +282,64 @@ struct ContentMapView: View {
 struct MapView: UIViewRepresentable {
 
   typealias UIViewType = MKMapView
-
+    @EnvironmentObject var appData: AppData
   @Binding var directions: [String]
-    @Binding var outputData: OutputData
     @State var userLat: Double
     @State var userLong: Double
+    @State var outputData: OutputData
   func makeCoordinator() -> MapViewCoordinator {
-      
     return MapViewCoordinator()
   }
 
   func makeUIView(context: Context) -> MKMapView {
-      print("output data trong mapview", self.outputData)
+      print("user lat long", userLat, userLong)
+      print("outputData: ", outputData)
     let mapView = MKMapView()
     mapView.delegate = context.coordinator
 
     let region = MKCoordinateRegion(
-      center: CLLocationCoordinate2D(latitude: 40.71, longitude: -74),
+      center: CLLocationCoordinate2D(latitude: 21, longitude: 105),
       span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     mapView.setRegion(region, animated: true)
 
-    // trạm xuất phát
-      let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong))
-      // đánh dấu marker để hiển thị tên địa điểm
+    // start location
+      let p1Coordinate = CLLocationCoordinate2D(latitude: userLat, longitude: userLong)
+      let p1 = MKPlacemark(coordinate: p1Coordinate)
+
       let p1Annotation = MKPointAnnotation()
-             p1Annotation.coordinate = CLLocationCoordinate2D(latitude: self.outputData.stationStartLat, longitude: self.outputData.stationStartLong)
-             p1Annotation.title = "Start Station"
-             mapView.addAnnotation(p1Annotation)
+      p1Annotation.coordinate = p1Coordinate
+      p1Annotation.title = "Start Location"
+
+      // Sau đó, thêm p1Annotation vào bản đồ của bạn
+      mapView.addAnnotation(p1Annotation)
+      mapView.showsPointsOfInterest = true
 
       
-     
-    // trạm đích
-      let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: self.outputData.stationEndLat, longitude: self.outputData.stationEndLong))
+    // end location
+      let p2Coordinate = CLLocationCoordinate2D(latitude: outputData.stationStartLat, longitude: outputData.stationStartLong)
+      let p2 = MKPlacemark(coordinate: p2Coordinate)
 
       let p2Annotation = MKPointAnnotation()
-              p2Annotation.coordinate = CLLocationCoordinate2D(latitude: self.outputData.stationEndLat, longitude: self.outputData.stationEndLong)
-              p2Annotation.title = "End Station"
-              mapView.addAnnotation(p2Annotation)
-      
-      // vị trí hiện tại của người dùng
-      let p3 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: userLat, longitude: userLong))
-      let p3Annotation = MKPointAnnotation()
-              p3Annotation.coordinate = CLLocationCoordinate2D(latitude: userLat, longitude: userLong)
-              p3Annotation.title = "Your Location"
-              mapView.addAnnotation(p3Annotation)
-      
+      p2Annotation.coordinate = p2Coordinate
+      p2Annotation.title = "Start Station"
+
+      // Sau đó, thêm p2Annotation vào bản đồ của bạn
+      mapView.addAnnotation(p2Annotation)
+
+   
+
+      mapView.showsPointsOfInterest = true
+      mapView.showsUserLocation = true
+
     let request = MKDirections.Request()
-    request.source = MKMapItem(placemark: p3)
-    request.destination = MKMapItem(placemark: p1)
-    request.transportType = .automobile
+    request.source = MKMapItem(placemark: p1)
+    request.destination = MKMapItem(placemark: p2)
+      request.transportType = .automobile
 
     let directions = MKDirections(request: request)
     directions.calculate { response, error in
       guard let route = response?.routes.first else { return }
-      //mapView.addAnnotations([p3, p1, p2])
+     // mapView.addAnnotations([p1, p2])
       mapView.addOverlay(route.polyline)
       mapView.setVisibleMapRect(
         route.polyline.boundingMapRect,
@@ -320,14 +352,14 @@ struct MapView: UIViewRepresentable {
 
   func updateUIView(_ uiView: MKMapView, context: Context) {
   }
-
+    // Lớp coordinator để xử lý sự kiện của bản đồ
   class MapViewCoordinator: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        // Tạo renderer để vẽ overlay là đường đi trên bản đồ
       let renderer = MKPolylineRenderer(overlay: overlay)
-      renderer.strokeColor = .systemBlue
-      renderer.lineWidth = 5
+      renderer.strokeColor = .systemBlue  // Màu sắc của đường đi
+      renderer.lineWidth = 5 // Độ rộng của đường đi
       return renderer
     }
   }
 }
-
