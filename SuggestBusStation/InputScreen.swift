@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import UIKit
+
 struct ErrorData: Codable {
     var message: String
     init(message: String) {
@@ -15,27 +16,7 @@ struct ErrorData: Codable {
     }
 }
 
-struct OutputData: Codable{
-    var route: String
-    var stationStartName: String
-    var stationEndName: String
-    var distanceInMeters : Double
-    var stationStartLat: Double
-    var stationStartLong: Double
-    var stationEndLat: Double
-    var stationEndLong: Double
-    
-    init(route: String, stationStartName: String, stationEndName: String, distanceInMeters: Double, stationStartLat: Double, stationStartLong: Double, stationEndLat: Double, stationEndLong: Double) {
-        self.route = route
-        self.stationStartName = stationStartName
-        self.stationEndName = stationEndName
-        self.distanceInMeters = distanceInMeters
-        self.stationStartLat = stationStartLat
-        self.stationStartLong = stationStartLong
-        self.stationEndLat = stationEndLat
-        self.stationEndLong = stationEndLong
-    }
-}
+
 class AppData: ObservableObject {
     @Published var outputData: OutputData
     @Published var userLat: Double
@@ -74,6 +55,7 @@ struct MapInput {
 struct ContentView: View{
     @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
 
+    @State var outputData2 : OutputData2 = OutputData2(startLocation: "test", startLocationLat: 21, startLocationLong: 105, minDistances: [], minDistancesStations: [], minRoutes: [], startDistance: 0)
     @EnvironmentObject var appData: AppData
     @ObservedObject var locationManager = LocationManager.shared
     var body: some View{
@@ -85,10 +67,11 @@ struct ContentView: View{
                 if let location = locationManager.userLocation {
                     NavigationView{
                         VStack {
-                            InputScreen(outputData: $outputData)
+                            InputScreen(outputData: $outputData, outputData2: $outputData2)
                                 
-                            NavigationLink(destination: ContentMapView(outputData: $outputData, userLat: location.coordinate.latitude, userLong: location.coordinate.longitude), label: {Text("NextPage")})
-                                
+                            NavigationLink(destination: ContentMapView(outputData: $outputData, outputData2: $outputData2, userLat: location.coordinate.latitude, userLong: location.coordinate.longitude), label: { Text("NextPage") })
+
+      
                         }
                     }
                 }
@@ -113,7 +96,11 @@ struct InputScreen: View {
     @State private var startStationText: String = ""
     @State private var endStationText: String = ""
     @Binding var outputData: OutputData
+    @Binding var outputData2: OutputData2
     @EnvironmentObject var appData: AppData
+    @State private var isPresentingAnotherView = false
+    @State var presentDatas : [PresentData] = []
+    
     var body: some View {
         VStack {
             Form {
@@ -142,7 +129,7 @@ struct InputScreen: View {
                             }
                             let userString = UserString(id: "1", startString: startString, endString: endString, userKm: userKm)
                             do{
-                                try await updateUserString(userString: userString)
+                                try await findBusStations(userString: userString)
                                 //appData.outputData = self.outputData
                             }
                             catch{
@@ -153,13 +140,20 @@ struct InputScreen: View {
                     }
                     
                   
-                    Text("Trạm xuất phát: \(startStationText)")
-                        .bold()
-                        .padding()
-                    
-                    Text("Trạm đích đến: \(endStationText)")
-                        .bold()
-                        .padding()
+//                    Text("Trạm xuất phát: \(startStationText)")
+//                        .bold()
+//                        .padding()
+//
+//                    Text("Trạm đích đến: \(endStationText)")
+//                        .bold()
+//                        .padding()
+
+                    List (0..<presentDatas.count, id: \.self) { i in
+                        CardView(presentData: presentDatas[i], isPresentingAnotherView: $isPresentingAnotherView)
+                    }
+                    .fullScreenCover(isPresented: $isPresentingAnotherView) {
+                        AnotherView(isPresentingAnotherView: $isPresentingAnotherView)
+                    }
                 }
                 
 
@@ -169,8 +163,8 @@ struct InputScreen: View {
             Alert(title: Text(alertTitle), message: Text(alertText))
         }
     }
-    func updateUserString(userString: UserString){
-        let url = URL(string: "http://localhost:8000/user-input-string/")!
+  func findBusStations(userString: UserString){
+        let url = URL(string: "http://localhost:8000/find-bus-station-v1/")!
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
@@ -207,14 +201,20 @@ struct InputScreen: View {
                 if let data = data {
                     do {
                         print("vào được chỗ request thành công rồi")
-                        let outputData = try JSONDecoder().decode(OutputData.self, from: data)
+                        let outputData2 = try JSONDecoder().decode(OutputData2.self, from: data)
                         // print("Updated user data: \(updatedUserString)")
                         
-                        self.outputData = outputData
+                        self.outputData2 = outputData2
                        // appData.outputData = outputData
-                        //print("Output data: \(self.appData.outputData)")
-                        self.startStationText = self.outputData.stationStartName
-                        self.endStationText = self.outputData.stationEndName
+                        print("Output data: \(self.outputData2)")
+                        for index in 0..<outputData2.minDistancesStations.count {
+                           // print(index)
+                            var presentData : PresentData = PresentData(startLocation: outputData2.startLocation, startDistance: outputData2.startDistance, route: outputData2.minRoutes[index], endStation: outputData2.minDistancesStations[index])
+                            presentDatas.append(presentData)
+                        }
+                        print(presentDatas)
+                       // self.startStationText = self.outputData.stationStartName
+                      //  self.endStationText = self.outputData.stationEndName
  
                     } catch {
                         print("Error decoding response data: \(error)")
@@ -249,8 +249,11 @@ struct ContentMapView: View {
   @State private var showDirections = false
     @EnvironmentObject var appData: AppData
     @Binding var outputData: OutputData
+    @Binding var outputData2: OutputData2
     @State var userLat: Double
     @State var userLong: Double
+  @State var presentDatas: [PresentData] = []
+ 
   var body: some View {
     VStack {
       MapView(directions: $directions, userLat: userLat, userLong: userLong, outputData: outputData)
@@ -287,6 +290,8 @@ struct MapView: UIViewRepresentable {
     @State var userLat: Double
     @State var userLong: Double
     @State var outputData: OutputData
+    
+    
   func makeCoordinator() -> MapViewCoordinator {
     return MapViewCoordinator()
   }
