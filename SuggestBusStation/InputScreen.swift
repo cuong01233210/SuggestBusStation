@@ -55,7 +55,7 @@ struct MapInput {
 struct ContentView: View{
     @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
 
-    @State var outputData2 : OutputData2 = OutputData2(startLocation: "test", startLocationLat: 21, startLocationLong: 105, minDistances: [], minDistancesStations: [], minRoutes: [], startDistance: 0)
+    @State var outputData2 : OutputData2 = OutputData2(startLocation: "test", startLocationLat: 21, startLocationLong: 105, minDistances: [], minDistancesStations: [], minRoutes: [], startDistance: 0, startStationLat: 21.1, startStationLong: 105.1)
     @EnvironmentObject var appData: AppData
     @ObservedObject var locationManager = LocationManager.shared
     var body: some View{
@@ -99,8 +99,9 @@ struct InputScreen: View {
     @Binding var outputData2: OutputData2
     @EnvironmentObject var appData: AppData
     @State private var isPresentingAnotherView = false
+    @State private var isPresentingContentMapView2 = false
     @State var presentDatas : [PresentData] = []
-    
+    @State var selectedIndex = 0
     var body: some View {
         VStack {
             Form {
@@ -121,6 +122,7 @@ struct InputScreen: View {
                         searchText = "\(startString) - \(endString)"
                         
                         Task{
+                            presentDatas = []
                             if let userKm1 = Double(inputUserKm){
                                 userKm = userKm1
                             }
@@ -149,10 +151,15 @@ struct InputScreen: View {
 //                        .padding()
 
                     List (0..<presentDatas.count, id: \.self) { i in
-                        CardView(presentData: presentDatas[i], isPresentingAnotherView: $isPresentingAnotherView)
+                        CardView(presentData: presentDatas[i], isPresentingContentMapView2: $isPresentingContentMapView2)
+                            .onTapGesture {
+                                    // Here, capture the current 'i' for the selected element
+                                selectedIndex = i
+                                    isPresentingContentMapView2 = true // Trigger the sheet
+                                }
                     }
-                    .fullScreenCover(isPresented: $isPresentingAnotherView) {
-                        AnotherView(isPresentingAnotherView: $isPresentingAnotherView)
+                    .fullScreenCover(isPresented: $isPresentingContentMapView2) {
+                        ContentMapView2(isPresentingContentMapView2: $isPresentingContentMapView2, presentData: presentDatas[selectedIndex])
                     }
                 }
                 
@@ -164,7 +171,7 @@ struct InputScreen: View {
         }
     }
   func findBusStations(userString: UserString){
-        let url = URL(string: "http://localhost:8000/find-bus-station-v1/")!
+        let url = URL(string: "http://localhost:8000/find-bus-station-v1")!
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
@@ -209,7 +216,7 @@ struct InputScreen: View {
                         print("Output data: \(self.outputData2)")
                         for index in 0..<outputData2.minDistancesStations.count {
                            // print(index)
-                            var presentData : PresentData = PresentData(startLocation: outputData2.startLocation, startDistance: outputData2.startDistance, route: outputData2.minRoutes[index], endStation: outputData2.minDistancesStations[index])
+                            var presentData : PresentData = PresentData(startLocation: outputData2.startLocation, startDistance: outputData2.startDistance, route: outputData2.minRoutes[index], endStation: outputData2.minDistancesStations[index], startLocationLat: outputData2.startLocationLat, startLocationLong: outputData2.startLocationLong, startStationLat: outputData2.startStationLat, startStationLong: outputData2.startStationLong)
                             presentDatas.append(presentData)
                         }
                         print(presentDatas)

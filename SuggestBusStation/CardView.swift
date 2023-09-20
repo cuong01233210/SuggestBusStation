@@ -33,14 +33,14 @@ struct ShowCardView: View {
 struct CardView : View{
     let presentData: PresentData
     @State private var isShowingAnotherView = false
-    @Binding var isPresentingAnotherView: Bool
+    @Binding var isPresentingContentMapView2: Bool
     var body: some View {
         
         VStack {
             ShowCardView(presentData: presentData)
         }
         .onTapGesture {
-                    isPresentingAnotherView.toggle()
+                    isPresentingContentMapView2.toggle()
                 }
         .padding()
     }

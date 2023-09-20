@@ -38,8 +38,11 @@ struct OutputData2: Codable{
     var minDistancesStations: [String]
     var minRoutes: [String]
     var startDistance: Double
+    var startStationLat: Double
+    var startStationLong: Double
     
-    init(startLocation: String, startLocationLat: Double, startLocationLong: Double, minDistances: [Double], minDistancesStations: [String], minRoutes: [String], startDistance: Double) {
+    init(startLocation: String, startLocationLat: Double, startLocationLong: Double, minDistances: [Double], minDistancesStations: [String], minRoutes: [String], startDistance: Double,
+         startStationLat: Double, startStationLong: Double) {
         self.startLocation = startLocation
         self.startLocationLat = startLocationLat
         self.startLocationLong = startLocationLong
@@ -47,6 +50,8 @@ struct OutputData2: Codable{
         self.minDistancesStations = minDistancesStations
         self.minRoutes = minRoutes
         self.startDistance = startDistance
+        self.startStationLat = startStationLat
+        self.startStationLong = startStationLong
     }
 }
 
