@@ -53,9 +53,7 @@ struct MapInput {
     }
 }
 struct ContentView: View{
-    @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
-
-    @State var outputData2 : OutputData2 = OutputData2(startLocation: "test", startLocationLat: 21, startLocationLong: 105, minDistances: [], minDistancesStations: [], minRoutes: [], startDistance: 0, startStationLat: 21.1, startStationLong: 105.1)
+    
     @EnvironmentObject var appData: AppData
     @ObservedObject var locationManager = LocationManager.shared
     var body: some View{
@@ -65,10 +63,10 @@ struct ContentView: View{
             }
             else {
                 if let location = locationManager.userLocation {
-                    
-                    VStack {
-                        InputScreen(outputData: $outputData, outputData2: $outputData2)
-                    }
+                MainScreen()
+//                    VStack {
+//                        InputScreen(outputData: $outputData, outputData2: $outputData2)
+//                    }
                 }
             }
         }
@@ -97,6 +95,8 @@ struct InputScreen: View {
     @State private var isPresentingContentMapView2 = false
     @State var presentDatas : [PresentData] = []
     @State var selectedIndex = 0
+    
+    @Binding var isPresentingInputScreen: Bool
     var body: some View {
         VStack {
             Form {
@@ -157,8 +157,10 @@ struct InputScreen: View {
                         ContentMapView2(isPresentingContentMapView2: $isPresentingContentMapView2, presentData: presentDatas[selectedIndex])
                     }
                 }
-                
-
+            }
+            Spacer()
+            Button("Quay lại trang ") {
+                isPresentingInputScreen = false
             }
         }
         .alert(isPresented: $showingAlert) {

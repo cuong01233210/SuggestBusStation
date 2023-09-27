@@ -32,7 +32,7 @@ struct ShowCardView: View {
 
 struct CardView : View{
     let presentData: PresentData
-    @State private var isShowingAnotherView = false
+    //@State private var isShowingAnotherView = false
     @Binding var isPresentingContentMapView2: Bool
     var body: some View {
         
