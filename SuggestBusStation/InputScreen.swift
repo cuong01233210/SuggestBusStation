@@ -65,14 +65,9 @@ struct ContentView: View{
             }
             else {
                 if let location = locationManager.userLocation {
-                    NavigationView{
-                        VStack {
-                            InputScreen(outputData: $outputData, outputData2: $outputData2)
-                                
-                            NavigationLink(destination: ContentMapView(outputData: $outputData, outputData2: $outputData2, userLat: location.coordinate.latitude, userLong: location.coordinate.longitude), label: { Text("NextPage") })
-
-      
-                        }
+                    
+                    VStack {
+                        InputScreen(outputData: $outputData, outputData2: $outputData2)
                     }
                 }
             }
