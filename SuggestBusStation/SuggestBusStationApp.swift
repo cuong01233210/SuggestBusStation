@@ -13,7 +13,7 @@ struct SuggestBusStationApp: App {
     var body: some Scene {
 
         WindowGroup {
-            ContentView()
+            MyApp()
                 .environmentObject(appData)
         }
     }

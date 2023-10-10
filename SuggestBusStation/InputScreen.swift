@@ -52,10 +52,12 @@ struct MapInput {
         self.userLocationName = userLocationName
     }
 }
-struct ContentView: View{
+struct HomeView: View{
     
     @EnvironmentObject var appData: AppData
     @ObservedObject var locationManager = LocationManager.shared
+    @Binding var isLoggedIn : Bool
+    @Binding var token: String
     var body: some View{
         Group {
             if locationManager.userLocation == nil {
@@ -63,7 +65,7 @@ struct ContentView: View{
             }
             else {
                 if let location = locationManager.userLocation {
-                MainScreen()
+//                MainScreen()
 //                    VStack {
 //                        InputScreen(outputData: $outputData, outputData2: $outputData2)
 //                    }
@@ -97,6 +99,7 @@ struct InputScreen: View {
     @State var selectedIndex = 0
     
     @Binding var isPresentingInputScreen: Bool
+    
     var body: some View {
         VStack {
             Form {
@@ -159,7 +162,7 @@ struct InputScreen: View {
                 }
             }
             Spacer()
-            Button("Quay lại trang ") {
+            Button("Quay lại trang chủ") {
                 isPresentingInputScreen = false
             }
         }

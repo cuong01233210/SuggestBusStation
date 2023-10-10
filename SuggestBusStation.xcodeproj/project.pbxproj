@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */; };
 		520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */; };
+		52248D092AC5313500587532 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52248D082AC5313500587532 /* LoginView.swift */; };
+		52248D0B2ACD01CA00587532 /* Stars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52248D0A2ACD01CA00587532 /* Stars.swift */; };
+		52248D0D2ACD026B00587532 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52248D0C2ACD026B00587532 /* CommentView.swift */; };
+		52248D0F2ACD0A7500587532 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52248D0E2ACD0A7500587532 /* Comment.swift */; };
 		52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */; };
 		52425EA72A34BF3000AD47B6 /* InputScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52425EA62A34BF3000AD47B6 /* InputScreen.swift */; };
 		52425EA92A34BF3400AD47B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EA82A34BF3400AD47B6 /* Assets.xcassets */; };
@@ -31,6 +35,10 @@
 		40B466861CD4440F78EC6E00 /* Pods_SuggestBusStation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuggestBusStation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestView.swift; sourceTree = "<group>"; };
 		520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location Manager.swift"; sourceTree = "<group>"; };
+		52248D082AC5313500587532 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		52248D0A2ACD01CA00587532 /* Stars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stars.swift; sourceTree = "<group>"; };
+		52248D0C2ACD026B00587532 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		52248D0E2ACD0A7500587532 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		52425EA12A34BF3000AD47B6 /* SuggestBusStation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuggestBusStation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestBusStationApp.swift; sourceTree = "<group>"; };
 		52425EA62A34BF3000AD47B6 /* InputScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputScreen.swift; sourceTree = "<group>"; };
@@ -99,6 +107,9 @@
 				52425EAA2A34BF3400AD47B6 /* Preview Content */,
 				525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */,
 				525C3DF02AC3CF41000EF11A /* MainScreen.swift */,
+				52248D082AC5313500587532 /* LoginView.swift */,
+				52248D0A2ACD01CA00587532 /* Stars.swift */,
+				52248D0C2ACD026B00587532 /* CommentView.swift */,
 			);
 			path = SuggestBusStation;
 			sourceTree = "<group>";
@@ -122,6 +133,7 @@
 				52C8885A2A66858000BDD10C /* BusStation.swift */,
 				52D740DD2AB7F33F0007BE09 /* OutputData.swift */,
 				52D741032ABA98890007BE09 /* CardData.swift */,
+				52248D0E2ACD0A7500587532 /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -250,9 +262,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
+				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
 				52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */,
 				52D741062ABAA86C0007BE09 /* MapView.swift in Sources */,
+				52248D0B2ACD01CA00587532 /* Stars.swift in Sources */,
+				52248D092AC5313500587532 /* LoginView.swift in Sources */,
 				52425EA72A34BF3000AD47B6 /* InputScreen.swift in Sources */,
+				52248D0F2ACD0A7500587532 /* Comment.swift in Sources */,
 				520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */,
 				52D741042ABA98890007BE09 /* CardData.swift in Sources */,
 				52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */,
