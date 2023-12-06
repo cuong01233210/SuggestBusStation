@@ -57,22 +57,49 @@ struct AuthenticationView: View {
     
     @Binding var isLoggedIn: Bool
     @Binding var token : String
-    
+    @State var showPass: Bool = false
     var body: some View {
-        Button("toggle auth"){
+        Button(action: {
             showSignUp.toggle()
+        }) {
+            Text(showSignUp ? "Nếu đã có tài khoản" : "Nếu chưa có tài khoản")
+                .font(.title) // You can adjust the font size as needed
+                .foregroundColor(.blue) // You can set the text color as needed
         }
+
         
         if showSignUp {
             TextField("Name", text: $nameField)
                 .padding()
+                .font(.system(size: 20))
         }
         
         TextField("Email", text: $emailField)
             .padding()
-        TextField("Password", text: $passwordField)
-            .padding()
-        Button(showSignUp ? "SignUp" : "LogIn"){
+            .font(.system(size: 20))
+        
+        ZStack (alignment: .trailing){
+            Group {
+                if showPass{
+                    TextField("Password", text: $passwordField)
+                        .padding()
+                        .font(.system(size: 20))
+                } else {
+                    SecureField("Password", text: $passwordField)
+                        .padding()
+                        .font(.system(size: 20))
+                }
+            }
+            Button(action: {
+                showPass.toggle()
+            }) {
+                Image(systemName: self.showPass ? "eye.slash" : "eye")
+                    .accentColor(.gray)
+            }
+        }.padding(.trailing, 32)
+        
+
+        Button(action: {
             if showSignUp {
                 loginUser = LoginUser(name: nameField, email: emailField, password: passwordField)
                 Task {
@@ -82,19 +109,22 @@ struct AuthenticationView: View {
                         print(error.localizedDescription)
                     }
                 }
-            }
-             else {
+            } else {
                 loginUser = LoginUser(email: emailField, password: passwordField)
-                 Task {
-                     do {
-                         try await loginHandler()
-                     } catch {
-                         print(error.localizedDescription)
-                     }
-                 }
+                Task {
+                    do {
+                        try await loginHandler()
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
             }
+        }) {
+            Text(showSignUp ? "Đăng ký" : "Đăng nhập")
+                .font(.title) // You can adjust the font size as needed
         }
         .buttonStyle(.bordered)
+
     }
     private func loginHandler() async throws {
         let url = URL(string: "http://localhost:8000/auth/login")!
