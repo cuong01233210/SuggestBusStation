@@ -11,6 +11,7 @@ struct MainScreen: View {
     @State var choiceMade = "Options"
     @State var isPresentingAnotherView1: Bool = false
     @State var isPresentingAnotherView2: Bool = false
+    @State var isPresentingPersonalIn4: Bool = false
     @State var isPresentingInputScreen : Bool = false
     @State var isPresentingCommentView: Bool = false
     @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
@@ -37,10 +38,10 @@ struct MainScreen: View {
                     }
                     ItemView(name: "Thông tin cá nhân", systemName: "person.circle")
                         .onTapGesture {
-                            isPresentingAnotherView2.toggle()
+                            isPresentingPersonalIn4.toggle()
                         }
-                        .fullScreenCover(isPresented: $isPresentingAnotherView2) {
-                            AnotherView2(isPresentingAnotherView2: $isPresentingAnotherView2)
+                        .fullScreenCover(isPresented: $isPresentingPersonalIn4) {
+                            PersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4)
                         }
                     ItemView(name: "Đánh giá / Góp ý", systemName: "envelope.badge.person.crop")
                         .onTapGesture {
