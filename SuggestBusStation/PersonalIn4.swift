@@ -9,7 +9,9 @@ import SwiftUI
 
 struct PersonalIn4: View {
     @Binding var isPresentingPersonalIn4: Bool
-
+    @State var isPresentingChangePass: Bool = false
+    @Binding var email: String
+    @Binding var token: String
     var body: some View {
         VStack {
             Text("Thông tin cá nhân")
@@ -73,6 +75,16 @@ struct PersonalIn4: View {
                         Button("Không cần thay đổi"){
                             
                         }
+                    }
+                }.listSectionSeparator(.hidden)
+                
+                Section{
+                    ItemView(name: "Đổi mật khẩu", systemName: "bus.fill")
+                        .onTapGesture {
+                            isPresentingChangePass.toggle()
+                    }
+                        .fullScreenCover(isPresented: $isPresentingChangePass) {
+                            ChangePassword(email: $email, token: $token, isPresentingChangePass: $isPresentingChangePass)
                     }
                 }.listSectionSeparator(.hidden)
             }

@@ -26,13 +26,15 @@ struct ChangePassword: View {
     @State private var showNewPass: Bool = true
     @State private var showingChangeMessageAlert = false
     @State private var changeMessage: String = ""
+    @Binding private var isPresentingChangePass: Bool
    // @State private var patchPassword: PatchPassword? = nil
-    init(email: Binding<String>, token: Binding<String>) {
+    init(email: Binding<String>, token: Binding<String>, isPresentingChangePass: Binding<Bool>) {
             self._email = email
             self._token = token
+            self._isPresentingChangePass = isPresentingChangePass
         }
     var body: some View {
-        Spacer()
+        
         VStack(alignment: .leading){
             Text("Nhập mật khẩu hiện tại")
                 .font(.title) // Đặt kích thước font là title
@@ -57,7 +59,7 @@ struct ChangePassword: View {
                 }
             }
         }
-        //Spacer()
+       // Spacer()
         VStack (alignment: .leading){
             Text("Nhập mật khẩu mới")
                 .font(.title) // Đặt kích thước font là title
@@ -101,7 +103,9 @@ struct ChangePassword: View {
             Text("Change password")
                 .font(.title) // Đặt kích thước font là title
         }
-        Spacer()
+        Button("Đóng") {
+            isPresentingChangePass = false
+        }
         .alert($changeMessage.wrappedValue, isPresented: $showingChangeMessageAlert) {
                     Button("OK", role: .cancel) {
                         showingChangeMessageAlert = false

@@ -38,12 +38,13 @@ struct LoginUser : Codable {
 struct MyApp: View {
     @State private var isLoggedIn = false
     @State private var token: String = ""
-    
+    @State private var email: String = ""
     var body: some View {
         if isLoggedIn {
-            MainScreen(isLoggedIn: $isLoggedIn, token: $token)
+            //MainScreen(isLoggedIn: $isLoggedIn, token: $token, email: $email)
+            MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
         } else {
-            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token)
+            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email)
         }
     }
 }
@@ -58,6 +59,7 @@ struct AuthenticationView: View {
     @Binding var isLoggedIn: Bool
     @Binding var token : String
     @State var showPass: Bool = false
+    @Binding var email: String
     var body: some View {
         Button(action: {
             showSignUp.toggle()
@@ -146,6 +148,7 @@ struct AuthenticationView: View {
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
         token = jsonData.token
         isLoggedIn = true
+        email = loginUser?.email ?? ""
     }
     private func signUpHandler() async throws {
         let url = URL(string: "http://localhost:8000/auth/signup")!
@@ -166,5 +169,6 @@ struct AuthenticationView: View {
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
         token = jsonData.token
         isLoggedIn = true
+        email = loginUser?.email ?? ""
     }
 }

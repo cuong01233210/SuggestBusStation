@@ -14,6 +14,8 @@ struct MainScreen: View {
     @State var isPresentingPersonalIn4: Bool = false
     @State var isPresentingInputScreen : Bool = false
     @State var isPresentingCommentView: Bool = false
+    @Binding var email : String
+    @Binding var token: String
     @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
 
     @State var outputData2 : OutputData2 = OutputData2(startLocation: "test", startLocationLat: 21, startLocationLong: 105, minDistances: [], minDistancesStations: [], minRoutes: [], startDistance: 0, startStationLat: 21.1, startStationLong: 105.1)
@@ -22,7 +24,7 @@ struct MainScreen: View {
     var name = ""
     var backgroundColor: Color = .blue
     @Binding var isLoggedIn : Bool
-    @Binding var token: String
+    
     //@State private var isPresentingAnotherView = false
     var body: some View {
         NavigationView{
@@ -41,7 +43,7 @@ struct MainScreen: View {
                             isPresentingPersonalIn4.toggle()
                         }
                         .fullScreenCover(isPresented: $isPresentingPersonalIn4) {
-                            PersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4)
+                            PersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4,  email: $email, token: $token)
                         }
                     ItemView(name: "Đánh giá / Góp ý", systemName: "envelope.badge.person.crop")
                         .onTapGesture {
