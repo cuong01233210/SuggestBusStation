@@ -117,8 +117,8 @@ struct AuthenticationView: View {
 
     }
     private func loginHandler() async throws {
+        //let url = URL(string: "http://localhost:8000/auth/login")!
         let url = URL(string: "http://localhost:8000/auth/login")!
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -139,6 +139,7 @@ struct AuthenticationView: View {
         email = loginUser?.email ?? ""
     }
     private func signUpHandler() async throws {
+        //let url = URL(string: "http://localhost:8000/auth/signup")!
         let url = URL(string: "http://localhost:8000/auth/signup")!
         var urlRequest = URLRequest(url: url)
         

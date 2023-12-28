@@ -43,7 +43,7 @@ struct MainScreen: View {
                             isPresentingPersonalIn4.toggle()
                         }
                         .fullScreenCover(isPresented: $isPresentingPersonalIn4) {
-                            PersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4,  email: $email, token: $token)
+                            ShowPersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4,  email: $email, token: $token)
                         }
                     ItemView(name: "Đánh giá / Góp ý", systemName: "envelope.badge.person.crop")
                         .onTapGesture {
@@ -61,6 +61,18 @@ struct MainScreen: View {
             }
             
             .navigationTitle("Xin chào!")
+            .toolbar{
+                
+                
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button{
+                        isLoggedIn.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.backward.fill")
+                    }
+                }
+            }
+            .accentColor(.red)
         }
         .ignoresSafeArea()
     }
