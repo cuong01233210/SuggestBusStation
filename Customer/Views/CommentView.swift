@@ -74,6 +74,7 @@ struct CommentView: View {
     }
     func postComment(comment: Comment) async throws{
         print("token: \(token)")
+    
         let url = URL(string: "http://localhost:8000/add-comment")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
