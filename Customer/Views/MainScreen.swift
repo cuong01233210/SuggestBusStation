@@ -62,8 +62,6 @@ struct MainScreen: View {
             
             .navigationTitle("Xin chào!")
             .toolbar{
-                
-                
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button{
                         isLoggedIn.toggle()
