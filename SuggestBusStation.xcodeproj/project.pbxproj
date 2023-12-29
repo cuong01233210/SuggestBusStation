@@ -34,6 +34,8 @@
 		52F9C24E2B383FFA00C7E29C /* ChangeNormalIn4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9C24D2B383FFA00C7E29C /* ChangeNormalIn4.swift */; };
 		52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9C24F2B386EB900C7E29C /* UserIn4.swift */; };
 		52F9C2522B3C7C3D00C7E29C /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9C2512B3C7C3D00C7E29C /* Message.swift */; };
+		52F9C2552B3DBA1B00C7E29C /* StaffDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9C2542B3DBA1B00C7E29C /* StaffDashBoard.swift */; };
+		52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9C2572B3E7B2F00C7E29C /* CheckComment.swift */; };
 		95F0C0B46D20B0C26C82F46A /* Pods_SuggestBusStation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40B466861CD4440F78EC6E00 /* Pods_SuggestBusStation.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,8 @@
 		52F9C24D2B383FFA00C7E29C /* ChangeNormalIn4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNormalIn4.swift; sourceTree = "<group>"; };
 		52F9C24F2B386EB900C7E29C /* UserIn4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIn4.swift; sourceTree = "<group>"; };
 		52F9C2512B3C7C3D00C7E29C /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		52F9C2542B3DBA1B00C7E29C /* StaffDashBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffDashBoard.swift; sourceTree = "<group>"; };
+		52F9C2572B3E7B2F00C7E29C /* CheckComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckComment.swift; sourceTree = "<group>"; };
 		54B5993F5827BC75D127EF82 /* Pods-SuggestBusStation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuggestBusStation.release.xcconfig"; path = "Target Support Files/Pods-SuggestBusStation/Pods-SuggestBusStation.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +98,7 @@
 		52425E982A34BF3000AD47B6 = {
 			isa = PBXGroup;
 			children = (
+				52F9C2532B3DB9E500C7E29C /* Staff */,
 				52F9C2282B302CEB00C7E29C /* Customer */,
 				52425EA32A34BF3000AD47B6 /* SuggestBusStation */,
 				52425EA22A34BF3000AD47B6 /* Products */,
@@ -113,6 +118,7 @@
 		52425EA32A34BF3000AD47B6 /* SuggestBusStation */ = {
 			isa = PBXGroup;
 			children = (
+				52248D082AC5313500587532 /* LoginView.swift */,
 				52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */,
 				52F9C22A2B302D9C00C7E29C /* MyApp.swift */,
 				52425EA82A34BF3400AD47B6 /* Assets.xcassets */,
@@ -161,7 +167,6 @@
 			children = (
 				52D741052ABAA86C0007BE09 /* MapView.swift */,
 				525C3DF02AC3CF41000EF11A /* MainScreen.swift */,
-				52248D082AC5313500587532 /* LoginView.swift */,
 				52248D0A2ACD01CA00587532 /* Stars.swift */,
 				52248D0C2ACD026B00587532 /* CommentView.swift */,
 				527E2A6C2B20AFFE00252B09 /* ChangePassword.swift */,
@@ -171,6 +176,23 @@
 				52425EA62A34BF3000AD47B6 /* InputScreen.swift */,
 				52F9C24B2B383FB200C7E29C /* ShowPersonalIn4.swift */,
 				52F9C24D2B383FFA00C7E29C /* ChangeNormalIn4.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		52F9C2532B3DB9E500C7E29C /* Staff */ = {
+			isa = PBXGroup;
+			children = (
+				52F9C2562B3DBA5700C7E29C /* Views */,
+			);
+			path = Staff;
+			sourceTree = "<group>";
+		};
+		52F9C2562B3DBA5700C7E29C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				52F9C2542B3DBA1B00C7E29C /* StaffDashBoard.swift */,
+				52F9C2572B3E7B2F00C7E29C /* CheckComment.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,6 +320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
 				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
 				52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */,
@@ -313,6 +336,7 @@
 				52F9C24E2B383FFA00C7E29C /* ChangeNormalIn4.swift in Sources */,
 				52F9C24C2B383FB200C7E29C /* ShowPersonalIn4.swift in Sources */,
 				52D741042ABA98890007BE09 /* CardData.swift in Sources */,
+				52F9C2552B3DBA1B00C7E29C /* StaffDashBoard.swift in Sources */,
 				52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */,
 				52D741022ABA98460007BE09 /* CardView.swift in Sources */,
 				525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */,

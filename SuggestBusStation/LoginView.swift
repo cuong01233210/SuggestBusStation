@@ -10,11 +10,9 @@ import SwiftUI
 struct LoggedInUser: Codable {
     var token: String
     var userId: String
+    var role: String
     
-    enum CodingKeys: CodingKey {
-        case token
-        case userId
-    }
+    
 }
 struct AuthenticationErrorData : Codable {
     var message: String
@@ -48,6 +46,7 @@ struct AuthenticationView: View {
     @Binding var token : String
     @State var showPass: Bool = false
     @Binding var email: String
+    @Binding var role: String
     var body: some View {
         Button(action: {
             showSignUp.toggle()
@@ -133,7 +132,12 @@ struct AuthenticationView: View {
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
+//        if let jsonString = String(data: data, encoding: .utf8) {
+//            print(jsonString)
+//        }
+//        print("data: \(data)")
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
+        role = jsonData.role
         token = jsonData.token
         isLoggedIn = true
         email = loginUser?.email ?? ""
@@ -155,9 +159,15 @@ struct AuthenticationView: View {
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print(jsonString)
+        }
+        print("data: \(data)")
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
+        
         token = jsonData.token
         isLoggedIn = true
+        role = jsonData.role
         email = loginUser?.email ?? ""
     }
 }

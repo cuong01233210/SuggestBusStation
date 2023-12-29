@@ -11,12 +11,17 @@ struct MyApp: View {
     @State private var isLoggedIn = false
     @State private var token: String = ""
     @State private var email: String = ""
+    @State private var role: String = ""
     var body: some View {
         if isLoggedIn {
             //MainScreen(isLoggedIn: $isLoggedIn, token: $token, email: $email)
-            MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
+            if role == "0"{
+                MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
+            } else {
+                StaffDashBoard(isLoggedIn: $isLoggedIn)
+            }
         } else {
-            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email)
+            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email, role: $role)
         }
     }
 }
