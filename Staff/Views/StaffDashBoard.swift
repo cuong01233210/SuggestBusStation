@@ -10,7 +10,7 @@ import SwiftUI
 struct StaffDashBoard: View {
     @Binding var isLoggedIn : Bool
     @State var checkComment: Bool = false
-    let sampleProducts = (1...500).map { Product(id: $0, name: "Product \($0)") }
+    let sampleProducts = (1...50).map { Product(id: $0, name: "Product \($0)") }
     var body: some View {
         NavigationView{
             VStack {

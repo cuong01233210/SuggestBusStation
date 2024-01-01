@@ -8,7 +8,7 @@
 import Foundation
 
 struct Comment : Codable{
-   
+    //var id: String?
     var suggestion: String
     var date: String
     var rating: Int
