@@ -15,7 +15,7 @@ struct StaffDashBoard: View {
         NavigationView{
             VStack {
                 List {
-                    ItemView(name: "Tìm kiếm tuyến đường", systemName: "bus.fill")
+                    ItemView(name: "Hiển thị đánh giá người dùng", systemName: "doc.append")
                         .onTapGesture {
                         checkComment.toggle()
                     }

@@ -9,8 +9,7 @@ import SwiftUI
 
 struct MainScreen: View {
     @State var choiceMade = "Options"
-    @State var isPresentingAnotherView1: Bool = false
-    @State var isPresentingAnotherView2: Bool = false
+    @State var showBuses = false
     @State var isPresentingPersonalIn4: Bool = false
     @State var isPresentingInputScreen : Bool = false
     @State var isPresentingCommentView: Bool = false
@@ -54,6 +53,12 @@ struct MainScreen: View {
                         }
                     ItemView(name: "Tuyến đường giờ cao điểm bị tắc")
                     ItemView(name: "Thông tin các tuyến xe buýt")
+                        .onTapGesture {
+                            showBuses.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showBuses) {
+                            ShowBuses( showBuses: $showBuses, token: $token)
+                        }
                     ItemView(name: "Yêu thích")
                     ItemView(name: "Thông tin về app")
                 }
