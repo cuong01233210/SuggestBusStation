@@ -25,6 +25,7 @@ struct ShowBusRoute: View {
                         do {
                             print("\(bus)")
                             try await getData()
+                            try await getAllBookmark()
                             // Set hasReceivedData only after the data is received
                             hasReceivedData = true
                         } catch {
@@ -107,7 +108,7 @@ struct ShowBusRoute: View {
                                     Image(systemName: "arrowshape.backward.fill")
                                 }
                             }
-                        }
+                        }.accentColor(.red)
                 } else {
                     List (0..<chieuVe.count, id: \.self ) { index in
                         VStack (alignment: .leading){
@@ -170,7 +171,7 @@ struct ShowBusRoute: View {
                                     Image(systemName: "arrowshape.backward.fill")
                                 }
                             }
-                        }
+                        }.accentColor(.red)
                 }
             }
         }
@@ -193,6 +194,28 @@ struct ShowBusRoute: View {
         chieuVe = jsonData.chieuVe
     }
     
+    func getAllBookmark() async throws {
+        let url = URL(string: "http://localhost:8000/get-all-bus-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        let jsonData  = try JSONDecoder().decode(BusesName.self, from: data)
+        print(jsonData)
+        for jbus in jsonData.buses {
+            if jbus == bus {
+                isLoved = true
+                print("Mảng chứa chuỗi \(bus)")
+                // Thực hiện hành động cụ thể khi tìm thấy chuỗi '01'
+            }
+        }
+    }
     func bookmark() async throws {
         //print("Đã vào hàm bookmark")
         let url = URL(string: "http://localhost:8000/add-bus-prefer")!

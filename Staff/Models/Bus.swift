@@ -26,3 +26,7 @@ struct BusRoute: Codable {
 struct BusName: Codable {
     var bus: String
 }
+
+struct BusesName : Codable {
+    var buses: [String]
+}
