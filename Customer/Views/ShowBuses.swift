@@ -49,7 +49,7 @@ struct ShowBuses: View {
                             selectedBusIndex = index
                         }
                         .fullScreenCover(isPresented: $showBusRoute) {
-                                ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute)
+                            ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, token: $token)
                                 
                         }
                     
