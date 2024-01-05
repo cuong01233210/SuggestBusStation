@@ -17,32 +17,35 @@ struct ShowBusRoute: View {
     @State var chieuVe: [String] = []
     @State var showChieuDi = true
     @Binding var token : String
+    @Binding var frontHasReceivedData: Bool
     var body: some View {
         if hasReceivedData == false {
-            ProgressView("Loading ...")
-                .onAppear {
-                    Task {
-                        do {
-                            print("\(bus)")
-                            try await getData()
-                            try await getAllBookmark()
-                            // Set hasReceivedData only after the data is received
-                            hasReceivedData = true
-                        } catch {
-                            print(error.localizedDescription)
+            NavigationView {
+                ProgressView("Loading ...")
+                    .onAppear {
+                        Task {
+                            do {
+                                //print("\(bus)")
+                                try await getData()
+                                try await getAllBookmark()
+                                // Set hasReceivedData only after the data is received
+                                hasReceivedData = true
+                            } catch {
+                                print(error.localizedDescription)
+                            }
                         }
                     }
-                }
-                .toolbar{
-                    ToolbarItemGroup(placement: .navigationBarLeading) {
-                        Button {
-                            showBusRoute.toggle()
-                        } label: {
-                            Image(systemName: "arrowshape.backward.fill")
+                    .toolbar{
+                        ToolbarItemGroup(placement: .navigationBarLeading) {
+                            Button {
+                                frontHasReceivedData = false
+                                showBusRoute.toggle()
+                            } label: {
+                                Image(systemName: "arrowshape.backward.fill")
+                            }
                         }
-                    }
-                }
-        
+                    }.accentColor(.red)
+            }
         }
         else {
             NavigationView {
@@ -103,6 +106,7 @@ struct ShowBusRoute: View {
                             }
                             ToolbarItemGroup(placement: .navigationBarLeading) {
                                 Button {
+                                    frontHasReceivedData = false
                                     showBusRoute.toggle()
                                 } label: {
                                     Image(systemName: "arrowshape.backward.fill")
@@ -166,6 +170,7 @@ struct ShowBusRoute: View {
                             }
                             ToolbarItemGroup(placement: .navigationBarLeading) {
                                 Button {
+                                    frontHasReceivedData = false
                                     showBusRoute.toggle()
                                 } label: {
                                     Image(systemName: "arrowshape.backward.fill")
@@ -211,7 +216,7 @@ struct ShowBusRoute: View {
         for jbus in jsonData.buses {
             if jbus == bus {
                 isLoved = true
-                print("Mảng chứa chuỗi \(bus)")
+                //print("Mảng chứa chuỗi \(bus)")
                 // Thực hiện hành động cụ thể khi tìm thấy chuỗi '01'
             }
         }
