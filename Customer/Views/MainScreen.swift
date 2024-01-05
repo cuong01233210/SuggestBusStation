@@ -23,7 +23,7 @@ struct MainScreen: View {
     var name = ""
     var backgroundColor: Color = .blue
     @Binding var isLoggedIn : Bool
-    
+    @State var showPreferenceBuses = false
     //@State private var isPresentingAnotherView = false
     var body: some View {
         NavigationView{
@@ -52,14 +52,20 @@ struct MainScreen: View {
                             CommentView(isPresentingCommentView: $isPresentingCommentView, token: $token, isLoggedIn: $isLoggedIn)
                         }
                     ItemView(name: "Tuyến đường giờ cao điểm bị tắc")
-                    ItemView(name: "Thông tin các tuyến xe buýt")
+                    ItemView(name: "Thông tin các tuyến xe buýt", systemName: "bus.doubledecker")
                         .onTapGesture {
                             showBuses.toggle()
                         }
                         .fullScreenCover(isPresented: $showBuses) {
                             ShowBuses( showBuses: $showBuses, token: $token)
                         }
-                    ItemView(name: "Yêu thích")
+                    ItemView(name: "Tuyến xe buýt yêu thích", systemName: "bus.doubledecker")
+                        .onTapGesture {
+                            showPreferenceBuses.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showPreferenceBuses) {
+                            PreferenceBuses(showPreferenceBuses: $showPreferenceBuses, token: $token)
+                        }
                     ItemView(name: "Thông tin về app")
                 }
                 

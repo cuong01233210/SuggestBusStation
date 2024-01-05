@@ -22,3 +22,11 @@ struct BusRoute: Codable {
     var chieuDi: [String]
     var chieuVe: [String]
 }
+
+struct BusName: Codable {
+    var bus: String
+}
+
+struct BusesName : Codable {
+    var buses: [String]
+}
