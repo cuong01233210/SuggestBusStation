@@ -10,12 +10,12 @@ import SwiftUI
 struct StaffDashBoard: View {
     @Binding var isLoggedIn : Bool
     @State var checkComment: Bool = false
-    let sampleProducts = (1...500).map { Product(id: $0, name: "Product \($0)") }
+    let sampleProducts = (1...50).map { Product(id: $0, name: "Product \($0)") }
     var body: some View {
         NavigationView{
             VStack {
                 List {
-                    ItemView(name: "Tìm kiếm tuyến đường", systemName: "bus.fill")
+                    ItemView(name: "Hiển thị đánh giá người dùng", systemName: "doc.append")
                         .onTapGesture {
                         checkComment.toggle()
                     }

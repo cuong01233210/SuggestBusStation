@@ -155,11 +155,6 @@ struct ShowPersonalIn4: View {
         $sex.wrappedValue = jsonData.sex
         $birthdate.wrappedValue = jsonData.dateOfBirth
         $phoneNumber.wrappedValue = jsonData.phoneNumber
-
-     
-          
-
-
     }
     func saveUser(){
         print("User Saved")

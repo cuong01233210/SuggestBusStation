@@ -19,6 +19,10 @@
 		52425EAC2A34BF3400AD47B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EAB2A34BF3400AD47B6 /* Preview Assets.xcassets */; };
 		525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */; };
 		525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C3DF02AC3CF41000EF11A /* MainScreen.swift */; };
+		5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C05E2B42F56600AE7E0C /* Comments.swift */; };
+		5267C0612B443D3E00AE7E0C /* ShowBuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C0602B443D3E00AE7E0C /* ShowBuses.swift */; };
+		5267C0652B44FDA800AE7E0C /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C0642B44FDA800AE7E0C /* Bus.swift */; };
+		5267C0672B45A07600AE7E0C /* ShowBusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C0662B45A07600AE7E0C /* ShowBusRoute.swift */; };
 		527E2A6D2B20AFFE00252B09 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527E2A6C2B20AFFE00252B09 /* ChangePassword.swift */; };
 		527E2A6F2B20BC0800252B09 /* PersonalIn4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527E2A6E2B20BC0800252B09 /* PersonalIn4.swift */; };
 		52C8885B2A66858000BDD10C /* BusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885A2A66858000BDD10C /* BusStation.swift */; };
@@ -55,6 +59,10 @@
 		52425EAB2A34BF3400AD47B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenItemView.swift; sourceTree = "<group>"; };
 		525C3DF02AC3CF41000EF11A /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		5267C05E2B42F56600AE7E0C /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
+		5267C0602B443D3E00AE7E0C /* ShowBuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBuses.swift; sourceTree = "<group>"; };
+		5267C0642B44FDA800AE7E0C /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
+		5267C0662B45A07600AE7E0C /* ShowBusRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBusRoute.swift; sourceTree = "<group>"; };
 		527E2A6C2B20AFFE00252B09 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		527E2A6E2B20BC0800252B09 /* PersonalIn4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalIn4.swift; sourceTree = "<group>"; };
 		52C8885A2A66858000BDD10C /* BusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStation.swift; sourceTree = "<group>"; };
@@ -135,6 +143,15 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		5267C05D2B42F54B00AE7E0C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5267C05E2B42F56600AE7E0C /* Comments.swift */,
+				5267C0642B44FDA800AE7E0C /* Bus.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		52D740DF2AB7F37A0007BE09 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +193,8 @@
 				52425EA62A34BF3000AD47B6 /* InputScreen.swift */,
 				52F9C24B2B383FB200C7E29C /* ShowPersonalIn4.swift */,
 				52F9C24D2B383FFA00C7E29C /* ChangeNormalIn4.swift */,
+				5267C0602B443D3E00AE7E0C /* ShowBuses.swift */,
+				5267C0662B45A07600AE7E0C /* ShowBusRoute.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,6 +202,7 @@
 		52F9C2532B3DB9E500C7E29C /* Staff */ = {
 			isa = PBXGroup;
 			children = (
+				5267C05D2B42F54B00AE7E0C /* Models */,
 				52F9C2562B3DBA5700C7E29C /* Views */,
 			);
 			path = Staff;
@@ -323,6 +343,7 @@
 				52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
 				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
+				5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */,
 				52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */,
 				52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */,
 				52D741062ABAA86C0007BE09 /* MapView.swift in Sources */,
@@ -338,10 +359,13 @@
 				52D741042ABA98890007BE09 /* CardData.swift in Sources */,
 				52F9C2552B3DBA1B00C7E29C /* StaffDashBoard.swift in Sources */,
 				52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */,
+				5267C0672B45A07600AE7E0C /* ShowBusRoute.swift in Sources */,
 				52D741022ABA98460007BE09 /* CardView.swift in Sources */,
 				525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */,
+				5267C0612B443D3E00AE7E0C /* ShowBuses.swift in Sources */,
 				52F9C22B2B302D9C00C7E29C /* MyApp.swift in Sources */,
 				52C8885B2A66858000BDD10C /* BusStation.swift in Sources */,
+				5267C0652B44FDA800AE7E0C /* Bus.swift in Sources */,
 				527E2A6F2B20BC0800252B09 /* PersonalIn4.swift in Sources */,
 				52D740DE2AB7F33F0007BE09 /* OutputData.swift in Sources */,
 				520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */,
