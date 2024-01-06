@@ -43,15 +43,15 @@ struct CheckComment: View {
         else{
             NavigationView {
                 TabView {
-                    let pageNum = comments.count / 10 + 1
+                    let pageNum = comments.count / 6 + 1
                     ForEach(0..<pageNum) { pageIndex in
-                        let startIndex = pageIndex * 10
-                        let end = (pageIndex + 1) * 10
-                        let endIndex = min((pageIndex + 1) * 10, comments.count)
+                        let startIndex = pageIndex * 6
+                        let end = (pageIndex + 1) * 6
+                        let endIndex = min((pageIndex + 1) * 6, comments.count)
                         
                         let productsPage = Array(comments[startIndex..<endIndex])
                         
-                        ProductPageView(comments: productsPage)
+                        CommentPageView(comments: productsPage)
                             .tabItem {
                                 Text("Page \(pageIndex + 1)")
                             }
@@ -60,7 +60,7 @@ struct CheckComment: View {
                     
                     
                 }
-                .navigationTitle("Product Pages")
+                .navigationTitle("Đánh giá của khách")
                 .toolbar{
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         Button{
@@ -104,14 +104,19 @@ struct CheckComment: View {
 //        
 //    }
 //}
-struct ProductPageView: View {
+struct CommentPageView: View {
     let comments: [Comment]
 
     var body: some View {
         List{
             // Hoặc sử dụng indices
             ForEach(comments.indices) { index in
-                Text(comments[index].suggestion)
+                VStack (alignment: .leading) {
+                    Text("Nội dụng comment: \(comments[index].suggestion)")
+                    Text("Đánh giá app: \(comments[index].rating) sao")
+                    Text(comments[index].date)
+                }
+                
             }
         }
     }
