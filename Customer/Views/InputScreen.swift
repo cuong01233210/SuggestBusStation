@@ -9,12 +9,7 @@ import SwiftUI
 import MapKit
 import UIKit
 
-struct ErrorData: Codable {
-    var message: String
-    init(message: String) {
-        self.message = message
-    }
-}
+
 
 
 class AppData: ObservableObject {

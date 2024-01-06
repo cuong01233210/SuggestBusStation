@@ -99,10 +99,6 @@ struct ShowBuses: View {
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-//        print("data: \(data)")
-//        if let jsonString = String(data: data, encoding: .utf8) {
-//            print(jsonString)
-//        }
 
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
         print("jsonData")

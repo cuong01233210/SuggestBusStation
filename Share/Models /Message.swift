@@ -11,3 +11,9 @@ struct Message : Codable {
     var message: String
 }
 
+struct ErrorData: Codable {
+    var message: String
+    init(message: String) {
+        self.message = message
+    }
+}

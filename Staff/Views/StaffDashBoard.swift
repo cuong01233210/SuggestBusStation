@@ -10,6 +10,7 @@ import SwiftUI
 struct StaffDashBoard: View {
     @Binding var isLoggedIn : Bool
     @State var checkComment: Bool = false
+    @State var busStationsManage : Bool = false
     let sampleProducts = (1...50).map { Product(id: $0, name: "Product \($0)") }
     var body: some View {
         NavigationView{
@@ -26,6 +27,13 @@ struct StaffDashBoard: View {
                     
                     ItemView(name: "Tuyến đường giờ cao điểm bị tắc")
                     ItemView(name: "Thông tin các tuyến xe buýt")
+                    ItemView(name: "Quản lý thông tin các trạm xe buýt", systemName: "house.and.flag.fill")
+                        .onTapGesture {
+                            busStationsManage.toggle()
+                        }
+                        .fullScreenCover(isPresented: $busStationsManage) {
+                            BusStationsManage( busStationsManage: $busStationsManage)
+                        }
                     ItemView(name: "Yêu thích")
                     ItemView(name: "Thông tin về app")
                 }
