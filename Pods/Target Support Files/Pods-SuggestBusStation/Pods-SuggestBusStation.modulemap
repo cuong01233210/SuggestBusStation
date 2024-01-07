@@ -1,6 +1,0 @@
-framework module Pods_SuggestBusStation {
-  umbrella header "Pods-SuggestBusStation-umbrella.h"
-
-  export *
-  module * { export * }
-}
