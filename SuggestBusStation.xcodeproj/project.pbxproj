@@ -28,6 +28,9 @@
 		52B380482B484A6F00B7D8FB /* PreferenceBuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */; };
 		52B3804A2B49502D00B7D8FB /* BusStationsManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380492B49502D00B7D8FB /* BusStationsManage.swift */; };
 		52B380512B49910B00B7D8FB /* ShowDataBusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380502B49910B00B7D8FB /* ShowDataBusStation.swift */; };
+		52B380532B4A462800B7D8FB /* BusStationsManageV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */; };
+		52B380552B4A477A00B7D8FB /* ShowDataBusStationV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */; };
+		52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380562B4A4EE300B7D8FB /* PlusStation.swift */; };
 		52C8885B2A66858000BDD10C /* BusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885A2A66858000BDD10C /* BusStation.swift */; };
 		52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */; };
 		52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C888602A668E8500BDD10C /* UserInputLocation.swift */; };
@@ -70,6 +73,9 @@
 		52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceBuses.swift; sourceTree = "<group>"; };
 		52B380492B49502D00B7D8FB /* BusStationsManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationsManage.swift; sourceTree = "<group>"; };
 		52B380502B49910B00B7D8FB /* ShowDataBusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataBusStation.swift; sourceTree = "<group>"; };
+		52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationsManageV2.swift; sourceTree = "<group>"; };
+		52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataBusStationV2.swift; sourceTree = "<group>"; };
+		52B380562B4A4EE300B7D8FB /* PlusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStation.swift; sourceTree = "<group>"; };
 		52C8885A2A66858000BDD10C /* BusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStation.swift; sourceTree = "<group>"; };
 		52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinate.swift; sourceTree = "<group>"; };
 		52C888602A668E8500BDD10C /* UserInputLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputLocation.swift; sourceTree = "<group>"; };
@@ -223,6 +229,8 @@
 				5267C0602B443D3E00AE7E0C /* ShowBuses.swift */,
 				5267C0662B45A07600AE7E0C /* ShowBusRoute.swift */,
 				52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */,
+				52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */,
+				52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				52F9C2572B3E7B2F00C7E29C /* CheckComment.swift */,
 				52B380492B49502D00B7D8FB /* BusStationsManage.swift */,
 				52B380502B49910B00B7D8FB /* ShowDataBusStation.swift */,
+				52B380562B4A4EE300B7D8FB /* PlusStation.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -372,8 +381,10 @@
 			files = (
 				52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
+				52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */,
 				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
 				5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */,
+				52B380532B4A462800B7D8FB /* BusStationsManageV2.swift in Sources */,
 				52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */,
 				52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */,
 				52D741062ABAA86C0007BE09 /* MapView.swift in Sources */,
@@ -397,6 +408,7 @@
 				525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */,
 				5267C0612B443D3E00AE7E0C /* ShowBuses.swift in Sources */,
 				52F9C22B2B302D9C00C7E29C /* MyApp.swift in Sources */,
+				52B380552B4A477A00B7D8FB /* ShowDataBusStationV2.swift in Sources */,
 				52C8885B2A66858000BDD10C /* BusStation.swift in Sources */,
 				5267C0652B44FDA800AE7E0C /* Bus.swift in Sources */,
 				527E2A6F2B20BC0800252B09 /* PersonalIn4.swift in Sources */,

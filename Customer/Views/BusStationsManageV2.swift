@@ -1,21 +1,19 @@
 //
-//  BusStationsManage.swift
+//  BusStationsManageV2.swift
 //  SuggestBusStation
 //
-//  Created by Macbook Pro on 06/01/2024.
+//  Created by Macbook Pro on 07/01/2024.
 //
 
 import SwiftUI
 
-
-struct BusStationsManage: View {
+struct BusStationsManageV2: View {
     @State var hasReceivedData = false
-    @Binding var busStationsManage : Bool
+    @Binding var busStationsManageV2 : Bool
     @State var busStations : [BusStation] = []
-    @State private var showDataBusStation = false
+    @State private var showDataBusStationV2 = false
     @State private var selectedStationIndex = 0
-    @State private var plusStation = false
-    //@State var lastTapTime = Date.distantPast
+    
    
     //@State var selectedBusStation : BusStation =
     
@@ -37,7 +35,7 @@ struct BusStationsManage: View {
                     .toolbar {
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             Button {
-                                busStationsManage.toggle()
+                                busStationsManageV2.toggle()
                             } label: {
                                 Image(systemName: "arrowshape.backward.fill")
                             }
@@ -69,11 +67,11 @@ struct BusStationsManage: View {
                             .onChange(of: selectedStationIndex) { newValue in
                                 
                                     // Khi selectedStationIndex thay đổi thì mới cho show màn hình kia
-                                    showDataBusStation = true
+                                    showDataBusStationV2 = true
                                 
                             }
-                            .fullScreenCover(isPresented: $showDataBusStation) {
-                                ShowDataBusStation(showDataBusStation: $showDataBusStation, hasReceivedData: $hasReceivedData, busStation: busStations[selectedStationIndex])
+                            .fullScreenCover(isPresented: $showDataBusStationV2) {
+                                ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2,  busStation: busStations[selectedStationIndex])
                             }
                         }
                         
@@ -89,20 +87,10 @@ struct BusStationsManage: View {
                 .toolbar{
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         Button{
-                            busStationsManage.toggle()
+                            busStationsManageV2.toggle()
                         } label: {
                             Image(systemName: "arrowshape.backward.fill")
                         }
-                    }
-                    
-                    ToolbarItemGroup(placement: .navigationBarTrailing){
-                        Image(systemName: "plus.square.on.square")
-                            .onTapGesture {
-                                plusStation.toggle()
-                            }
-                            .fullScreenCover(isPresented: $plusStation) {
-                                PlusStation(plusStation: $plusStation, hasReceivedData: $hasReceivedData)
-                            }
                     }
                 }
                 .accentColor(.red)
@@ -110,7 +98,6 @@ struct BusStationsManage: View {
         }
     }
     func getData() async throws {
-        busStations = []
         let url = URL(string: "http://localhost:8000/get-all-bus-stations")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
@@ -123,26 +110,7 @@ struct BusStationsManage: View {
             throw URLError(.cannotParseResponse)
         }
         let jsonData  = try JSONDecoder().decode(BusStations.self, from: data)
-       // print(jsonData)
+        print(jsonData)
         busStations.append(contentsOf: jsonData.busStations)
-    }
-}
-//#Preview {
-//    BusStationsManage()
-//}
-
-struct BusStationPageView: View {
-    let busStations: [BusStation]
-
-    var body: some View {
-        List{
-            // Hoặc sử dụng indices
-            ForEach(busStations.indices) { index in
-                VStack (alignment: .leading) {
-                    Text(busStations[index].name)
-                }
-                
-            }
-        }
     }
 }
