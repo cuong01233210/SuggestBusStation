@@ -72,8 +72,8 @@ struct MainScreen: View {
                             busStationsManageV2.toggle()
                         }
                         .fullScreenCover(isPresented: $busStationsManageV2) {
-                            BusStationsManageV2(busStationsManageV2: $busStationsManageV2)
-                        } 
+                            BusStationsManageV2(busStationsManageV2: $busStationsManageV2, token: $token)
+                        }
                     ItemView(name: "Thông tin về app")
                 }
                 

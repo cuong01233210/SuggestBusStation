@@ -31,6 +31,7 @@
 		52B380532B4A462800B7D8FB /* BusStationsManageV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */; };
 		52B380552B4A477A00B7D8FB /* ShowDataBusStationV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */; };
 		52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380562B4A4EE300B7D8FB /* PlusStation.swift */; };
+		52B380592B4BB16B00B7D8FB /* PreferenceStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */; };
 		52C8885B2A66858000BDD10C /* BusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885A2A66858000BDD10C /* BusStation.swift */; };
 		52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */; };
 		52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C888602A668E8500BDD10C /* UserInputLocation.swift */; };
@@ -76,6 +77,7 @@
 		52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationsManageV2.swift; sourceTree = "<group>"; };
 		52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataBusStationV2.swift; sourceTree = "<group>"; };
 		52B380562B4A4EE300B7D8FB /* PlusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStation.swift; sourceTree = "<group>"; };
+		52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceStations.swift; sourceTree = "<group>"; };
 		52C8885A2A66858000BDD10C /* BusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStation.swift; sourceTree = "<group>"; };
 		52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinate.swift; sourceTree = "<group>"; };
 		52C888602A668E8500BDD10C /* UserInputLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputLocation.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */,
 				52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */,
 				52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */,
+				52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
 				5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */,
 				52B380532B4A462800B7D8FB /* BusStationsManageV2.swift in Sources */,
+				52B380592B4BB16B00B7D8FB /* PreferenceStations.swift in Sources */,
 				52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */,
 				52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */,
 				52D741062ABAA86C0007BE09 /* MapView.swift in Sources */,
