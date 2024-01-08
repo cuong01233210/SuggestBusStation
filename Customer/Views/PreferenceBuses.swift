@@ -14,7 +14,7 @@ struct PreferenceBuses: View {
     @State var buses : [Bus] = []
     @State var hasReceivedData = false
     @State var showBusRoute = false
-    @State private var selectedBusIndex: Int = 0
+    @State private var selectedBusIndex: Int = -1
     
     var body: some View {
         if hasReceivedData == false {
@@ -23,6 +23,7 @@ struct PreferenceBuses: View {
                     .onAppear {
                         Task {
                             do {
+                                selectedBusIndex = -1
                                 try await Task.withGroup(resultType: Void.self) { group in
                                     // Thực hiện hàm getAllBookmark trong một task group
                                     await group.add { try await getAllBookmark() }
@@ -69,6 +70,7 @@ struct PreferenceBuses: View {
                             }
                         }
                         .onTapGesture {
+                            print(index)
                             selectedBusIndex = index
                         }
                         .onChange(of: selectedBusIndex) {  newValue in
@@ -76,7 +78,10 @@ struct PreferenceBuses: View {
                         }
                         .fullScreenCover(isPresented: $showBusRoute) {
                             ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, token: $token, frontHasReceivedData: $hasReceivedData)
-                                
+                                .onChange(of: showBusRoute) { _ in
+                                // Reset selectedBusIndex to -1 when ShowBusRoute is dismissed
+                                selectedBusIndex = -1
+                            }
                         }
                     
                 }
@@ -112,7 +117,7 @@ struct PreferenceBuses: View {
                     throw URLError(.cannotParseResponse)
                 }
         let jsonData =  try JSONDecoder().decode(Buses.self, from: data)
-        print(jsonData)
+      //  print(jsonData)
         buses.append(contentsOf: jsonData.buses)
     }
     func getAllBookmark() async throws {
@@ -133,7 +138,7 @@ struct PreferenceBuses: View {
         for jbus in jsonData.buses {
             sbuses.append(jbus)
         }
-        print(sbuses)
+       // print(sbuses)
         
     }
     

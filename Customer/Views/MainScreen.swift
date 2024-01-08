@@ -14,6 +14,7 @@ struct MainScreen: View {
     @State var isPresentingInputScreen : Bool = false
     @State var isPresentingCommentView: Bool = false
     @State var busStationsManageV2 : Bool = false
+    @State var showPreferenceStations: Bool = false
     @Binding var email : String
     @Binding var token: String
     @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
@@ -73,6 +74,13 @@ struct MainScreen: View {
                         }
                         .fullScreenCover(isPresented: $busStationsManageV2) {
                             BusStationsManageV2(busStationsManageV2: $busStationsManageV2, token: $token)
+                        }
+                    ItemView(name: "Trạm xe buýt yêu thích", systemName: "house.and.flag.fill")
+                        .onTapGesture {
+                            showPreferenceStations.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showPreferenceStations) {
+                            PreferenceStations(showPreferenceStations: $showPreferenceStations, token: $token)
                         }
                     ItemView(name: "Thông tin về app")
                 }

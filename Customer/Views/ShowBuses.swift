@@ -13,7 +13,7 @@ struct ShowBuses: View {
     @Binding var token: String
     @State var buses : [Bus] = []
     @State var showBusRoute = false
-    @State private var selectedBusIndex: Int = 0
+    @State private var selectedBusIndex: Int = -1
     
     var body: some View {
         if !hasReceivedData {
@@ -22,6 +22,7 @@ struct ShowBuses: View {
                     .onAppear {
                         Task {
                             do {
+                                selectedBusIndex = -1
                                 try await getBuses()
                                 // Set hasReceivedData only after the data is received
                                 hasReceivedData = true
@@ -104,7 +105,7 @@ struct ShowBuses: View {
 
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
         print("jsonData")
-        print(jsonData)
+       // print(jsonData)
         buses.append(contentsOf: jsonData.buses)
     }
 }

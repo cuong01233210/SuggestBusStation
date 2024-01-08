@@ -13,7 +13,7 @@ struct BusStationsManage: View {
     @Binding var busStationsManage : Bool
     @State var busStations : [BusStation] = []
     @State private var showDataBusStation = false
-    @State private var selectedStationIndex = 0
+    @State private var selectedStationIndex = -1
     @State private var plusStation = false
     //@State var lastTapTime = Date.distantPast
    
@@ -26,6 +26,7 @@ struct BusStationsManage: View {
                     .onAppear {
                         Task {
                             do {
+                                selectedStationIndex = -1
                                 try await getData()
                                 // Set hasReceivedData only after the data is received
                                 hasReceivedData = true
@@ -74,6 +75,10 @@ struct BusStationsManage: View {
                             }
                             .fullScreenCover(isPresented: $showDataBusStation) {
                                 ShowDataBusStation(showDataBusStation: $showDataBusStation, hasReceivedData: $hasReceivedData, busStation: busStations[selectedStationIndex])
+                                    .onChange(of: showDataBusStation) { _ in
+                                        // Reset selectedBusIndex to -1 when ShowBusRoute is dismissed
+                                        selectedStationIndex = -1
+                                    }
                             }
                         }
                         
