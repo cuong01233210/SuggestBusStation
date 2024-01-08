@@ -13,7 +13,7 @@ struct BusStationsManageV2: View {
     @Binding var token: String
     @State var busStations : [BusStation] = []
     @State private var showDataBusStationV2 = false
-    @State private var selectedStationIndex = 0
+    @State private var selectedStationIndex = -1
     
    
     //@State var selectedBusStation : BusStation =
@@ -25,6 +25,7 @@ struct BusStationsManageV2: View {
                     .onAppear {
                         Task {
                             do {
+                                selectedStationIndex = -1
                                 try await getData()
                                 // Set hasReceivedData only after the data is received
                                 hasReceivedData = true
@@ -73,6 +74,10 @@ struct BusStationsManageV2: View {
                             }
                             .fullScreenCover(isPresented: $showDataBusStationV2) {
                                 ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2, token: $token, frontHasReceivedData: $hasReceivedData,  busStation: busStations[selectedStationIndex])
+                                    .onChange(of: showDataBusStationV2) { _ in
+                                        // Reset selectedBusIndex to -1 when ShowBusRoute is dismissed
+                                        selectedStationIndex = -1
+                                    }
                             }
                         }
                         

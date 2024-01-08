@@ -23,6 +23,7 @@ struct PreferenceBuses: View {
                     .onAppear {
                         Task {
                             do {
+                                selectedBusIndex = -1
                                 try await Task.withGroup(resultType: Void.self) { group in
                                     // Thực hiện hàm getAllBookmark trong một task group
                                     await group.add { try await getAllBookmark() }
@@ -116,7 +117,7 @@ struct PreferenceBuses: View {
                     throw URLError(.cannotParseResponse)
                 }
         let jsonData =  try JSONDecoder().decode(Buses.self, from: data)
-        print(jsonData)
+      //  print(jsonData)
         buses.append(contentsOf: jsonData.buses)
     }
     func getAllBookmark() async throws {
@@ -137,7 +138,7 @@ struct PreferenceBuses: View {
         for jbus in jsonData.buses {
             sbuses.append(jbus)
         }
-        print(sbuses)
+       // print(sbuses)
         
     }
     

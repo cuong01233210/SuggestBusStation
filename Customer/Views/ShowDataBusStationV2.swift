@@ -14,7 +14,7 @@ struct ShowDataBusStationV2: View {
     @State var isLoved = false
     @State var hasReceivedData = false
   
-     var busStation: BusStation
+    var busStation: BusStation
     var body: some View {
         if hasReceivedData == false {
             NavigationView {
