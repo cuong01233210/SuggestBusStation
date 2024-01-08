@@ -104,7 +104,7 @@ struct ShowBuses: View {
 
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
         print("jsonData")
-        print(jsonData)
+       // print(jsonData)
         buses.append(contentsOf: jsonData.buses)
     }
 }

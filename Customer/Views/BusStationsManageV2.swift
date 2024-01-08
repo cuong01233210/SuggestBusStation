@@ -72,7 +72,7 @@ struct BusStationsManageV2: View {
                                 
                             }
                             .fullScreenCover(isPresented: $showDataBusStationV2) {
-                                ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2, token: $token,  busStation: busStations[selectedStationIndex])
+                                ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2, token: $token, frontHasReceivedData: $hasReceivedData,  busStation: busStations[selectedStationIndex])
                             }
                         }
                         
@@ -99,6 +99,7 @@ struct BusStationsManageV2: View {
         }
     }
     func getData() async throws {
+        busStations = []
         let url = URL(string: "http://localhost:8000/get-all-bus-stations")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
@@ -111,7 +112,7 @@ struct BusStationsManageV2: View {
             throw URLError(.cannotParseResponse)
         }
         let jsonData  = try JSONDecoder().decode(BusStations.self, from: data)
-        print(jsonData)
+       // print(jsonData)
         busStations.append(contentsOf: jsonData.busStations)
     }
 }

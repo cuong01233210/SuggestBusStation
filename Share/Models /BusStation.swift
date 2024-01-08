@@ -28,3 +28,7 @@ enum BSError: Error {
 struct UserStationId : Codable {
     var stationId: String
 }
+
+struct UserStationIds: Codable {
+    var stationIds: [String]
+}
