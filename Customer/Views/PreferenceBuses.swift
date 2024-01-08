@@ -69,9 +69,10 @@ struct PreferenceBuses: View {
                             }
                         }
                         .onTapGesture {
-                            showBusRoute = true
-                            //hasReceivedData = false
                             selectedBusIndex = index
+                        }
+                        .onChange(of: selectedBusIndex) {  newValue in
+                            showBusRoute = true
                         }
                         .fullScreenCover(isPresented: $showBusRoute) {
                             ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, token: $token, frontHasReceivedData: $hasReceivedData)

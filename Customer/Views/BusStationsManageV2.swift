@@ -10,6 +10,7 @@ import SwiftUI
 struct BusStationsManageV2: View {
     @State var hasReceivedData = false
     @Binding var busStationsManageV2 : Bool
+    @Binding var token: String
     @State var busStations : [BusStation] = []
     @State private var showDataBusStationV2 = false
     @State private var selectedStationIndex = 0
@@ -71,7 +72,7 @@ struct BusStationsManageV2: View {
                                 
                             }
                             .fullScreenCover(isPresented: $showDataBusStationV2) {
-                                ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2,  busStation: busStations[selectedStationIndex])
+                                ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2, token: $token,  busStation: busStations[selectedStationIndex])
                             }
                         }
                         

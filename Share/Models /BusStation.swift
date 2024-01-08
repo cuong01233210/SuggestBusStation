@@ -18,9 +18,13 @@ struct BusStations: Codable {
     var busStations: [BusStation]
 }
 
+
 enum BSError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
 }
 
+struct UserStationId : Codable {
+    var stationId: String
+}
