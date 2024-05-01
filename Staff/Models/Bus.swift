@@ -12,6 +12,7 @@ struct Bus: Codable {
     var price : Int
     var activityTime: String
     var gianCachChayXe: String
+    // tạm thời chưa thêm trường gianCachTrungBinh vào để xử lý
 }
 
 struct Buses: Codable {
@@ -29,4 +30,19 @@ struct BusName: Codable {
 
 struct BusesName : Codable {
     var buses: [String]
+}
+
+struct StationRouteData: Codable{
+    var name: String
+    var bus: [String]
+    var lat: Double
+    var long: Double
+}
+struct BusFullData: Codable {
+    var bus: String
+    var price : Int
+    var activityTime: String
+    var gianCachChayXe: String
+    var chieuDi: [StationRouteData]
+    var chieuVe: [StationRouteData]
 }

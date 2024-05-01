@@ -77,7 +77,7 @@ struct PreferenceBuses: View {
                             showBusRoute = true
                         }
                         .fullScreenCover(isPresented: $showBusRoute) {
-                            ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, token: $token, frontHasReceivedData: $hasReceivedData)
+                            ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, frontHasReceivedData: $hasReceivedData)
                                 .onChange(of: showBusRoute) { _ in
                                 // Reset selectedBusIndex to -1 when ShowBusRoute is dismissed
                                 selectedBusIndex = -1

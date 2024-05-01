@@ -182,7 +182,7 @@ struct ChangeNormalIn4: View {
                     throw URLError(.cannotParseResponse)
                 }
         let jsonData =  try JSONDecoder().decode(Message.self, from: data)
-                print(jsonData.message)
+               // print(jsonData.message)
         alertMessage = jsonData.message
         isShowingAlert.toggle()
         

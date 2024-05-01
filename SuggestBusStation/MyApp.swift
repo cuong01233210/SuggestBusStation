@@ -12,16 +12,17 @@ struct MyApp: View {
     @State private var token: String = ""
     @State private var email: String = ""
     @State private var role: String = ""
+    @State private var suggestPlaces : SuggestPlaces = SuggestPlaces(places: [], stations: [], schools: [], hospitals: [], markets: [], bookstores: [], parks: [], pagodas: [], museums: [], diffPlaces: [])
     var body: some View {
         if isLoggedIn {
             //MainScreen(isLoggedIn: $isLoggedIn, token: $token, email: $email)
             if role == "0"{
-                MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
+                MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn, suggestPlaces: $suggestPlaces)
             } else {
                 StaffDashBoard(isLoggedIn: $isLoggedIn)
             }
         } else {
-            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email, role: $role)
+            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email, role: $role, suggestPlaces: $suggestPlaces)
         }
     }
 }

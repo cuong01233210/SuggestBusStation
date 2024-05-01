@@ -12,7 +12,7 @@ struct ShowBuses: View {
     @Binding var showBuses: Bool
     @Binding var token: String
     @State var buses : [Bus] = []
-    @State var showBusRoute = false
+    @State var showBusRouteV2 = false
     @State private var selectedBusIndex: Int = -1
     
     var body: some View {
@@ -62,10 +62,10 @@ struct ShowBuses: View {
                             selectedBusIndex = index
                         }
                         .onChange(of: selectedBusIndex) {  newValue in
-                            showBusRoute = true
+                            showBusRouteV2 = true
                         }
-                        .fullScreenCover(isPresented: $showBusRoute) {
-                            ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, token: $token, frontHasReceivedData: $hasReceivedData)
+                        .fullScreenCover(isPresented: $showBusRouteV2) {
+                            ShowBusRouteV2(bus: String(buses[selectedBusIndex].bus), showBusRouteV2: $showBusRouteV2, token: $token, frontHasReceivedData: $hasReceivedData)
                                 
                         }
                     

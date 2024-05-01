@@ -47,74 +47,87 @@ struct AuthenticationView: View {
     @State var showPass: Bool = false
     @Binding var email: String
     @Binding var role: String
+    @Binding var suggestPlaces : SuggestPlaces
     var body: some View {
-        Button(action: {
-            showSignUp.toggle()
-        }) {
-            Text(showSignUp ? "Nếu đã có tài khoản" : "Nếu chưa có tài khoản")
-                .font(.title) // You can adjust the font size as needed
-                .foregroundColor(.blue) // You can set the text color as needed
-        }
+        VStack {
+            Button(action: {
+                showSignUp.toggle()
+            }) {
+                Text(showSignUp ? "Nếu đã có tài khoản" : "Nếu chưa có tài khoản")
+                    .font(.title) // You can adjust the font size as needed
+                    .foregroundColor(.blue) // You can set the text color as needed
+            }
 
-        
-        if showSignUp {
-            TextField("Name", text: $nameField)
+            
+            if showSignUp {
+                TextField("Name", text: $nameField)
+                    .padding()
+                    .font(.system(size: 20))
+            }
+            
+            TextField("Email", text: $emailField)
                 .padding()
                 .font(.system(size: 20))
-        }
-        
-        TextField("Email", text: $emailField)
-            .padding()
-            .font(.system(size: 20))
-        
-        ZStack (alignment: .trailing){
-            Group {
-                if showPass{
-                    TextField("Password", text: $passwordField)
-                        .padding()
-                        .font(.system(size: 20))
-                } else {
-                    SecureField("Password", text: $passwordField)
-                        .padding()
-                        .font(.system(size: 20))
+            
+            ZStack (alignment: .trailing){
+                Group {
+                    if showPass{
+                        TextField("Password", text: $passwordField)
+                            .padding()
+                            .font(.system(size: 20))
+                    } else {
+                        SecureField("Password", text: $passwordField)
+                            .padding()
+                            .font(.system(size: 20))
+                    }
                 }
-            }
+                Button(action: {
+                    showPass.toggle()
+                }) {
+                    Image(systemName: self.showPass ? "eye.slash" : "eye")
+                        .accentColor(.gray)
+                }
+            }.padding(.trailing, 32)
+            
+
             Button(action: {
-                showPass.toggle()
+                if showSignUp {
+                    loginUser = LoginUser(name: nameField, email: emailField, password: passwordField)
+                    Task {
+                        do {
+                            try await signUpHandler()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                } else {
+                    loginUser = LoginUser(email: emailField, password: passwordField)
+                    Task {
+                        do {
+                            try await loginHandler()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
             }) {
-                Image(systemName: self.showPass ? "eye.slash" : "eye")
-                    .accentColor(.gray)
+                Text(showSignUp ? "Đăng ký" : "Đăng nhập")
+                    .font(.title) // You can adjust the font size as needed
             }
-        }.padding(.trailing, 32)
-        
+            .buttonStyle(.bordered)
 
-        Button(action: {
-            if showSignUp {
-                loginUser = LoginUser(name: nameField, email: emailField, password: passwordField)
-                Task {
-                    do {
-                        try await signUpHandler()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-            } else {
-                loginUser = LoginUser(email: emailField, password: passwordField)
-                Task {
-                    do {
-                        try await loginHandler()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-        }) {
-            Text(showSignUp ? "Đăng ký" : "Đăng nhập")
-                .font(.title) // You can adjust the font size as needed
         }
-        .buttonStyle(.bordered)
-
+        .onAppear {
+                        Task {
+                            do {
+                                try await getPlaces()
+                            } catch {
+                                print("Failed to load places: \(error)")
+                            }
+                        }
+                    }
     }
+       
     private func loginHandler() async throws {
         //let url = URL(string: "http://localhost:8000/auth/login")!
         let url = URL(string: "http://localhost:8000/auth/login")!
@@ -170,4 +183,24 @@ struct AuthenticationView: View {
         role = jsonData.role
         email = loginUser?.email ?? ""
     }
+    
+    func getPlaces() async throws{
+            let url = URL(string: "http://localhost:8000/get-places")!
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "GET"
+            //urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+                print("Error \(errorData)")
+                throw URLError(.cannotParseResponse)
+            }
+
+            suggestPlaces = try JSONDecoder().decode(SuggestPlaces.self, from: data)
+        
+           // print("jsonData")
+            //print(suggestPlaces.schools)
+        }
 }

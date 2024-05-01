@@ -1,15 +1,15 @@
 //
-//  ShowBusRoute.swift
+//  ShowBusRouteV2.swift
 //  SuggestBusStation
 //
-//  Created by Macbook Pro on 03/01/2024.
+//  Created by Macbook Pro on 10/01/2024.
 //
 
 import SwiftUI
 
-struct ShowBusRoute: View {
+struct ShowBusRouteV2: View {
     let bus : String
-    @Binding var showBusRoute: Bool
+    @Binding var showBusRouteV2: Bool
     @State var isLoved = false
     @State var hasReceivedData = false
     
@@ -39,7 +39,7 @@ struct ShowBusRoute: View {
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             Button {
                                 frontHasReceivedData = false
-                                showBusRoute.toggle()
+                                showBusRouteV2.toggle()
                             } label: {
                                 Image(systemName: "arrowshape.backward.fill")
                             }
@@ -107,7 +107,7 @@ struct ShowBusRoute: View {
                             ToolbarItemGroup(placement: .navigationBarLeading) {
                                 Button {
                                     frontHasReceivedData = false
-                                    showBusRoute.toggle()
+                                    showBusRouteV2.toggle()
                                 } label: {
                                     Image(systemName: "arrowshape.backward.fill")
                                 }
@@ -171,7 +171,7 @@ struct ShowBusRoute: View {
                             ToolbarItemGroup(placement: .navigationBarLeading) {
                                 Button {
                                     frontHasReceivedData = false
-                                    showBusRoute.toggle()
+                                    showBusRouteV2.toggle()
                                 } label: {
                                     Image(systemName: "arrowshape.backward.fill")
                                 }
@@ -266,11 +266,7 @@ struct ShowBusRoute: View {
         let jsonData =  try JSONDecoder().decode(Message.self, from: data)
         print(jsonData.message)
     }
-    func placeOrder() { }
-        func adjustOrder() { }
-        func rename() { }
-        func delay() { }
-        func cancelOrder() { }
+
 }
 //#Preview {
 //    ShowBusRoute()

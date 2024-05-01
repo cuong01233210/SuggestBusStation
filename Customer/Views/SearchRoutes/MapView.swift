@@ -112,3 +112,70 @@ struct MapView2: UIViewRepresentable {
 //    ContentView()
 //  }
 //}
+
+
+import SwiftUI
+import MapKit
+
+struct LocationPickerView: View {
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 21.028511, longitude: 105.804817), // Tọa độ của Hà Nội
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    )
+    @ObservedObject var locationManager = LocationManager.shared
+    @State private var isSearchViewActive = false
+    init() {
+        if let location = locationManager.userLocation {
+            print(location)
+            self._region = State(initialValue: MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude),
+                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            ))
+        } else {
+            self._region = State(initialValue: MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: 21.028511, longitude: 105.804817),
+                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            ))
+        }
+            
+        }
+    var body: some View {
+        VStack {
+            ZStack(alignment: .center) {
+                MapView(region: $region)
+                    .edgesIgnoringSafeArea(.all)
+
+                // Hiển thị hình ảnh marker
+                Image(systemName: "circle.fill")
+                    .foregroundColor(.blue)
+                    .opacity(0.5)
+                    .frame(width: 30, height: 30)
+            }
+
+            Button("Chọn địa điểm") {
+                print("Chosen latitude: \(region.center.latitude)")
+                print("Chosen longitude: \(region.center.longitude)")
+                isSearchViewActive = true  // Có thể kích hoạt một chuyển trang hoặc action khác
+            }
+            .frame(width: 280, height: 44)
+            .background(Color.green)
+            .foregroundColor(.white)
+            .cornerRadius(22)
+            .padding()
+        }
+    }
+}
+
+struct MapView: UIViewRepresentable {
+    @Binding var region: MKCoordinateRegion
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.setRegion(region, animated: true)
+        return mapView
+    }
+
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        uiView.setRegion(region, animated: true)
+    }
+}

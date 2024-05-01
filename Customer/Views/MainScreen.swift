@@ -15,17 +15,16 @@ struct MainScreen: View {
     @State var isPresentingCommentView: Bool = false
     @State var busStationsManageV2 : Bool = false
     @State var showPreferenceStations: Bool = false
+    @State var isSearchView : Bool = false
     @Binding var email : String
     @Binding var token: String
-    @State var outputData : OutputData = OutputData(route: "test", stationStartName: "test", stationEndName: "test", distanceInMeters: 0, stationStartLat: 0.0, stationStartLong: 0.0, stationEndLat: 0.0, stationEndLong: 0.0)
-
-    @State var outputData2 : OutputData2 = OutputData2(startLocation: "test", startLocationLat: 21, startLocationLong: 105, minDistances: [], minDistancesStations: [], minRoutes: [], startDistance: 0, startStationLat: 21.1, startStationLong: 105.1)
     var width: CGFloat = 200
     var height: CGFloat = 100
     var name = ""
     var backgroundColor: Color = .blue
     @Binding var isLoggedIn : Bool
     @State var showPreferenceBuses = false
+    @Binding var suggestPlaces: SuggestPlaces
     //@State private var isPresentingAnotherView = false
     var body: some View {
         NavigationView{
@@ -33,12 +32,14 @@ struct MainScreen: View {
                 List {
                     ItemView(name: "Tìm kiếm tuyến đường", systemName: "bus.fill")
                         .onTapGesture {
-                        isPresentingInputScreen.toggle()
+                        isSearchView.toggle()
                     }
-                        .fullScreenCover(isPresented: $isPresentingInputScreen) {
-                            InputScreen(outputData: $outputData, outputData2: $outputData2, isPresentingInputScreen: $isPresentingInputScreen)
-                           // AnotherView1(isPresentingAnotherView1: $isPresentingAnotherView1)
-                    }
+
+                        .fullScreenCover(isPresented: $isSearchView) {
+                            SearchView(isSearchView: $isSearchView, suggestPlaces: $suggestPlaces)
+                        }
+                    
+                    
                     ItemView(name: "Thông tin cá nhân", systemName: "person.circle")
                         .onTapGesture {
                             isPresentingPersonalIn4.toggle()
@@ -100,7 +101,10 @@ struct MainScreen: View {
             .accentColor(.red)
         }
         .ignoresSafeArea()
+        
     }
+    
+    
 }
 
 struct AnotherView1: View {

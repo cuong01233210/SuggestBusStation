@@ -15,6 +15,9 @@ struct SuggestBusStationApp: App {
         WindowGroup {
             MyApp()
                 .environmentObject(appData)
+                .onAppear {
+                    LocationManager.shared.requestLocation()
+                }
         }
     }
 }
