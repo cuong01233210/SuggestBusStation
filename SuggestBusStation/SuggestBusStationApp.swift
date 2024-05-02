@@ -6,6 +6,46 @@
 //
 
 import SwiftUI
+class AppData: ObservableObject {
+    @Published var outputData: OutputData
+    @Published var userLat: Double
+    @Published var userLong: Double
+    @Published var suggestPlaces: SuggestPlaces
+    @Published var startPlace: Place
+    @Published var endPlace: Place
+    @Published var inputFlag : Int
+    init() {
+        self.outputData = OutputData(
+            route: "test",
+            stationStartName: "test",
+            stationEndName: "test",
+            distanceInMeters: 0,
+            stationStartLat: 21.0,
+            stationStartLong: 105.0,
+            stationEndLat: 21.1,
+            stationEndLong: 105.1
+        )
+        self.userLat = 21
+        self.userLong = 105
+        
+        suggestPlaces = SuggestPlaces(
+            places: [],
+            stations: [],
+            schools: [],
+            hospitals: [],
+            markets: [],
+            bookstores: [],
+            parks: [],
+            pagodas: [],
+            museums: [],
+            diffPlaces: []
+        )
+        
+        startPlace = Place(name: "Vị trí hiện tại", category: "", lat: 0, long: 0)
+        endPlace = Place(name: "", category: "", lat: 0, long: 0)
+        inputFlag = -1 // chưa sử dụng tính năng search xe buýt
+    }
+}
 
 @main
 struct SuggestBusStationApp: App {

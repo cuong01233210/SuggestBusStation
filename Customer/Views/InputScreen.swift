@@ -12,26 +12,6 @@ import UIKit
 
 
 
-class AppData: ObservableObject {
-    @Published var outputData: OutputData
-    @Published var userLat: Double
-    @Published var userLong: Double
-
-    init() {
-        self.outputData = OutputData(
-            route: "test",
-            stationStartName: "test",
-            stationEndName: "test",
-            distanceInMeters: 0,
-            stationStartLat: 21.0,
-            stationStartLong: 105.0,
-            stationEndLat: 21.1,
-            stationEndLong: 105.1
-        )
-        self.userLat = 21
-        self.userLong = 105
-    }
-}
 
 
 struct MapInput {
@@ -151,9 +131,9 @@ struct InputScreen: View {
                                     isPresentingContentMapView2 = true // Trigger the sheet
                                 }
                     }
-                    .fullScreenCover(isPresented: $isPresentingContentMapView2) {
-                        ContentMapView2(isPresentingContentMapView2: $isPresentingContentMapView2, presentData: presentDatas[selectedIndex])
-                    }
+//                    .fullScreenCover(isPresented: $isPresentingContentMapView2) {
+//                        ContentMapView2(isPresentingContentMapView2: $isPresentingContentMapView2, presentData: presentDatas[selectedIndex])
+//                    }
                 }
             }
             Spacer()

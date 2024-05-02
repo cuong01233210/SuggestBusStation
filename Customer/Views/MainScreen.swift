@@ -11,11 +11,11 @@ struct MainScreen: View {
     @State var choiceMade = "Options"
     @State var showBuses = false
     @State var isPresentingPersonalIn4: Bool = false
-    @State var isPresentingInputScreen : Bool = false
     @State var isPresentingCommentView: Bool = false
     @State var busStationsManageV2 : Bool = false
     @State var showPreferenceStations: Bool = false
-    @State var isSearchView : Bool = false
+    @State var showSearchView : Bool = false
+    
     @Binding var email : String
     @Binding var token: String
     var width: CGFloat = 200
@@ -24,7 +24,7 @@ struct MainScreen: View {
     var backgroundColor: Color = .blue
     @Binding var isLoggedIn : Bool
     @State var showPreferenceBuses = false
-    @Binding var suggestPlaces: SuggestPlaces
+    //@Binding var suggestPlaces: SuggestPlaces
     //@State private var isPresentingAnotherView = false
     var body: some View {
         NavigationView{
@@ -32,11 +32,11 @@ struct MainScreen: View {
                 List {
                     ItemView(name: "Tìm kiếm tuyến đường", systemName: "bus.fill")
                         .onTapGesture {
-                        isSearchView.toggle()
+                        showSearchView.toggle()
                     }
 
-                        .fullScreenCover(isPresented: $isSearchView) {
-                            SearchView(isSearchView: $isSearchView, suggestPlaces: $suggestPlaces)
+                        .fullScreenCover(isPresented: $showSearchView) {
+                           SearchView(showSearchView: $showSearchView)
                         }
                     
                     

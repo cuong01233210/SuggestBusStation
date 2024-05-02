@@ -47,7 +47,7 @@ struct AuthenticationView: View {
     @State var showPass: Bool = false
     @Binding var email: String
     @Binding var role: String
-    @Binding var suggestPlaces : SuggestPlaces
+    @EnvironmentObject var appData: AppData
     var body: some View {
         VStack {
             Button(action: {
@@ -118,14 +118,14 @@ struct AuthenticationView: View {
 
         }
         .onAppear {
-                        Task {
-                            do {
-                                try await getPlaces()
-                            } catch {
-                                print("Failed to load places: \(error)")
-                            }
-                        }
-                    }
+            Task {
+                do {
+                    try await getPlaces()
+                } catch {
+                    print("Failed to load places: \(error)")
+                }
+            }
+        }
     }
        
     private func loginHandler() async throws {
@@ -198,9 +198,9 @@ struct AuthenticationView: View {
                 throw URLError(.cannotParseResponse)
             }
 
-            suggestPlaces = try JSONDecoder().decode(SuggestPlaces.self, from: data)
+        appData.suggestPlaces = try JSONDecoder().decode(SuggestPlaces.self, from: data)
         
            // print("jsonData")
-            //print(suggestPlaces.schools)
+        //print(appData.suggestPlaces.schools)
         }
 }

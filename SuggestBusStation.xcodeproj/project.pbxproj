@@ -32,6 +32,8 @@
 		52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380562B4A4EE300B7D8FB /* PlusStation.swift */; };
 		52B380592B4BB16B00B7D8FB /* PreferenceStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */; };
 		52B9F2842BE23DD500D889E2 /* SuggestPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B9F2832BE23DD500D889E2 /* SuggestPlaces.swift */; };
+		52B9F2862BE3180100D889E2 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B9F2852BE3180100D889E2 /* InputView.swift */; };
+		52B9F2882BE3896B00D889E2 /* CategoryInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B9F2872BE3896A00D889E2 /* CategoryInputView.swift */; };
 		52C1E9222B8C788800F6E260 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C1E9212B8C788800F6E260 /* SearchView.swift */; };
 		52C8885B2A66858000BDD10C /* BusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885A2A66858000BDD10C /* BusStation.swift */; };
 		52C8885F2A668D4A00BDD10C /* UserCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */; };
@@ -83,6 +85,8 @@
 		52B380562B4A4EE300B7D8FB /* PlusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStation.swift; sourceTree = "<group>"; };
 		52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceStations.swift; sourceTree = "<group>"; };
 		52B9F2832BE23DD500D889E2 /* SuggestPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestPlaces.swift; sourceTree = "<group>"; };
+		52B9F2852BE3180100D889E2 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		52B9F2872BE3896A00D889E2 /* CategoryInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInputView.swift; sourceTree = "<group>"; };
 		52C1E9212B8C788800F6E260 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		52C8885A2A66858000BDD10C /* BusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStation.swift; sourceTree = "<group>"; };
 		52C8885E2A668D4A00BDD10C /* UserCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinate.swift; sourceTree = "<group>"; };
@@ -206,6 +210,8 @@
 			children = (
 				52D741052ABAA86C0007BE09 /* MapView.swift */,
 				52C1E9212B8C788800F6E260 /* SearchView.swift */,
+				52B9F2852BE3180100D889E2 /* InputView.swift */,
+				52B9F2872BE3896A00D889E2 /* CategoryInputView.swift */,
 			);
 			path = SearchRoutes;
 			sourceTree = "<group>";
@@ -440,10 +446,12 @@
 				525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */,
 				5267C0612B443D3E00AE7E0C /* ShowBuses.swift in Sources */,
 				52F9C22B2B302D9C00C7E29C /* MyApp.swift in Sources */,
+				52B9F2882BE3896B00D889E2 /* CategoryInputView.swift in Sources */,
 				52B380552B4A477A00B7D8FB /* ShowDataBusStationV2.swift in Sources */,
 				52C8885B2A66858000BDD10C /* BusStation.swift in Sources */,
 				5267C0652B44FDA800AE7E0C /* Bus.swift in Sources */,
 				527E2A6F2B20BC0800252B09 /* PersonalIn4.swift in Sources */,
+				52B9F2862BE3180100D889E2 /* InputView.swift in Sources */,
 				52D740DE2AB7F33F0007BE09 /* OutputData.swift in Sources */,
 				520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */,
 				52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */,
