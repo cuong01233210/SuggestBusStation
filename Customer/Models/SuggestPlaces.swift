@@ -25,5 +25,11 @@ struct SuggestPlaces: Codable {
     var parks: [Place]
     var pagodas: [Place]
     var museums: [Place]
+    var busStations: [Place]
     var diffPlaces: [Place]
+}
+
+struct InputData : Codable {
+    var startPlace: Place
+    var endPlace: Place
 }
