@@ -38,6 +38,7 @@ class AppData: ObservableObject {
             parks: [],
             pagodas: [],
             museums: [],
+            busStations: [],
             diffPlaces: []
         )
         

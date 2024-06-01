@@ -106,6 +106,10 @@ struct CategoryInputView: View {
                     currentPlaces = appData.suggestPlaces.museums
                 }
                 if placeFlag == 9 {
+                    title = "Trạm xe buýt"
+                    currentPlaces = appData.suggestPlaces.busStations
+                }
+                if placeFlag == 10 {
                     title = "Khác"
                     currentPlaces = appData.suggestPlaces.diffPlaces
                 }

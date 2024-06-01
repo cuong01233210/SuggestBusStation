@@ -104,9 +104,17 @@ struct InputView: View {
                                 .fullScreenCover(isPresented: $showCategoryInputView) {
                                     CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
                                 }
-                            Text("Khác")
+                            Text("Trạm xe buýt")
                                 .onTapGesture {
                                     placeFlag = 9
+                                    showCategoryInputView = true
+                                }
+                                .fullScreenCover(isPresented: $showCategoryInputView) {
+                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
+                                }
+                            Text("Khác")
+                                .onTapGesture {
+                                    placeFlag = 10
                                     showCategoryInputView = true
                                 }
                                 .fullScreenCover(isPresented: $showCategoryInputView) {
