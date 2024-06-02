@@ -13,6 +13,10 @@ class AppData: ObservableObject {
     @Published var suggestPlaces: SuggestPlaces
     @Published var startPlace: Place
     @Published var endPlace: Place
+    @Published var searchMode: Int = 1
+    @Published var userTimeMode: Int = 0 // 0: bây giờ, 1: tự chọn thời gian
+    @Published var userInputHour: Int = 0
+    @Published var userInputMinute: Int = 0
     @Published var inputFlag : Int
     init() {
         self.outputData = OutputData(
