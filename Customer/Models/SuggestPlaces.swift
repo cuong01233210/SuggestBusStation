@@ -32,4 +32,7 @@ struct SuggestPlaces: Codable {
 struct InputData : Codable {
     var startPlace: Place
     var endPlace: Place
+    var searchMode: Int
+    var userInputHour: Int
+    var userInputMinute: Int
 }

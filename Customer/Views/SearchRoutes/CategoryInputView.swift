@@ -26,7 +26,7 @@ struct CategoryInputView: View {
             }
         }
     }
-
+    
     var body: some View {
         NavigationView {
             
@@ -64,7 +64,7 @@ struct CategoryInputView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
-                       placeFlag = 0
+                        placeFlag = 0
                         showCategoryInputView.toggle()
                     } label: {
                         Image(systemName: "arrowshape.backward.fill")
