@@ -13,8 +13,8 @@ struct SearchSetting: View {
     @State private var departNow = true
     @State private var customTime = false
     @State private var showPicker = false
-    @State private var selectedHour = 0
-    @State private var selectedMinute = 0
+    
+    @EnvironmentObject var appData: AppData
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -37,6 +37,15 @@ struct SearchSetting: View {
                         .foregroundColor(.gray)
                 }
             }
+            .onChange(of: noWalkingSearch) { value in
+                if value {
+                    appData.searchMode = 2
+                    combineWalkingSearch = false
+                } else {
+                    appData.searchMode = 1
+                    combineWalkingSearch = true
+                }
+            }
             
             Toggle(isOn: $combineWalkingSearch) {
                 VStack(alignment: .leading) {
@@ -45,6 +54,15 @@ struct SearchSetting: View {
                     Text("Ứng dụng sẽ tìm kiếm tuyến đường kết hợp việc đi bộ qua đường để tới được trạm tiếp theo cần nhảy tuyến nếu cần thiết. Kết quả tìm kiếm sẽ tối ưu quãng đường cần đi hơn.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
+                }
+            }
+            .onChange(of: combineWalkingSearch) { value in
+                if value {
+                    appData.searchMode = 1
+                    noWalkingSearch = false
+                } else {
+                    appData.searchMode = 2
+                    noWalkingSearch = true
                 }
             }
             
@@ -58,10 +76,28 @@ struct SearchSetting: View {
                 Text("Khởi hành bây giờ")
                     .font(.headline)
             }
+            .onChange(of: departNow) { value in
+                if value {
+                    appData.userTimeMode = 0
+                    customTime = false
+                } else {
+                    appData.userTimeMode = 1
+                    customTime = true
+                }
+            }
             
             Toggle(isOn: $customTime) {
                 Text("Tự chọn thời gian")
                     .font(.headline)
+            }
+            .onChange(of: customTime) { value in
+                if value {
+                    appData.userTimeMode = 1
+                    departNow = false
+                } else {
+                    appData.userTimeMode = 0
+                    departNow = true
+                }
             }
             
             if customTime {
@@ -69,7 +105,7 @@ struct SearchSetting: View {
                     VStack(alignment: .leading) {
                         Text("Khởi hành lúc")
                             .font(.headline)
-                        Text("\(String(format: "%02d", selectedHour)):\(String(format: "%02d", selectedMinute))")
+                        Text("\(String(format: "%02d", appData.userInputHour)):\(String(format: "%02d", appData.userInputMinute))")
                             .font(.headline)
                             .bold()
                     }
@@ -94,7 +130,7 @@ struct SearchSetting: View {
                     .font(.headline)
                     .padding()
                 HStack {
-                    Picker(selection: $selectedHour, label: Text("Hour")) {
+                    Picker(selection: $appData.userInputHour, label: Text("Hour")) {
                         ForEach(0..<24) { hour in
                             Text("\(hour)").tag(hour)
                         }
@@ -102,7 +138,7 @@ struct SearchSetting: View {
                     .pickerStyle(WheelPickerStyle())
                     .frame(maxWidth: .infinity)
 
-                    Picker(selection: $selectedMinute, label: Text("Minute")) {
+                    Picker(selection: $appData.userInputMinute, label: Text("Minute")) {
                         ForEach(0..<60) { minute in
                             Text("\(minute)").tag(minute)
                         }
@@ -123,4 +159,5 @@ struct SearchSetting: View {
         }
     }
 }
+
 
