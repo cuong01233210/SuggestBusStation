@@ -24,7 +24,7 @@ struct InputView: View {
             }
         }
     }
-
+    
     var body: some View {
         NavigationView {
             
@@ -126,7 +126,7 @@ struct InputView: View {
                         
                         Section {
                             Text("Chọn địa điểm trên bản đồ")
-                               // .background(Color.green)
+                            // .background(Color.green)
                                 .foregroundColor(Color.green)
                                 .onTapGesture {
                                     showLocationPicker = true
@@ -136,7 +136,7 @@ struct InputView: View {
                                 }
                         } header: {
                             Text("Chọn địa điểm trên bản đồ")
-                                
+                            
                         }
                     }
                 } else {
@@ -145,9 +145,9 @@ struct InputView: View {
                             Text(place.name).bold()
                             Text(place.category)
                                 .foregroundColor(.gray)
-//                            Text("Latitude: \(place.lat), Longitude: \(place.long)")
-//                                .font(.system(size: 12))
-//                                .foregroundColor(.blue)
+                            //                            Text("Latitude: \(place.lat), Longitude: \(place.long)")
+                            //                                .font(.system(size: 12))
+                            //                                .foregroundColor(.blue)
                         }.onTapGesture {
                             if appData.inputFlag == 1 {
                                 appData.startPlace = place

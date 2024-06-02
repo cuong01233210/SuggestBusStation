@@ -9,10 +9,7 @@
 
 import SwiftUI
 import MapKit
-struct SearchResult {
-    var name: String
-    var description: String
-}
+
 
 struct SearchView: View {
     @Binding var showSearchView : Bool
@@ -26,22 +23,24 @@ struct SearchView: View {
     @ObservedObject var locationManager = LocationManager.shared
     @State private var showInputView = false
     @EnvironmentObject var appData: AppData
-    @State private var searchResults: [SearchResult] = []
+    @State private var searchResults: [ResultRoute] = []
     @State private var showError = false
+    
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
                     VStack(spacing: 0) {
                         inputFields()
-                            .frame(height: geometry.size.height * 0.3) // Adjust this value to change the space taken by input fields
+                            .frame(height: geometry.size.height * 0.25) // Adjust this value to change the space taken by input fields
                         Color.clear  // Invisible spacer
                             .frame(height: geometry.size.height * 0.05)
                         //                        MapView(region: $region)
                         //                        .edgesIgnoringSafeArea(.bottom)
                         
                         resultsList()
-                            //.frame(height: geometry.size.height * 0.7) // Adjust this value to change the space taken by the map
+                        //.frame(height: geometry.size.height * 0.65)
+                        //.frame(height: geometry.size.height * 0.7) // Adjust this value to change the space taken by the map
                     }
                     .navigationTitle("Tìm đường")
                     .toolbar {
@@ -61,7 +60,7 @@ struct SearchView: View {
                         if let location = locationManager.userLocation {
                             appData.startPlace = Place(name: "Vị trí hiện tại", category: "", lat: location.coordinate.latitude, long: location.coordinate.longitude)
                         }
-                       
+                        
                     }
                 }
             }
@@ -70,10 +69,12 @@ struct SearchView: View {
     }
     
     private func inputFields() -> some View {
-        VStack {
+        VStack(spacing: 0) {
             inputField(imageName: "location.circle", text: "Điểm xuất phát: \(appData.startPlace.name)", flag: 1)
             inputField(imageName: "mappin.circle", text: "Điểm đến: \(appData.endPlace.name)", flag: 2)
+            
             routeButtons()
+                .padding(.vertical, 8)
         }
     }
     
@@ -86,7 +87,7 @@ struct SearchView: View {
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(10)
-        .padding()
+        .padding(4)
         .onTapGesture {
             showInputView = true
             appData.inputFlag = flag
@@ -146,47 +147,60 @@ struct SearchView: View {
                     Text("Kết quả tìm kiếm")
                         .font(.headline)
                         .fontWeight(.bold)
-                        .padding([.horizontal, .top])  // Đảm bảo có padding trên cùng và hai bên
-
-                    List(searchResults, id: \.name) { result in
-                        VStack(alignment: .leading) {
-                            Text(result.name)
-                                .font(.headline)
-                            Text(result.description)
-                                .font(.subheadline)
+                        .padding([.horizontal, .top])
+                    
+                    List(0..<searchResults.count, id: \.self) { i in
+                        HStack {
+                            ResultCard(presentData: searchResults[i])
+                            //                                            .onTapGesture {
+                            //                                                selectedIndex = i
+                            //
+                            //                                            }
+                            // Spacer()
                         }
                     }
-                    .listStyle(PlainListStyle())  // Để loại bỏ các khoảng cách và padding mặc định
+                    .listStyle(PlainListStyle())
                 }
+                
             }
         }
     }
-
+    
     func search() async throws {
-            let url = URL(string: "http://localhost:8000/search-route")!
-            
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = "POST"
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            var inputData = InputData(startPlace: appData.startPlace, endPlace: appData.endPlace)
-            guard let encodedInputData = try? JSONEncoder().encode(inputData) else {
-                return
-            }
-            let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encodedInputData)
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
-                
-                print("Error \(errorData)")
-                throw URLError(.cannotParseResponse)
-            }
-            
-            
-//            let jsonData =  try JSONDecoder().decode(Todos.self, from: data)
-//            print(jsonData.message)
-//            todos = jsonData.todos
+        searchResults = []
+        let url = URL(string: "http://localhost:8000/search-route")!
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if appData.userTimeMode == 0 {
+            let currentDate = Date()
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: currentDate)
+            let minute = calendar.component(.minute, from: currentDate)
+            print(hour, " ", minute)
+            appData.userInputHour = hour
+            appData.userInputMinute = minute
         }
-           
-      
+        var inputData = InputData(startPlace: appData.startPlace, endPlace: appData.endPlace, searchMode: appData.searchMode, userInputHour: appData.userInputHour, userInputMinute: appData.userInputMinute)
+        guard let encodedInputData = try? JSONEncoder().encode(inputData) else {
+            return
+        }
+        let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encodedInputData)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        
+        let jsonData = try JSONDecoder().decode(ResultRoutes.self, from: data)
+        
+        print(jsonData)
+        searchResults = jsonData.resultRoutes
+    }
+    
+    
 }
 

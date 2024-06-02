@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SearchSetting: View {
-    @State private var noWalkingSearch = false
-    @State private var combineWalkingSearch = true
+    @State private var noWalkingSearch = true
+    @State private var combineWalkingSearch = false
     @State private var departNow = true
     @State private var customTime = false
     @State private var showPicker = false
@@ -39,10 +39,10 @@ struct SearchSetting: View {
             }
             .onChange(of: noWalkingSearch) { value in
                 if value {
-                    appData.searchMode = 2
+                    appData.searchMode = 1
                     combineWalkingSearch = false
                 } else {
-                    appData.searchMode = 1
+                    appData.searchMode = 2
                     combineWalkingSearch = true
                 }
             }
@@ -58,10 +58,10 @@ struct SearchSetting: View {
             }
             .onChange(of: combineWalkingSearch) { value in
                 if value {
-                    appData.searchMode = 1
+                    appData.searchMode = 2
                     noWalkingSearch = false
                 } else {
-                    appData.searchMode = 2
+                    appData.searchMode = 1
                     noWalkingSearch = true
                 }
             }
@@ -137,7 +137,7 @@ struct SearchSetting: View {
                     }
                     .pickerStyle(WheelPickerStyle())
                     .frame(maxWidth: .infinity)
-
+                    
                     Picker(selection: $appData.userInputMinute, label: Text("Minute")) {
                         ForEach(0..<60) { minute in
                             Text("\(minute)").tag(minute)
