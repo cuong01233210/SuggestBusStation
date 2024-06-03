@@ -1,10 +1,3 @@
-//
-//  ShowDataBusStation.swift
-//  SuggestBusStation
-//
-//  Created by Macbook Pro on 06/01/2024.
-//
-
 import SwiftUI
 
 struct ShowDataBusStation: View {
@@ -21,163 +14,22 @@ struct ShowDataBusStation: View {
     @State private var isInvalidInputAlertPresented = false
     @State private var successAlert = false
     @State private var showUpdateAlert = false
-    @State private var newStation = BusStation(name: "", bus: [], lat: 0.0, long: 0.0, district: "", id: "")
+    @State private var newStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0, id: "")
     var busStation: BusStation
+    
     var body: some View {
-        if editedSetup == false {
-            NavigationView {
-                ProgressView("Loading ...")
-                    .onAppear {
-                        Task {
-                            do {
-                                newStation.name = busStation.name
-                                newStation.bus = busStation.bus
-                                newStation.lat = busStation.lat
-                                newStation.long = busStation.long
-                                newStation.district = busStation.district
-                                newStation.id = busStation.id
-                                // Set hasReceivedData only after the data is received
-                                editedSetup = true
-                            } catch {
-                                print(error.localizedDescription)
-                            }
-                        }
-                    }
-                    .toolbar {
-                        ToolbarItemGroup(placement: .navigationBarLeading) {
-                            Button {
-                                hasReceivedData = false
-                                showDataBusStation.toggle()
-                            } label: {
-                                Image(systemName: "arrowshape.backward.fill")
-                            }
-                        }
-                    }
-                    .accentColor(.red)
+        Group {
+            if !editedSetup {
+                LoadingView
+            } else {
+                ContentView
             }
         }
-        NavigationView {
-            List {
-                Section(header: Text("Tên trạm")){
-                    if isEditing {
-                        TextEditor(text: $editedName)
-                            .lineLimit(nil) // Loại bỏ giới hạn số dòng
-                    } else {
-                        Text(newStation.name)
-                    }
-                }
-                Section(header: Text("Các tuyến xe buýt đi qua")){
-                    if isEditing {
-                        TextEditor(text: $editedBus)
-                    } else {
-                        ForEach(0..<newStation.bus.count, id: \.self) { index in
-                            if index % 5 == 0 {
-                                let endIndex = Swift.min(index + 5, newStation.bus.count)
-                                let chunk = newStation.bus[index..<endIndex]
-                                Text("Bus List: \(chunk.joined(separator: ", "))")
-                                // .foregroundColor(.gray) // Tùy chỉnh màu sắc nếu cần
-                            }
-                        }
-                    }
-                }
-                Section(header: Text("Toạ độ của trạm")){
-                    if isEditing {
-                        HStack {
-                            Text("Toạ độ latitude")
-                            TextEditor(text: $editedLat)
-                        }
-                        HStack {
-                            Text("Toạ độ longitude")
-                            TextEditor(text: $editedLong)
-                        }
-                    }
-                    else {
-                        Text("Toạ độ latitude: \(newStation.lat)")
-                        Text("Toạ độ longitude: \(newStation.long)")
-                    }
-                }
-                Section(header: Text("Khu vực")){
-                    if isEditing{
-                        TextEditor(text: $editedDistrict)
-                    } else {
-                        Text("Quận: \(newStation.district)")
-                    }
-                }
-                
-                
+        .onAppear {
+            if !editedSetup {
+                setupEditedStation()
             }
-            .navigationTitle("Thông tin chi tiết")
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Button {
-                        hasReceivedData = false
-                        showDataBusStation.toggle()
-                    } label: {
-                        Image(systemName: "arrowshape.backward.fill")
-                    }
-                }
-                ToolbarItemGroup(placement: .navigationBarTrailing){
-                    if isEditing == true {
-                        Button {
-                            showUpdateAlert.toggle()
-                        } label: {
-                            Text("Lưu thay đổi")
-                        }
-                        .alert(isPresented: $showUpdateAlert) {
-                            Alert(
-                                title: Text("Thêm trạm"),
-                                message: Text("Bạn có chắc muốn sửa thông tin trạm này?"),
-                                primaryButton: .destructive(Text("OK")) {
-                                    // Gọi hàm delete khi người dùng ấn OK
-                                    Task {
-                                        do{
-                                            try await update()
-                                        }
-                                        catch{
-                                            print("Error: \(error)")
-                                        }
-                                    }
-                                },
-                                secondaryButton: .cancel()
-                            )
-                        }
-                    }
-                    Image(systemName: "pencil.circle")
-                        .onTapGesture {
-                            editedName = busStation.name
-                            editedBus = busStation.bus.joined(separator: ", ")
-                            editedLat = String(busStation.lat)
-                            editedLong = String(busStation.long)
-                            editedDistrict = busStation.district
-                            isEditing = true
-                        }
-                    
-                    Button {
-                        showDeleteAlert.toggle()
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    .alert(isPresented: $showDeleteAlert) {
-                        Alert(
-                            title: Text("Xóa trạm"),
-                            message: Text("Bạn có chắc muốn xóa trạm này?"),
-                            primaryButton: .destructive(Text("OK")) {
-                                // Gọi hàm delete khi người dùng ấn OK
-                                Task {
-                                    do {
-                                        try await delete()
-                                    } catch {
-                                        print("Error deleting: \(error)")
-                                    }
-                                }
-                            },
-                            secondaryButton: .cancel()
-                        )
-                    }
-                }
-            }.accentColor(.red)
         }
-        
         .alert(isPresented: $isInvalidInputAlertPresented) {
             Alert(
                 title: Text("Nhập sai định dạng"),
@@ -193,48 +45,190 @@ struct ShowDataBusStation: View {
             )
         }
     }
+    
+    private var LoadingView: some View {
+        NavigationView {
+            ProgressView("Loading ...")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            hasReceivedData = false
+                            showDataBusStation.toggle()
+                        } label: {
+                            Image(systemName: "arrowshape.backward.fill")
+                        }
+                    }
+                }
+                .accentColor(.red)
+        }
+    }
+    
+    private var ContentView: some View {
+        NavigationView {
+            List {
+                Section(header: Text("Tên trạm")) {
+                    if isEditing {
+                        TextEditor(text: $editedName)
+                    } else {
+                        Text(newStation.name)
+                    }
+                }
+                Section(header: Text("Các tuyến xe buýt đi qua")) {
+                    if isEditing {
+                        TextEditor(text: $editedBus)
+                    } else {
+                        ForEach(0..<newStation.buses.count, id: \.self) { index in
+                            if index % 5 == 0 {
+                                let endIndex = Swift.min(index + 5, newStation.buses.count)
+                                let chunk = newStation.buses[index..<endIndex]
+                                Text("Buses List: \(chunk.joined(separator: ", "))")
+                            }
+                        }
+                    }
+                }
+                Section(header: Text("Toạ độ của trạm")) {
+                    if isEditing {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Toạ độ latitude")
+                                TextEditor(text: $editedLat)
+                            }
+                            HStack {
+                                Text("Toạ độ longitude")
+                                TextEditor(text: $editedLong)
+                            }
+                        }
+                    } else {
+                        VStack(alignment: .leading) {
+                            Text("Toạ độ latitude: \(newStation.lat)")
+                            Text("Toạ độ longitude: \(newStation.long)")
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Thông tin chi tiết")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        hasReceivedData = false
+                        showDataBusStation.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.backward.fill")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack {
+                        if isEditing {
+                            Button {
+                                showUpdateAlert.toggle()
+                            } label: {
+                                Text("Lưu thay đổi")
+                            }
+                            .alert(isPresented: $showUpdateAlert) {
+                                Alert(
+                                    title: Text("Thêm trạm"),
+                                    message: Text("Bạn có chắc muốn sửa thông tin trạm này?"),
+                                    primaryButton: .destructive(Text("OK")) {
+                                        Task {
+                                            do {
+                                                try await update()
+                                            } catch {
+                                                print("Error: \(error)")
+                                            }
+                                        }
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
+                        }
+                        Image(systemName: "pencil.circle")
+                            .onTapGesture {
+                                editedName = busStation.name
+                                editedBus = busStation.buses.joined(separator: ", ")
+                                editedLat = String(busStation.lat)
+                                editedLong = String(busStation.long)
+                                isEditing = true
+                            }
+                        Button {
+                            showDeleteAlert.toggle()
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .alert(isPresented: $showDeleteAlert) {
+                            Alert(
+                                title: Text("Xóa trạm"),
+                                message: Text("Bạn có chắc muốn xóa trạm này?"),
+                                primaryButton: .destructive(Text("OK")) {
+                                    Task {
+                                        do {
+                                            try await delete()
+                                        } catch {
+                                            print("Error deleting: \(error)")
+                                        }
+                                    }
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                    }
+                }
+            }
+            .accentColor(.red)
+        }
+    }
+    
+    private func setupEditedStation() {
+        newStation.name = busStation.name
+        newStation.buses = busStation.buses
+        newStation.lat = busStation.lat
+        newStation.long = busStation.long
+        newStation.id = busStation.id
+        editedSetup = true
+    }
 
-     func update() async throws {
+    func update() async throws {
         let url = URL(string: "http://localhost:8000/update-bus-station")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-         let busNumbers = editedBus.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
-         var newLat: Double = 0.0
-         var newLong : Double = 0.0
-         if let value = Double(editedLat) {
+        let busNumbers = editedBus.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
+        var newLat: Double = 0.0
+        var newLong: Double = 0.0
+        
+        if let value = Double(editedLat) {
             newLat = value
-         } else {
-             isInvalidInputAlertPresented = true
-         }
-         
-         if let value = Double(editedLong) {
+        } else {
+            isInvalidInputAlertPresented = true
+        }
+        
+        if let value = Double(editedLong) {
             newLong = value
-         } else {
-             isInvalidInputAlertPresented = true
-         }
-         newStation.name = editedName
-         newStation.bus = busNumbers
-         newStation.lat = newLat
-         newStation.long = newLong
-         newStation.district = editedDistrict
+        } else {
+            isInvalidInputAlertPresented = true
+        }
+        
+        newStation.name = editedName
+        newStation.buses = busNumbers
+        newStation.lat = newLat
+        newStation.long = newLong
+        
 
-        print(newStation)
         guard let encoded = try? JSONEncoder().encode(newStation) else {
             return
         }
+        
         let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
-            
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-
-         successAlert = true
-         isEditing = false
+        
+        successAlert = true
+        isEditing = false
     }
+
     func delete() async throws {
         let url = URL(string: "http://localhost:8000/delete-bus-station")!
         var urlRequest = URLRequest(url: url)
@@ -244,20 +238,17 @@ struct ShowDataBusStation: View {
         guard let encoded = try? JSONEncoder().encode(busStation) else {
             return
         }
+        
         let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
-            
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-        let jsonData =  try JSONDecoder().decode(Message.self, from: data)
+        
+        let jsonData = try JSONDecoder().decode(Message.self, from: data)
         print(jsonData)
         hasReceivedData = false
         showDataBusStation.toggle()
     }
-    
 }
-//#Preview {
-//    ShowDataBusStation()
-//}
