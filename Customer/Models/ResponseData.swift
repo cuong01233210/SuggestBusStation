@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct ReturnRoute: Codable {
+struct ReturnRoute: Codable, Identifiable {
+    var id: UUID { UUID() }
     let source: String
     let destination: String
     let buses: [String]
@@ -21,7 +22,8 @@ struct ReturnRoute: Codable {
     }
 }
 
-struct ResultRoute: Codable {
+struct ResultRoute: Codable, Identifiable {
+    var id: UUID { UUID() }
     let startStation: String
     let endStation: String
     let buses: [String]
