@@ -238,7 +238,7 @@ struct SearchView: View {
             appData.userInputHour = hour
             appData.userInputMinute = minute
         }
-        var inputData = InputData(startPlace: appData.startPlace, endPlace: appData.endPlace, searchMode: appData.searchMode, userInputHour: appData.userInputHour, userInputMinute: appData.userInputMinute)
+        let inputData = InputData(startPlace: appData.startPlace, endPlace: appData.endPlace, searchMode: appData.searchMode, userInputHour: appData.userInputHour, userInputMinute: appData.userInputMinute)
         guard let encodedInputData = try? JSONEncoder().encode(inputData) else {
             return
         }
@@ -252,7 +252,7 @@ struct SearchView: View {
         
         let jsonData = try JSONDecoder().decode(ResultRoutes.self, from: data)
         
-        print(jsonData)
+        
         searchResults = jsonData.resultRoutes
     }
     
