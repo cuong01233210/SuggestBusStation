@@ -50,10 +50,10 @@ struct ShowDataBusStationV2: View {
                         Text(busStation.name)
                     }
                     Section(header: Text("Các tuyến xe buýt đi qua")){
-                        ForEach(0..<busStation.bus.count, id: \.self) { index in
+                        ForEach(0..<busStation.buses.count, id: \.self) { index in
                             if index % 5 == 0 {
-                                let endIndex = Swift.min(index + 5, busStation.bus.count)
-                                let chunk = busStation.bus[index..<endIndex]
+                                let endIndex = Swift.min(index + 5, busStation.buses.count)
+                                let chunk = busStation.buses[index..<endIndex]
                                 Text("Bus List: \(chunk.joined(separator: ", "))")
                                 // .foregroundColor(.gray) // Tùy chỉnh màu sắc nếu cần
                             }
@@ -63,9 +63,7 @@ struct ShowDataBusStationV2: View {
                         Text("Toạ độ latitude: \(busStation.lat)")
                         Text("Toạ độ longitude: \(busStation.long)")
                     }
-                    Section(header: Text("Khu vực")){
-                        Text("Quận: \(busStation.district)")
-                    }
+                    
                     
                     
                 }

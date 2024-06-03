@@ -8,10 +8,9 @@
 import Foundation
 struct BusStation: Codable {
     var name: String
-    var bus: [String]
+    var buses: [String]
     var lat: Double
     var long: Double
-    var district: String
     var id: String
 }
 struct BusStations: Codable {
