@@ -22,6 +22,9 @@ class AppData: ObservableObject {
     @Published var managedBuses: [Bus] = [] // tuyen bus duoc quan ly
     @Published var managedStations: [BusStation] = []
     @Published var loadDataStationsManage : Bool = false
+    @Published var userRole : String = ""
+    @Published var token: String = ""
+    @Published var hasUpdatedPreStations : Bool = false
     init() {
         self.outputData = OutputData(
             route: "test",

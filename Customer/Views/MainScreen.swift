@@ -74,14 +74,15 @@ struct MainScreen: View {
                             busStationsManageV2.toggle()
                         }
                         .fullScreenCover(isPresented: $busStationsManageV2) {
-                            BusStationsManageV2(busStationsManageV2: $busStationsManageV2, token: $token)
+//                            BusStationsManageV2(busStationsManageV2: $busStationsManageV2, token: $token)
+                            BusStationsManage(busStationsManage: $busStationsManageV2)
                         }
                     ItemView(name: "Trạm xe buýt yêu thích", systemName: "house.and.flag.fill")
                         .onTapGesture {
                             showPreferenceStations.toggle()
                         }
                         .fullScreenCover(isPresented: $showPreferenceStations) {
-                            PreferenceStations(showPreferenceStations: $showPreferenceStations, token: $token)
+                            PreferenceStations(showPreferenceStations: $showPreferenceStations)
                         }
                     ItemView(name: "Thông tin về app")
                 }
@@ -107,52 +108,3 @@ struct MainScreen: View {
     
 }
 
-struct AnotherView1: View {
-    @Binding var isPresentingAnotherView1: Bool
-
-    var body: some View {
-        VStack {
-            Text("Another View")
-            Button("Đóng") {
-                isPresentingAnotherView1 = false
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-    }
-}
-struct AnotherView2: View {
-    @Binding var isPresentingAnotherView2: Bool
-
-    var body: some View {
-        VStack {
-            Text("Another View2")
-            Button("Đóng") {
-                isPresentingAnotherView2 = false
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-    }
-}
-
-
-
-//            List {
-//                Text("Tìm kiếm trạm và tuyến đường")
-//                    .onTapGesture {
-//                        isPresentingAnotherView.toggle()
-//                    }
-//                    .fullScreenCover(isPresented: $isPresentingAnotherView) {
-//                        AnotherView(isPresentingAnotherView: $isPresentingAnotherView)
-//                    }
-//                padding()
-//                Text("Đánh giá")
-//                    .onTapGesture {
-//                        isPresentingAnotherView2.toggle()
-//                    }
-//                    .fullScreenCover(isPresented: $isPresentingAnotherView2) {
-//                        AnotherView2(isPresentingAnotherView2: $isPresentingAnotherView2)
-//                    }
-//                Text("Thông tin cá nhân")
-//            }

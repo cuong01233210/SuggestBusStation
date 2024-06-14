@@ -24,6 +24,7 @@ struct BusStationsManage: View {
                             do {
                                 selectedStationIndex = -1
                                 try await getData()
+                                
                                 // Set hasReceivedData only after the data is received
                                 
                                 appData.loadDataStationsManage = true
@@ -91,15 +92,18 @@ struct BusStationsManage: View {
                                 Image(systemName: "arrowshape.backward.fill")
                             }
                         }
-                        ToolbarItemGroup(placement: .navigationBarTrailing) {
-                            Image(systemName: "plus.square.on.square")
-                                .onTapGesture {
-                                    plusStation.toggle()
-                                }
-                                .fullScreenCover(isPresented: $plusStation) {
-                                    PlusStation(plusStation: $plusStation)
-                                }
+                        if appData.userRole == "1"{
+                            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                Image(systemName: "plus.square.on.square")
+                                    .onTapGesture {
+                                        plusStation.toggle()
+                                    }
+                                    .fullScreenCover(isPresented: $plusStation) {
+                                        PlusStation(plusStation: $plusStation)
+                                    }
+                            }
                         }
+                        
                     }
                     .fullScreenCover(isPresented: $showDataBusStation) {
                         ShowDataBusStation(showDataBusStation: $showDataBusStation, busStation: $busStation)
@@ -137,6 +141,8 @@ struct BusStationsManage: View {
         let jsonData  = try JSONDecoder().decode(BusStations.self, from: data)
         appData.managedStations.append(contentsOf: jsonData.busStations)
     }
+    
+    
 }
 
 

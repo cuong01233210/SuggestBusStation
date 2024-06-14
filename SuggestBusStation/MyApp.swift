@@ -12,15 +12,15 @@ struct MyApp: View {
     @State private var isLoggedIn = false
     @State private var token: String = ""
     @State private var email: String = ""
-    @State private var role: String = ""
-    
+    @EnvironmentObject var appData: AppData
+   
     var body: some View {
         if isLoggedIn {
             //MainScreen(isLoggedIn: $isLoggedIn, token: $token, email: $email)
-            if role == "0"{
+            if appData.userRole == "0"{
                 MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
             } else {
-                if role == "1"{
+                if appData.userRole == "1"{
                     StaffDashBoard(isLoggedIn: $isLoggedIn)
                 } else {
                     AdminDashBoard(isLoggedIn: $isLoggedIn)
@@ -28,7 +28,7 @@ struct MyApp: View {
                 
             }
         } else {
-            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email, role: $role )
+            AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email )
         }
     }
 }

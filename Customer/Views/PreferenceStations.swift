@@ -9,14 +9,15 @@ import SwiftUI
 
 struct PreferenceStations: View {
     @Binding var showPreferenceStations : Bool
-    @Binding var token: String
-    @State var hasReceivedData = false
+    
+   
     @State private var showDataBusStationV2 = false
     @State private var selectedStationIndex: Int = -1
     @State private var Ids: [String] = []
     @State var busStations : [BusStation] = []
+    @EnvironmentObject var appData: AppData
     var body: some View {
-        if hasReceivedData == false {
+        if appData.hasUpdatedPreStations == false {
     NavigationView {
         ProgressView("Loading ...")
             .onAppear {
@@ -34,7 +35,7 @@ struct PreferenceStations: View {
                             try await getAllBookmarkData()
                             
                             // Set hasReceivedData only after both functions are completed
-                            hasReceivedData = true
+                            appData.hasUpdatedPreStations = true
                         }
                     } catch {
                         print(error.localizedDescription)
@@ -76,16 +77,18 @@ struct PreferenceStations: View {
                                 // Khi selectedStationIndex thay đổi thì mới cho show màn hình kia
                                 showDataBusStationV2 = true
                             }
-                            .fullScreenCover(isPresented: $showDataBusStationV2) {
-                                ShowDataBusStationV2(showDataBusStationV2: $showDataBusStationV2, token: $token, frontHasReceivedData: $hasReceivedData,  busStation: busStations[selectedStationIndex])
-                            }
-                        }
+                                                    }
                         .tabItem {
                             Text("Page \(pageIndex + 1)")
                         }
                         .tag(pageIndex)
                     }
                 }
+                .fullScreenCover(isPresented: $showDataBusStationV2) {
+
+                    ShowDataBusStation(showDataBusStation: $showDataBusStationV2, busStation: $busStations[selectedStationIndex])
+                }
+
                 .navigationTitle("Trạm xe buýt yêu thích")
                 .toolbar{
                     ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -127,7 +130,7 @@ struct PreferenceStations: View {
         let url = URL(string: "http://localhost:8000/get-all-stations-prefer")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
