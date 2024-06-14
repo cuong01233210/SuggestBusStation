@@ -16,6 +16,7 @@ struct ShowDataBusStation: View {
     @State private var successAlert = false
     @State private var showUpdateAlert = false
     @State private var newStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0, id: "")
+    @State private var isLoved = false
     @EnvironmentObject var appData: AppData
     
     var body: some View {
@@ -26,7 +27,7 @@ struct ShowDataBusStation: View {
                 ContentView
             }
         }
-
+        
         .alert(isPresented: $isInvalidInputAlertPresented) {
             Alert(
                 title: Text("Nhập sai định dạng"),
@@ -54,6 +55,11 @@ struct ShowDataBusStation: View {
                         newStation.long = busStation.long
                         newStation.id = busStation.id
                         editedSetup = true
+                        do {
+                            try await getAllBookmark()
+                        }catch {
+                            print(error.localizedDescription)
+                        }
                     }
                 }
                 .toolbar {
@@ -117,30 +123,66 @@ struct ShowDataBusStation: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                       
+                        appData.hasUpdatedPreStations = false
                         showDataBusStation.toggle()
                     } label: {
                         Image(systemName: "arrowshape.backward.fill")
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        if isEditing {
-                            Button {
-                                showUpdateAlert.toggle()
-                            } label: {
-                                Text("Lưu thay đổi")
+                if appData.userRole == "1"{
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        HStack {
+                            if isEditing {
+                                Button {
+                                    showUpdateAlert.toggle()
+                                } label: {
+                                    Text("Lưu thay đổi")
+                                }
+                                .alert(isPresented: $showUpdateAlert) {
+                                    Alert(
+                                        title: Text("Thêm trạm"),
+                                        message: Text("Bạn có chắc muốn sửa thông tin trạm này?"),
+                                        primaryButton: .destructive(Text("OK")) {
+                                            Task {
+                                                do {
+                                                    try await update()
+                                                } catch {
+                                                    print("Error: \(error)")
+                                                }
+                                            }
+                                        },
+                                        secondaryButton: .cancel()
+                                    )
+                                }
                             }
-                            .alert(isPresented: $showUpdateAlert) {
+                            Image(systemName: "pencil.circle")
+                                .onTapGesture {
+                                    if isEditing == false {
+                                        editedName = busStation.name
+                                        editedBus = busStation.buses.joined(separator: ", ")
+                                        editedLat = String(busStation.lat)
+                                        editedLong = String(busStation.long)
+                                        isEditing = true
+                                    }
+                                    else {
+                                        isEditing = false
+                                    }
+                                }
+                            Button {
+                                showDeleteAlert.toggle()
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                            .alert(isPresented: $showDeleteAlert) {
                                 Alert(
-                                    title: Text("Thêm trạm"),
-                                    message: Text("Bạn có chắc muốn sửa thông tin trạm này?"),
+                                    title: Text("Xóa trạm"),
+                                    message: Text("Bạn có chắc muốn xóa trạm này?"),
                                     primaryButton: .destructive(Text("OK")) {
                                         Task {
                                             do {
-                                                try await update()
+                                                try await delete()
                                             } catch {
-                                                print("Error: \(error)")
+                                                print("Error deleting: \(error)")
                                             }
                                         }
                                     },
@@ -148,39 +190,39 @@ struct ShowDataBusStation: View {
                                 )
                             }
                         }
-                        Image(systemName: "pencil.circle")
-                            .onTapGesture {
-                                if isEditing == false {
-                                    editedName = busStation.name
-                                    editedBus = busStation.buses.joined(separator: ", ")
-                                    editedLat = String(busStation.lat)
-                                    editedLong = String(busStation.long)
-                                    isEditing = true
-                                }
-                                else {
-                                    isEditing = false
-                                }
-                            }
-                        Button {
-                            showDeleteAlert.toggle()
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                        .alert(isPresented: $showDeleteAlert) {
-                            Alert(
-                                title: Text("Xóa trạm"),
-                                message: Text("Bạn có chắc muốn xóa trạm này?"),
-                                primaryButton: .destructive(Text("OK")) {
+                    }
+                    
+                }else if appData.userRole == "0" {
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        if isLoved == false{
+                            Image(systemName: "heart")
+                                .onTapGesture {
                                     Task {
                                         do {
-                                            try await delete()
+                                            try await bookmark()
+                                            DispatchQueue.main.async {
+                                                isLoved = true
+                                            }
                                         } catch {
-                                            print("Error deleting: \(error)")
+                                            print(error.localizedDescription)
                                         }
                                     }
-                                },
-                                secondaryButton: .cancel()
-                            )
+                                }
+                        } else {
+                            Image(systemName: "heart.fill")
+                                .onTapGesture {
+                                    Task {
+                                        do {
+                                            try await unbookmark()
+                                            DispatchQueue.main.async {
+                                                isLoved = false
+                                            }
+                                            
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                }
                         }
                     }
                 }
@@ -197,7 +239,7 @@ struct ShowDataBusStation: View {
         newStation.id = busStation.id
         editedSetup = true
     }
-
+    
     func update() async throws {
         let url = URL(string: "http://localhost:8000/update-bus-station")!
         var urlRequest = URLRequest(url: url)
@@ -225,7 +267,7 @@ struct ShowDataBusStation: View {
         newStation.lat = newLat
         newStation.long = newLong
         
-
+        
         guard let encoded = try? JSONEncoder().encode(newStation) else {
             return
         }
@@ -241,7 +283,7 @@ struct ShowDataBusStation: View {
         isEditing = false
         
     }
-
+    
     func delete() async throws {
         let url = URL(string: "http://localhost:8000/delete-bus-station")!
         var urlRequest = URLRequest(url: url)
@@ -263,6 +305,75 @@ struct ShowDataBusStation: View {
         
         appData.loadDataStationsManage = false
         showDataBusStation.toggle()
+    }
+    func getAllBookmark() async throws {
+        let url = URL(string: "http://localhost:8000/get-all-stations-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        let jsonData  = try JSONDecoder().decode(UserStationIds.self, from: data)
+        print(jsonData)
+        for jId in jsonData.stationIds {
+            if jId == busStation.id {
+                isLoved = true
+                //print("Mảng chứa chuỗi \(bus)")
+                // Thực hiện hành động cụ thể khi tìm thấy chuỗi '01'
+            }
+        }
+    }
+    func bookmark() async throws {
+        //print("Đã vào hàm bookmark")
+        let url = URL(string: "http://localhost:8000/add-station-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        //print(token)
+        
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        
+        let userStationId = UserStationId(stationId: busStation.id)
+        guard let encoded = try? JSONEncoder().encode(userStationId) else {
+                    return
+        }
+        let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+                    
+                    print("Error \(errorData)")
+                    throw URLError(.cannotParseResponse)
+                }
+        
+       // let jsonData =  try JSONDecoder().decode(Message.self, from: data)
+       // print(jsonData.message)
+    }
+    
+    func unbookmark() async throws {
+        let url = URL(string: "http://localhost:8000/delete-station-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        let userStationId = UserStationId(stationId: busStation.id)
+        guard let encoded = try? JSONEncoder().encode(userStationId) else {
+                    return
+        }
+        let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+                    
+                    print("Error \(errorData)")
+                    throw URLError(.cannotParseResponse)
+                }
+       
+        //let jsonData =  try JSONDecoder().decode(Message.self, from: data)
+       // print(jsonData.message)
     }
 }
 

@@ -46,7 +46,7 @@ struct AuthenticationView: View {
     @Binding var token : String
     @State var showPass: Bool = false
     @Binding var email: String
-    @Binding var role: String
+//    @Binding var role: String
     @EnvironmentObject var appData: AppData
     var body: some View {
         VStack {
@@ -153,8 +153,9 @@ struct AuthenticationView: View {
 //        }
 //        print("data: \(data)")
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
-        role = jsonData.role
-        token = jsonData.token
+//        role = jsonData.role
+        appData.userRole = jsonData.role
+        appData.token = jsonData.token
         isLoggedIn = true
         email = loginUser?.email ?? ""
     }
@@ -181,9 +182,10 @@ struct AuthenticationView: View {
         print("data: \(data)")
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
         
-        token = jsonData.token
+        appData.token = jsonData.token
         isLoggedIn = true
-        role = jsonData.role
+        //role = jsonData.role
+        appData.userRole = jsonData.role
         email = loginUser?.email ?? ""
     }
     

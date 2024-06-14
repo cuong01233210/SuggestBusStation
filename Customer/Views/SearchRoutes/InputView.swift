@@ -45,81 +45,61 @@ struct InputView: View {
                                     placeFlag = 1
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                             Text("Cơ sở giáo dục")
                                 .onTapGesture {
                                     placeFlag = 2
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                             Text("Bệnh viện")
                                 .onTapGesture {
                                     placeFlag = 3
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                             Text("Chợ - Siêu thị")
                                 .onTapGesture {
                                     placeFlag = 4
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                             Text("Nhà sách")
                                 .onTapGesture {
                                     placeFlag = 5
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                             Text("Công viên")
                                 .onTapGesture {
                                     placeFlag = 6
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                                
                             Text("Cơ sở tôn giáo")
                                 .onTapGesture {
                                     placeFlag = 7
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                             Text("Bảo tàng")
                                 .onTapGesture {
                                     placeFlag = 8
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                                
                             Text("Trạm xe buýt")
                                 .onTapGesture {
                                     placeFlag = 9
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                                
                             Text("Khác")
                                 .onTapGesture {
                                     placeFlag = 10
                                     showCategoryInputView = true
                                 }
-                                .fullScreenCover(isPresented: $showCategoryInputView) {
-                                    CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
-                                }
+                               
                         } header: {
                             Text("Danh mục địa điểm")
                         }
@@ -159,6 +139,9 @@ struct InputView: View {
                         }
                     }
                 }
+            }
+            .fullScreenCover(isPresented: $showCategoryInputView) {
+                CategoryInputView(showCategoryInputView: $showCategoryInputView, placeFlag: $placeFlag, showInputView: $showInputView)
             }
             .navigationTitle("Bạn muốn đến đâu?")
             .toolbar {
