@@ -1,26 +1,22 @@
-//
-//  BusStationsManage.swift
-//  SuggestBusStation
-//
-//  Created by Macbook Pro on 06/01/2024.
-//
+
 
 import SwiftUI
 
 
+
 struct BusStationsManage: View {
-    @State var hasReceivedData = false
-    @Binding var busStationsManage : Bool
-    @State var busStations : [BusStation] = []
+    
+    @Binding var busStationsManage: Bool
+    @State var busStations: [BusStation] = []
     @State private var showDataBusStation = false
     @State private var selectedStationIndex = -1
     @State private var plusStation = false
-    //@State var lastTapTime = Date.distantPast
-   
-    //@State var selectedBusStation : BusStation =
-    
+    @State private var searchText: String = ""
+    @State var busStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0, id: "-1")
+    @EnvironmentObject var appData: AppData
+
     var body: some View {
-        if hasReceivedData == false {
+        if appData.loadDataStationsManage == false {
             NavigationView {
                 ProgressView("Loading ...")
                     .onAppear {
@@ -29,7 +25,8 @@ struct BusStationsManage: View {
                                 selectedStationIndex = -1
                                 try await getData()
                                 // Set hasReceivedData only after the data is received
-                                hasReceivedData = true
+                                
+                                appData.loadDataStationsManage = true
                             } catch {
                                 print(error.localizedDescription)
                             }
@@ -48,78 +45,88 @@ struct BusStationsManage: View {
             }
         } else {
             NavigationView {
-                TabView {
-                    let pageNum = busStations.count / 10 + 1
-                    ForEach(0..<pageNum) { pageIndex in
-                        let startIndex = pageIndex * 10
-                        let end = (pageIndex + 1) * 10
-                        let endIndex = min((pageIndex + 1) * 10, busStations.count)
-                        
-                        //let productsPage = Array(busStations[startIndex..<endIndex])
-                        
-                        //ProductPageView(busStations: productsPage)
-                        List (startIndex..<endIndex, id: \.self) { index in
-                            VStack(alignment: .leading){
-                                Text(busStations[index].name)
-                            }
-                            .onTapGesture {
-                                selectedStationIndex = index
-                                //print(selectedStationIndex)
-                                //showDataBusStation = true
-                            }
-                            .onChange(of: selectedStationIndex) { newValue in
-                                
-                                    // Khi selectedStationIndex thay đổi thì mới cho show màn hình kia
-                                    showDataBusStation = true
-                                
-                            }
-                            .fullScreenCover(isPresented: $showDataBusStation) {
-                                ShowDataBusStation(showDataBusStation: $showDataBusStation, hasReceivedData: $hasReceivedData, busStation: busStations[selectedStationIndex])
-                                    .onChange(of: showDataBusStation) { _ in
-                                        // Reset selectedBusIndex to -1 when ShowBusRoute is dismissed
-                                        selectedStationIndex = -1
+                VStack {
+                    // Search bar
+                    TextField("Tìm kiếm trạm xe buýt", text: $searchText)
+                        .padding(7)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+
+                    TabView {
+                        let filteredStations = busStationsFiltered
+                        let pageNum = filteredStations.count / 10 + 1
+                        ForEach(0..<pageNum, id: \.self) { pageIndex in
+                            let startIndex = pageIndex * 10
+                            let endIndex = min((pageIndex + 1) * 10, filteredStations.count)
+
+                            List(startIndex..<endIndex, id: \.self) { index in
+                                VStack(alignment: .leading) {
+                                    Text(filteredStations[index].name)
+                                }
+                                .onTapGesture {
+                                    selectedStationIndex = index
+                                    print("Selected station index: \(selectedStationIndex)")
+                                    
+                                    if let selectedBusStation = filteredStations[safe: selectedStationIndex] {
+                                        print("Selected bus station: \(selectedBusStation.name)")
+                                        busStation = selectedBusStation
+                                        showDataBusStation = true
                                     }
+                                }
+                                
                             }
-                        }
-                        
                             .tabItem {
                                 Text("Page \(pageIndex + 1)")
                             }
                             .tag(pageIndex)
-                    }
-                    
-                    
-                }
-                .navigationTitle("Các trạm xe buýt")
-                .toolbar{
-                    ToolbarItemGroup(placement: .navigationBarLeading) {
-                        Button{
-                            busStationsManage.toggle()
-                        } label: {
-                            Image(systemName: "arrowshape.backward.fill")
                         }
                     }
-                    
-                    ToolbarItemGroup(placement: .navigationBarTrailing){
-                        Image(systemName: "plus.square.on.square")
-                            .onTapGesture {
-                                plusStation.toggle()
+                    .navigationTitle("Các trạm xe buýt")
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarLeading) {
+                            Button {
+                                busStationsManage.toggle()
+                            } label: {
+                                Image(systemName: "arrowshape.backward.fill")
                             }
-                            .fullScreenCover(isPresented: $plusStation) {
-                                PlusStation(plusStation: $plusStation, hasReceivedData: $hasReceivedData)
+                        }
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            Image(systemName: "plus.square.on.square")
+                                .onTapGesture {
+                                    plusStation.toggle()
+                                }
+                                .fullScreenCover(isPresented: $plusStation) {
+                                    PlusStation(plusStation: $plusStation)
+                                }
+                        }
+                    }
+                    .fullScreenCover(isPresented: $showDataBusStation) {
+                        ShowDataBusStation(showDataBusStation: $showDataBusStation, busStation: $busStation)
+                            .onDisappear {
+                                selectedStationIndex = -1
                             }
                     }
+                    .accentColor(.red)
                 }
-                .accentColor(.red)
             }
         }
     }
+
+    var busStationsFiltered: [BusStation] {
+        if searchText.isEmpty {
+            return appData.managedStations
+        } else {
+            return appData.managedStations.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+
     func getData() async throws {
-        busStations = []
+        appData.managedStations = []
         let url = URL(string: "http://localhost:8000/get-all-bus-stations")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
@@ -128,26 +135,14 @@ struct BusStationsManage: View {
             throw URLError(.cannotParseResponse)
         }
         let jsonData  = try JSONDecoder().decode(BusStations.self, from: data)
-       // print(jsonData)
-        busStations.append(contentsOf: jsonData.busStations)
+        appData.managedStations.append(contentsOf: jsonData.busStations)
     }
 }
-//#Preview {
-//    BusStationsManage()
-//}
 
-struct BusStationPageView: View {
-    let busStations: [BusStation]
 
-    var body: some View {
-        List{
-            // Hoặc sử dụng indices
-            ForEach(busStations.indices) { index in
-                VStack (alignment: .leading) {
-                    Text(busStations[index].name)
-                }
-                
-            }
-        }
+
+extension Collection {
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
