@@ -20,7 +20,12 @@ struct MyApp: View {
             if role == "0"{
                 MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
             } else {
-                StaffDashBoard(isLoggedIn: $isLoggedIn)
+                if role == "1"{
+                    StaffDashBoard(isLoggedIn: $isLoggedIn)
+                } else {
+                    AdminDashBoard(isLoggedIn: $isLoggedIn)
+                }
+                
             }
         } else {
             AuthenticationView(isLoggedIn: $isLoggedIn, token: $token, email: $email, role: $role )

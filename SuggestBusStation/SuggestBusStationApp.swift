@@ -18,6 +18,8 @@ class AppData: ObservableObject {
     @Published var userInputHour: Int = 0
     @Published var userInputMinute: Int = 0
     @Published var inputFlag : Int
+    @Published var loadDataBusesManage : Int = 0 // chua load
+    @Published var managedBuses: [Bus] = [] // tuyen bus duoc quan ly
     init() {
         self.outputData = OutputData(
             route: "test",

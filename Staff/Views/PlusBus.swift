@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PlusBus: View {
     @Binding var plusBus: Bool
-    @Binding var hasReceivedData: Bool
+    @EnvironmentObject var appData: AppData
     @State var newBus : BusFullData = BusFullData(bus: "", price: 0, activityTime: "", gianCachChayXe: "", chieuDi: [], chieuVe: [])
     @State var sprice: String = "0"
     @State private var isInvalidInputAlertPresented = false
@@ -49,7 +49,6 @@ struct PlusBus: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
-                        hasReceivedData = false
                         plusBus.toggle()
                     } label: {
                         Image(systemName: "arrowshape.backward.fill")
@@ -142,6 +141,7 @@ struct PlusBus: View {
                 }
         let jsonData =  try JSONDecoder().decode(Message.self, from: data)
         print(jsonData)
+        appData.loadDataBusesManage = 0
         successAlert = true
     }
 }

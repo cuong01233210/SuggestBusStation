@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct ShowBusRoute: View {
-    let bus : String
+    @Binding var bus : String
     @Binding var showBusRoute: Bool
    // @State var isLoved = false
     @State var hasReceivedData = false
@@ -19,8 +19,9 @@ struct ShowBusRoute: View {
     @State var chieuVe: [String] = []
     @State var showChieuDi = true
     //@Binding var token : String
-    @Binding var frontHasReceivedData: Bool
+   
     @State var showDeleteAlert = false
+    @EnvironmentObject var appData : AppData
     var body: some View {
         if hasReceivedData == false {
             NavigationView {
@@ -41,7 +42,7 @@ struct ShowBusRoute: View {
                     .toolbar{
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             Button {
-                                frontHasReceivedData = false
+                                
                                 showBusRoute.toggle()
                             } label: {
                                 Image(systemName: "arrowshape.backward.fill")
@@ -124,7 +125,7 @@ struct ShowBusRoute: View {
                             }
                             ToolbarItemGroup(placement: .navigationBarLeading) {
                                 Button {
-                                    frontHasReceivedData = false
+                                   
                                     showBusRoute.toggle()
                                 } label: {
                                     Image(systemName: "arrowshape.backward.fill")
@@ -179,7 +180,7 @@ struct ShowBusRoute: View {
                             }
                             ToolbarItemGroup(placement: .navigationBarLeading) {
                                 Button {
-                                    frontHasReceivedData = false
+                                   
                                     showBusRoute.toggle()
                                 } label: {
                                     Image(systemName: "arrowshape.backward.fill")
@@ -229,8 +230,9 @@ struct ShowBusRoute: View {
         }
         let jsonData =  try JSONDecoder().decode(Message.self, from: data)
         //print(jsonData)
-        frontHasReceivedData = false
+        
         showBusRoute.toggle()
+        appData.loadDataBusesManage = 0
     }
     
     

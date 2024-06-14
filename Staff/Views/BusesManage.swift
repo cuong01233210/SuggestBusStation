@@ -1,106 +1,118 @@
-//
-//  BusesManage.swift
-//  SuggestBusStation
-//
-//  Created by Macbook Pro on 10/01/2024.
-//
-
 import SwiftUI
-
 struct BusesManage: View {
-    @State var hasReceivedData = false
+    
     @Binding var showBusesManage: Bool
     //@Binding var token: String
-    @State var buses : [Bus] = []
+    //@State var buses: [Bus] = []
     @State var showBusRoute = false
     @State var plusBus = false
-    @State private var selectedBusIndex: Int = -1
+    @State private var selectedBus: Bus?
+    @State private var searchText: String = ""
+    @State private var selectedBusName : String = "00"
+    @EnvironmentObject private var appData: AppData
     
     var body: some View {
-        if !hasReceivedData {
+        if appData.loadDataBusesManage == 0 {
             NavigationView {
                 ProgressView("Loading ...")
                     .onAppear {
                         Task {
                             do {
-                                selectedBusIndex = -1
+                                selectedBus = nil
                                 try await getBuses()
                                 // Set hasReceivedData only after the data is received
-                                hasReceivedData = true
+                                
+                                appData.loadDataBusesManage = 1
                             } catch {
                                 print(error.localizedDescription)
                             }
                         }
                     }
                     .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarLeading) {
-                        Button {
-                            showBusesManage.toggle()
-                        } label: {
-                            Image(systemName: "arrowshape.backward.fill")
+                        ToolbarItemGroup(placement: .navigationBarLeading) {
+                            Button {
+                                showBusesManage.toggle()
+                            } label: {
+                                Image(systemName: "arrowshape.backward.fill")
+                            }
                         }
                     }
-                }
-                .accentColor(.red)
+                    .accentColor(.red)
             }
         } else {
             NavigationView {
-                List (0..<buses.count, id: \.self) { index in
+                VStack {
+                    // Search bar
+                    TextField("Tìm kiếm tuyến xe", text: $searchText)
+                        .padding(7)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
                     
+                    List(filteredBuses) { bus in
                         VStack(alignment: .leading) {
-                            Text("Tuyến số \(buses[index].bus)")
+                            Text("Tuyến số \(bus.bus)")
                                 .bold()
                                 .font(.system(size: 20))
                                 .foregroundColor(.red)
-                            Text("Giá vé \(buses[index].price)")
+                            Text("Giá vé \(bus.price)")
                             HStack {
-                                Text(buses[index].activityTime)
+                                Text(bus.activityTime)
                                     .padding(.trailing, 20)
-                                Text(buses[index].gianCachChayXe)
+                                Text(bus.gianCachChayXe)
                             }
                         }
                         .onTapGesture {
-                            selectedBusIndex = index
-                        }
-                        .onChange(of: selectedBusIndex) {  newValue in
-                            showBusRoute = true
-                        }
-                        .fullScreenCover(isPresented: $showBusRoute) {
-                            ShowBusRoute(bus: String(buses[selectedBusIndex].bus), showBusRoute: $showBusRoute, frontHasReceivedData: $hasReceivedData)
-                                
-                        }
-                    
-                }
-                
-
-                .navigationTitle("Thông tin các tuyến xe")
-                .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Button {
-                        showBusesManage.toggle()
-                    } label: {
-                        Image(systemName: "arrowshape.backward.fill")
-                    }
-                }
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Image(systemName: "plus.square.on.square")
-                            .onTapGesture {
-                                plusBus.toggle()
+                            selectedBus = bus
+                           
+                            if let selectedBus = selectedBus {
+                                selectedBusName = String(selectedBus.bus)
+                               
+                                showBusRoute = true
                             }
-                            .fullScreenCover(isPresented: $plusBus) {
-                                PlusBus(plusBus: $plusBus, hasReceivedData: $hasReceivedData)
-                            }
-                        
+                        }
                     }
+                    .fullScreenCover(isPresented: $showBusRoute) {
+                        Group {
+                            ShowBusRoute(bus: $selectedBusName, showBusRoute: $showBusRoute)
+                          
+                        }
+                    }
+                    .navigationTitle("Thông tin các tuyến xe")
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarLeading) {
+                            Button {
+                                showBusesManage.toggle()
+                            } label: {
+                                Image(systemName: "arrowshape.backward.fill")
+                            }
+                        }
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            Image(systemName: "plus.square.on.square")
+                                .onTapGesture {
+                                    plusBus.toggle()
+                                }
+                                .fullScreenCover(isPresented: $plusBus) {
+                                    PlusBus(plusBus: $plusBus)
+                                }
+                        }
+                    }
+                    .accentColor(.red)
+                }
             }
-            .accentColor(.red)
         }
     }
-
+    
+    var filteredBuses: [Bus] {
+        if searchText.isEmpty {
+            return appData.managedBuses
+        } else {
+            return appData.managedBuses.filter { $0.bus.lowercased().contains(searchText.lowercased()) }
+        }
     }
     
-    func getBuses() async throws{
-        buses = []
+    func getBuses() async throws {
+        appData.managedBuses = []
         let url = URL(string: "http://localhost:8000/get-all-bus-in4")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
@@ -113,12 +125,10 @@ struct BusesManage: View {
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-
+        
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
         print("jsonData")
-       // print(jsonData)
-        buses.append(contentsOf: jsonData.buses)
+        // print(jsonData)
+        appData.managedBuses.append(contentsOf: jsonData.buses)
     }
 }
-
-
