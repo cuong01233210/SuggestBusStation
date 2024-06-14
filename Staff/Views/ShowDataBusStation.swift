@@ -2,7 +2,8 @@ import SwiftUI
 
 struct ShowDataBusStation: View {
     @Binding var showDataBusStation: Bool
-    @Binding var hasReceivedData: Bool
+    
+    @Binding var busStation: BusStation
     @State private var isEditing = false
     @State private var editedName = ""
     @State private var editedBus = ""
@@ -15,7 +16,7 @@ struct ShowDataBusStation: View {
     @State private var successAlert = false
     @State private var showUpdateAlert = false
     @State private var newStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0, id: "")
-    var busStation: BusStation
+    @EnvironmentObject var appData: AppData
     
     var body: some View {
         Group {
@@ -25,11 +26,7 @@ struct ShowDataBusStation: View {
                 ContentView
             }
         }
-        .onAppear {
-            if !editedSetup {
-                setupEditedStation()
-            }
-        }
+
         .alert(isPresented: $isInvalidInputAlertPresented) {
             Alert(
                 title: Text("Nhập sai định dạng"),
@@ -49,11 +46,21 @@ struct ShowDataBusStation: View {
     private var LoadingView: some View {
         NavigationView {
             ProgressView("Loading ...")
+                .onAppear{
+                    Task {
+                        newStation.name = busStation.name
+                        newStation.buses = busStation.buses
+                        newStation.lat = busStation.lat
+                        newStation.long = busStation.long
+                        newStation.id = busStation.id
+                        editedSetup = true
+                    }
+                }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
-                            hasReceivedData = false
-                            showDataBusStation.toggle()
+                            
+                            //showDataBusStation.toggle()
                         } label: {
                             Image(systemName: "arrowshape.backward.fill")
                         }
@@ -110,7 +117,7 @@ struct ShowDataBusStation: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        hasReceivedData = false
+                       
                         showDataBusStation.toggle()
                     } label: {
                         Image(systemName: "arrowshape.backward.fill")
@@ -143,11 +150,16 @@ struct ShowDataBusStation: View {
                         }
                         Image(systemName: "pencil.circle")
                             .onTapGesture {
-                                editedName = busStation.name
-                                editedBus = busStation.buses.joined(separator: ", ")
-                                editedLat = String(busStation.lat)
-                                editedLong = String(busStation.long)
-                                isEditing = true
+                                if isEditing == false {
+                                    editedName = busStation.name
+                                    editedBus = busStation.buses.joined(separator: ", ")
+                                    editedLat = String(busStation.lat)
+                                    editedLong = String(busStation.long)
+                                    isEditing = true
+                                }
+                                else {
+                                    isEditing = false
+                                }
                             }
                         Button {
                             showDeleteAlert.toggle()
@@ -224,9 +236,10 @@ struct ShowDataBusStation: View {
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-        
+        appData.loadDataStationsManage = false
         successAlert = true
         isEditing = false
+        
     }
 
     func delete() async throws {
@@ -247,8 +260,9 @@ struct ShowDataBusStation: View {
         }
         
         let jsonData = try JSONDecoder().decode(Message.self, from: data)
-        print(jsonData)
-        hasReceivedData = false
+        
+        appData.loadDataStationsManage = false
         showDataBusStation.toggle()
     }
 }
+

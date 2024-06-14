@@ -132,3 +132,5 @@ struct BusesManage: View {
         appData.managedBuses.append(contentsOf: jsonData.buses)
     }
 }
+
+

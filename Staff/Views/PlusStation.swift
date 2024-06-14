@@ -15,8 +15,8 @@ struct PlusStation: View {
     @State private var slong: String = ""
     @State private var isInvalidInputAlertPresented = false
     @State private var successAlert = false
-    @Binding var hasReceivedData: Bool
     
+    @EnvironmentObject var appData: AppData
     var body: some View {
         NavigationView {
             List {
@@ -37,7 +37,7 @@ struct PlusStation: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        hasReceivedData = false
+                        
                         plusStation.toggle()
                     } label: {
                         Image(systemName: "arrowshape.backward.fill")
@@ -114,7 +114,8 @@ struct PlusStation: View {
             throw URLError(.cannotParseResponse)
         }
         let jsonData = try JSONDecoder().decode(Message.self, from: data)
-        print(jsonData)
+        
         successAlert = true
+        appData.loadDataStationsManage = false
     }
 }

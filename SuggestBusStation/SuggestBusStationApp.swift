@@ -20,6 +20,8 @@ class AppData: ObservableObject {
     @Published var inputFlag : Int
     @Published var loadDataBusesManage : Int = 0 // chua load
     @Published var managedBuses: [Bus] = [] // tuyen bus duoc quan ly
+    @Published var managedStations: [BusStation] = []
+    @Published var loadDataStationsManage : Bool = false
     init() {
         self.outputData = OutputData(
             route: "test",
