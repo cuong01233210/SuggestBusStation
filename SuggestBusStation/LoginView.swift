@@ -68,6 +68,7 @@ struct AuthenticationView: View {
             TextField("Email", text: $emailField)
                 .padding()
                 .font(.system(size: 20))
+                .autocapitalization(.none)
             
             ZStack (alignment: .trailing){
                 Group {
@@ -75,10 +76,12 @@ struct AuthenticationView: View {
                         TextField("Password", text: $passwordField)
                             .padding()
                             .font(.system(size: 20))
+                            .autocapitalization(.none)
                     } else {
                         SecureField("Password", text: $passwordField)
                             .padding()
                             .font(.system(size: 20))
+                            .autocapitalization(.none)
                     }
                 }
                 Button(action: {

@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct Bus: Codable {
+struct Bus: Codable, Identifiable{
+    var id: String
     var bus: String
     var price : Int
     var activityTime: String
