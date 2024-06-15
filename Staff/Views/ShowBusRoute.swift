@@ -1,54 +1,42 @@
-//
-//  ShowBusRoute.swift
-//  SuggestBusStation
-//
-//  Created by Macbook Pro on 10/01/2024.
-//
-
-
-
 import SwiftUI
 
 struct ShowBusRoute: View {
-    @Binding var bus : String
+    @Binding var bus: String
     @Binding var showBusRoute: Bool
-   // @State var isLoved = false
+    @State var isLoved = false
     @State var hasReceivedData = false
     
     @State var chieuDi: [String] = []
     @State var chieuVe: [String] = []
     @State var showChieuDi = true
-    //@Binding var token : String
-   
+    
     @State var showDeleteAlert = false
-    @EnvironmentObject var appData : AppData
+    @EnvironmentObject var appData: AppData
+    
     var body: some View {
-        if hasReceivedData == false {
+        if !hasReceivedData {
             NavigationView {
                 ProgressView("Loading ...")
                     .onAppear {
                         Task {
                             do {
-                                //print("\(bus)")
                                 try await getData()
-                                
-                                // Set hasReceivedData only after the data is received
+                                try await getAllBookmark()
                                 hasReceivedData = true
                             } catch {
-                                print(error.localizedDescription)
+                                print("Error during data loading: \(error.localizedDescription)")
                             }
                         }
                     }
-                    .toolbar{
+                    .toolbar {
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             Button {
-                                
                                 showBusRoute.toggle()
                             } label: {
                                 Image(systemName: "arrowshape.backward.fill")
                             }
                         }
-                        ToolbarItemGroup(placement: .navigationBarTrailing){
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
                             Button {
                                 showDeleteAlert.toggle()
                             } label: {
@@ -59,7 +47,6 @@ struct ShowBusRoute: View {
                                     title: Text("Xóa tuyến"),
                                     message: Text("Bạn có chắc muốn xóa tuyến này?"),
                                     primaryButton: .destructive(Text("OK")) {
-                                        // Gọi hàm delete khi người dùng ấn OK
                                         Task {
                                             do {
                                                 try await deleteBus(bus: bus)
@@ -72,173 +59,261 @@ struct ShowBusRoute: View {
                                 )
                             }
                         }
-                    }.accentColor(.red)
+                    }
+                    .accentColor(.red)
             }
-        }
-        else {
+        } else {
             NavigationView {
-                if showChieuDi == true {
-                    List (0..<chieuDi.count, id: \.self ) { index in
-                        VStack (alignment: .leading){
-                            Text("\(chieuDi[index])")
+                if showChieuDi {
+                    List(0..<chieuDi.count, id: \.self) { index in
+                        VStack(alignment: .leading) {
+                            Text(chieuDi[index])
                         }
                     }
                     .navigationTitle("Tuyến \(bus)")
-                        .toolbar {
-                            ToolbarItemGroup(placement: .navigationBarTrailing){
-                                Menu("Chọn chiều của tuyến") {
-                                    Button {
-                                        showChieuDi = true
-                                    } label: {
-                                        Text("Chiều đi")
-                                    }
-
-                                    Button {
-                                        showChieuDi = false
-                                    } label: {
-                                        Text("Chiều về")
-                                    }
-                                    
-                                }
-                                Button {
-                                    showDeleteAlert.toggle()
-                                } label: {
-                                    Image(systemName: "trash")
-                                }
-                                .alert(isPresented: $showDeleteAlert) {
-                                    Alert(
-                                        title: Text("Xóa tuyến"),
-                                        message: Text("Bạn có chắc muốn xóa tuyến này?"),
-                                        primaryButton: .destructive(Text("OK")) {
-                                            // Gọi hàm delete khi người dùng ấn OK
-                                            Task {
-                                                do {
-                                                    try await deleteBus(bus: bus)
-                                                } catch {
-                                                    print("Error deleting: \(error)")
-                                                }
-                                            }
-                                        },
-                                        secondaryButton: .cancel()
-                                    )
-                                }
-                            }
-                            ToolbarItemGroup(placement: .navigationBarLeading) {
-                                Button {
-                                   
-                                    showBusRoute.toggle()
-                                } label: {
-                                    Image(systemName: "arrowshape.backward.fill")
-                                }
-                            }
-                        }.accentColor(.red)
+                    .toolbar {
+                        ToolbarItems
+                    }
+                    .accentColor(.red)
                 } else {
-                    List (0..<chieuVe.count, id: \.self ) { index in
-                        VStack (alignment: .leading){
-                            Text("\(chieuVe[index])")
+                    List(0..<chieuVe.count, id: \.self) { index in
+                        VStack(alignment: .leading) {
+                            Text(chieuVe[index])
                         }
                     }
                     .navigationTitle("Tuyến \(bus)")
-                        .toolbar {
-                            ToolbarItemGroup(placement: .navigationBarTrailing){
-                                Menu("Chọn chiều của tuyến") {
-                                    Button {
-                                        showChieuDi = true
-                                    } label: {
-                                        Text("Chiều đi")
-                                    }
-
-                                    Button {
-                                        showChieuDi = false
-                                    } label: {
-                                        Text("Chiều về")
-                                    }
-                                    
-                                }
-                                Button {
-                                    showDeleteAlert.toggle()
-                                } label: {
-                                    Image(systemName: "trash")
-                                }
-                                .alert(isPresented: $showDeleteAlert) {
-                                    Alert(
-                                        title: Text("Xóa tuyến"),
-                                        message: Text("Bạn có chắc muốn xóa tuyến này?"),
-                                        primaryButton: .destructive(Text("OK")) {
-                                            // Gọi hàm delete khi người dùng ấn OK
-                                            Task {
-                                                do {
-                                                    try await deleteBus(bus: bus)
-                                                } catch {
-                                                    print("Error deleting: \(error)")
-                                                }
-                                            }
-                                        },
-                                        secondaryButton: .cancel()
-                                    )
-                                }
-                            }
-                            ToolbarItemGroup(placement: .navigationBarLeading) {
-                                Button {
-                                   
-                                    showBusRoute.toggle()
-                                } label: {
-                                    Image(systemName: "arrowshape.backward.fill")
-                                }
-                            }
-                        }.accentColor(.red)
+                    .toolbar {
+                        ToolbarItems
+                    }
+                    .accentColor(.red)
                 }
             }
         }
     }
+    
+    var ToolbarItems: some ToolbarContent {
+        Group {
+            if appData.userRole == "1" {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Menu("Chọn chiều của tuyến") {
+                        Button {
+                            showChieuDi = true
+                        } label: {
+                            Text("Chiều đi")
+                        }
+                        
+                        Button {
+                            showChieuDi = false
+                        } label: {
+                            Text("Chiều về")
+                        }
+                    }
+                    Button {
+                        showDeleteAlert.toggle()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .alert(isPresented: $showDeleteAlert) {
+                        Alert(
+                            title: Text("Xóa tuyến"),
+                            message: Text("Bạn có chắc muốn xóa tuyến này?"),
+                            primaryButton: .destructive(Text("OK")) {
+                                Task {
+                                    do {
+                                        try await deleteBus(bus: bus)
+                                    } catch {
+                                        print("Error deleting: \(error)")
+                                    }
+                                }
+                            },
+                            secondaryButton: .cancel()
+                        )
+                    }
+                }
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        appData.hasUpdatedPreBuses = false
+                        showBusRoute.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.backward.fill")
+                    }
+                }
+            } else {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    if isLoved {
+                        Image(systemName: "heart.fill")
+                            .onTapGesture {
+                                Task {
+                                    do {
+                                        try await unbookmark()
+                                        DispatchQueue.main.async {
+                                            isLoved = false
+                                        }
+                                    } catch {
+                                        print("Error unbookmarking: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
+                    } else {
+                        Image(systemName: "heart")
+                            .onTapGesture {
+                                Task {
+                                    do {
+                                        try await bookmark()
+                                        DispatchQueue.main.async {
+                                            isLoved = true
+                                        }
+                                    } catch {
+                                        print("Error bookmarking: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
+                    }
+                    Menu("Chọn chiều của tuyến") {
+                        Button {
+                            showChieuDi = true
+                        } label: {
+                            Text("Chiều đi")
+                        }
+
+                        Button {
+                            showChieuDi = false
+                        } label: {
+                            Text("Chiều về")
+                        }
+                        
+                    }
+                }
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        appData.hasUpdatedPreBuses = false
+                        showBusRoute.toggle()
+                    } label: {
+                        Image(systemName: "arrowshape.backward.fill")
+                    }
+                }
+            }
+        }
+    }
+    
     func getData() async throws {
         let url = URL(string: "http://localhost:8000/get-one-bus-data/\(bus)")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-        let jsonData  = try JSONDecoder().decode(BusRoute.self, from: data)
-        //print(jsonData)
+        
+        let jsonData = try JSONDecoder().decode(BusRoute.self, from: data)
         chieuDi = jsonData.chieuDi
         chieuVe = jsonData.chieuVe
     }
     
     func deleteBus(bus: String) async throws {
         let url = URL(string: "http://localhost:8000/delete-bus")!
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "DELETE"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                
-        var busName : BusName = BusName(bus: bus)
-        print(busName)
+        
+        let busName = BusName(bus: bus)
         guard let encoded = try? JSONEncoder().encode(busName) else {
+            print("Failed to encode busName")
             return
         }
+        
         let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
-
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-        let jsonData =  try JSONDecoder().decode(Message.self, from: data)
-        //print(jsonData)
+        
+        let jsonData = try JSONDecoder().decode(Message.self, from: data)
+      //  print(jsonData.message)
         
         showBusRoute.toggle()
         appData.loadDataBusesManage = 0
     }
     
+    func bookmark() async throws {
+        let url = URL(string: "http://localhost:8000/add-bus-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let busName = BusName(bus: bus)
+        guard let encoded = try? JSONEncoder().encode(busName) else {
+            print("Failed to encode busName")
+            return
+        }
+        
+        let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        
+        let jsonData = try JSONDecoder().decode(Message.self, from: data)
+        
+       // print(jsonData.message)
+    }
     
+    func unbookmark() async throws {
+        let url = URL(string: "http://localhost:8000/delete-bus-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let busName = BusName(bus: bus)
+        guard let encoded = try? JSONEncoder().encode(busName) else {
+            print("Failed to encode busName")
+            return
+        }
+        
+        let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        
+        let jsonData = try JSONDecoder().decode(Message.self, from: data)
+       // print(jsonData.message)
+       
+    }
     
-    
+    func getAllBookmark() async throws {
+        let url = URL(string: "http://localhost:8000/get-all-bus-prefer")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        let jsonData  = try JSONDecoder().decode(BusesName.self, from: data)
+       // print(jsonData)
+        for jbus in jsonData.sbuses {
+            if jbus == bus {
+                isLoved = true
+                //print("Mảng chứa chuỗi \(bus)")
+                // Thực hiện hành động cụ thể khi tìm thấy chuỗi '01'
+            }
+        }
+    }
 }
-//#Preview {
-//    ShowBusRoute()
-//}
+

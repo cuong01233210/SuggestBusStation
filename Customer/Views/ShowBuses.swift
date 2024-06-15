@@ -10,10 +10,11 @@ import SwiftUI
 struct ShowBuses: View {
     @State var hasReceivedData = false
     @Binding var showBuses: Bool
-    @Binding var token: String
+    
     @State var buses : [Bus] = []
     @State var showBusRouteV2 = false
     @State private var selectedBusIndex: Int = -1
+    @EnvironmentObject var appData: AppData
     
     var body: some View {
         if !hasReceivedData {
@@ -65,7 +66,7 @@ struct ShowBuses: View {
                             showBusRouteV2 = true
                         }
                         .fullScreenCover(isPresented: $showBusRouteV2) {
-                            ShowBusRouteV2(bus: String(buses[selectedBusIndex].bus), showBusRouteV2: $showBusRouteV2, token: $token, frontHasReceivedData: $hasReceivedData)
+                            ShowBusRouteV2(bus: String(buses[selectedBusIndex].bus), showBusRouteV2: $showBusRouteV2,  frontHasReceivedData: $hasReceivedData)
                                 
                         }
                     
@@ -93,7 +94,7 @@ struct ShowBuses: View {
         let url = URL(string: "http://localhost:8000/get-all-bus-in4")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        //urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
@@ -104,8 +105,7 @@ struct ShowBuses: View {
         }
 
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
-        print("jsonData")
-       // print(jsonData)
+       // print("jsonData")
         buses.append(contentsOf: jsonData.buses)
     }
 }

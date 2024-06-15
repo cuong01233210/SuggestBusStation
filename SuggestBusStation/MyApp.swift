@@ -18,7 +18,7 @@ struct MyApp: View {
         if isLoggedIn {
             //MainScreen(isLoggedIn: $isLoggedIn, token: $token, email: $email)
             if appData.userRole == "0"{
-                MainScreen(email: $email, token: $token, isLoggedIn: $isLoggedIn)
+                MainScreen(email: $email, isLoggedIn: $isLoggedIn)
             } else {
                 if appData.userRole == "1"{
                     StaffDashBoard(isLoggedIn: $isLoggedIn)

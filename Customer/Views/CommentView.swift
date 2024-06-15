@@ -11,10 +11,11 @@ struct CommentView: View {
     @State var suggestion: String = ""
     @State var rating: Int = 0
     @Binding var isPresentingCommentView: Bool
-    @Binding var token: String
+    
     @Binding var isLoggedIn : Bool
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @EnvironmentObject var appData: AppData
     var body: some View {
         
         List {
@@ -73,12 +74,12 @@ struct CommentView: View {
         }
     }
     func postComment(comment: Comment) async throws{
-        print("token: \(token)")
+       
     
         let url = URL(string: "http://localhost:8000/add-comment")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         
         guard let encodedComment = try? JSONEncoder().encode(comment) else {
