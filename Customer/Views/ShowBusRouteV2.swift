@@ -16,8 +16,9 @@ struct ShowBusRouteV2: View {
     @State var chieuDi: [String] = []
     @State var chieuVe: [String] = []
     @State var showChieuDi = true
-    @Binding var token : String
+    
     @Binding var frontHasReceivedData: Bool
+    @EnvironmentObject var appData: AppData
     var body: some View {
         if hasReceivedData == false {
             NavigationView {
@@ -203,7 +204,7 @@ struct ShowBusRouteV2: View {
         let url = URL(string: "http://localhost:8000/get-all-bus-prefer")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
@@ -213,7 +214,7 @@ struct ShowBusRouteV2: View {
         }
         let jsonData  = try JSONDecoder().decode(BusesName.self, from: data)
         print(jsonData)
-        for jbus in jsonData.buses {
+        for jbus in jsonData.sbuses {
             if jbus == bus {
                 isLoved = true
                 //print("Mảng chứa chuỗi \(bus)")
@@ -228,7 +229,7 @@ struct ShowBusRouteV2: View {
         urlRequest.httpMethod = "POST"
         //print(token)
         
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         
         let busName : BusName = BusName(bus: bus)
@@ -250,7 +251,7 @@ struct ShowBusRouteV2: View {
         let url = URL(string: "http://localhost:8000/delete-bus-prefer")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "DELETE"
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         let busName : BusName = BusName(bus: bus)
         guard let encoded = try? JSONEncoder().encode(busName) else {

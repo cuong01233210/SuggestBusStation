@@ -84,7 +84,7 @@ struct PersonalIn4: View {
                             isPresentingChangePass.toggle()
                     }
                         .fullScreenCover(isPresented: $isPresentingChangePass) {
-                            ChangePassword(email: $email, token: $token, isPresentingChangePass: $isPresentingChangePass)
+                            ChangePassword(email: $email, isPresentingChangePass: $isPresentingChangePass)
                     }
                 }.listSectionSeparator(.hidden)
             }

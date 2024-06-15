@@ -20,19 +20,20 @@ struct PatchPassword : Codable{
 struct ChangePassword: View {
     @State private var oldPassword: String = "";
     @State private var newPassword: String = "";
-    @Binding private var email: String;
-    @Binding private var token: String
+    @Binding  var email: String;
+    
     @State private var showOldPass: Bool = true
     @State private var showNewPass: Bool = true
     @State private var showingChangeMessageAlert = false
     @State private var changeMessage: String = ""
-    @Binding private var isPresentingChangePass: Bool
+    @Binding  var isPresentingChangePass: Bool
+    @EnvironmentObject var appData: AppData
    // @State private var patchPassword: PatchPassword? = nil
-    init(email: Binding<String>, token: Binding<String>, isPresentingChangePass: Binding<Bool>) {
-            self._email = email
-            self._token = token
-            self._isPresentingChangePass = isPresentingChangePass
-        }
+//    init(email: Binding<String>, token: Binding<String>, isPresentingChangePass: Binding<Bool>) {
+//            self._email = email
+//
+//            self._isPresentingChangePass = isPresentingChangePass
+//        }
     var body: some View {
         
         VStack(alignment: .leading){
@@ -132,7 +133,7 @@ struct ChangePassword: View {
             throw URLError(.cannotParseResponse)
         }
         let jsonData = try JSONDecoder().decode(LoggedInUser.self, from: data)
-        token = jsonData.token
+        appData.token = jsonData.token
         changeMessage = "Đổi mật khẩu thành công"
         showingChangeMessageAlert = true
 

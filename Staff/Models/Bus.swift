@@ -30,7 +30,7 @@ struct BusName: Codable {
 }
 
 struct BusesName : Codable {
-    var buses: [String]
+    let sbuses: [String]
 }
 
 struct StationRouteData: Codable{

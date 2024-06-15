@@ -25,6 +25,7 @@ class AppData: ObservableObject {
     @Published var userRole : String = ""
     @Published var token: String = ""
     @Published var hasUpdatedPreStations : Bool = false
+    @Published var hasUpdatedPreBuses: Bool = false
     init() {
         self.outputData = OutputData(
             route: "test",

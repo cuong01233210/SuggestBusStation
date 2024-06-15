@@ -1,23 +1,16 @@
-//
-//  PreferenceBuses.swift
-//  SuggestBusStation
-//
-//  Created by Macbook Pro on 05/01/2024.
-//
-
 import SwiftUI
 
 struct PreferenceBuses: View {
-    @Binding var showPreferenceBuses : Bool
-    @Binding var token: String
+    @Binding var showPreferenceBuses: Bool
+    @EnvironmentObject var appData: AppData
     @State var sbuses: [String] = []
-    @State var buses : [Bus] = []
-    @State var hasReceivedData = false
+    @State var buses: [Bus] = []
+   
     @State var showBusRoute = false
     @State private var selectedBusIndex: Int = -1
     
     var body: some View {
-        if hasReceivedData == false {
+        if !appData.hasUpdatedPreBuses {
             NavigationView {
                 ProgressView("Loading ...")
                     .onAppear {
@@ -25,67 +18,16 @@ struct PreferenceBuses: View {
                             do {
                                 selectedBusIndex = -1
                                 try await Task.withGroup(resultType: Void.self) { group in
-                                    // Thực hiện hàm getAllBookmark trong một task group
                                     await group.add { try await getAllBookmark() }
-                                    
-                                    // Đợi cho getAllBookmark hoàn thành trước khi thực hiện getAllBookmarkData
-                                 try   await group.next()
-                                    
-                                    // Thực hiện hàm getAllBookmarkData
+                                    try await group.next()
                                     try await getAllBookmarkData()
-                                    
-                                    // Set hasReceivedData only after both functions are completed
-                                    hasReceivedData = true
+                                    appData.hasUpdatedPreBuses = true
                                 }
                             } catch {
-                                print(error.localizedDescription)
+                                print("Error during data loading: \(error.localizedDescription)")
                             }
                         }
                     }
-
-                    .toolbar{
-                        ToolbarItemGroup(placement: .navigationBarLeading) {
-                            Button {
-                                showPreferenceBuses.toggle()
-                            } label: {
-                                Image(systemName: "arrowshape.backward.fill")
-                            }
-                        }
-                    }.accentColor(.red)
-            }
-        } else {
-            NavigationView {
-                List (0..<buses.count, id: \.self) { index in
-                    
-                        VStack(alignment: .leading) {
-                            Text("Tuyến số \(buses[index].bus)")
-                                .bold()
-                                .font(.system(size: 20))
-                                .foregroundColor(.red)
-                            Text("Giá vé \(buses[index].price)")
-                            HStack {
-                                Text(buses[index].activityTime)
-                                    .padding(.trailing, 20)
-                                Text(buses[index].gianCachChayXe)
-                            }
-                        }
-                        .onTapGesture {
-                            print(index)
-                            selectedBusIndex = index
-                        }
-                        .onChange(of: selectedBusIndex) {  newValue in
-                            showBusRoute = true
-                        }
-                        .fullScreenCover(isPresented: $showBusRoute) {
-                            ShowBusRoute(bus: $buses[selectedBusIndex].bus, showBusRoute: $showBusRoute)
-                                .onChange(of: showBusRoute) { _ in
-                                // Reset selectedBusIndex to -1 when ShowBusRoute is dismissed
-                                selectedBusIndex = -1
-                            }
-                        }
-                    
-                }
-                    .navigationTitle("Tuyến xe buýt yêu thích")
                     .toolbar {
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             Button {
@@ -94,7 +36,49 @@ struct PreferenceBuses: View {
                                 Image(systemName: "arrowshape.backward.fill")
                             }
                         }
-                    }.accentColor(.red)
+                    }
+                    .accentColor(.red)
+            }
+        } else {
+            NavigationView {
+                List(0..<buses.count, id: \.self) { index in
+                    VStack(alignment: .leading) {
+                        Text("Tuyến số \(buses[index].bus)")
+                            .bold()
+                            .font(.system(size: 20))
+                            .foregroundColor(.red)
+                        Text("Giá vé \(buses[index].price)")
+                        HStack {
+                            Text(buses[index].activityTime)
+                                .padding(.trailing, 20)
+                            Text(buses[index].gianCachChayXe)
+                        }
+                    }
+                    .onTapGesture {
+                        selectedBusIndex = index
+                    }
+                    .onChange(of: selectedBusIndex) { newValue in
+                        showBusRoute = true
+                    }
+                    
+                }
+                .fullScreenCover(isPresented: $showBusRoute) {
+                    ShowBusRoute(bus: $buses[selectedBusIndex].bus, showBusRoute: $showBusRoute)
+                        .onChange(of: showBusRoute) { _ in
+                            selectedBusIndex = -1
+                        }
+                }
+                .navigationTitle("Tuyến xe buýt yêu thích")
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarLeading) {
+                        Button {
+                            showPreferenceBuses.toggle()
+                        } label: {
+                            Image(systemName: "arrowshape.backward.fill")
+                        }
+                    }
+                }
+                .accentColor(.red)
             }
         }
     }
@@ -105,45 +89,40 @@ struct PreferenceBuses: View {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let busesName: BusesName = BusesName(buses: sbuses)
+        let busesName = BusesName(sbuses: sbuses)
         guard let encoded = try? JSONEncoder().encode(busesName) else {
-                    return
-            }
+            print("Failed to encode busesName")
+            return
+        }
         let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
-                    
-                    print("Error \(errorData)")
-                    throw URLError(.cannotParseResponse)
-                }
-        let jsonData =  try JSONDecoder().decode(Buses.self, from: data)
-      //  print(jsonData)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        let jsonData = try JSONDecoder().decode(Buses.self, from: data)
+        print("getAllBookmarkData response: \(jsonData)")
         buses.append(contentsOf: jsonData.buses)
     }
+    
     func getAllBookmark() async throws {
         sbuses = []
         let url = URL(string: "http://localhost:8000/get-all-bus-prefer")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-        let jsonData  = try JSONDecoder().decode(BusesName.self, from: data)
-       // print(jsonData)
-        for jbus in jsonData.buses {
-            sbuses.append(jbus)
-        }
-       // print(sbuses)
-        
+        let jsonData = try JSONDecoder().decode(BusesName.self, from: data)
+        print("getAllBookmark response: \(jsonData)")
+        sbuses.append(contentsOf: jsonData.sbuses)
     }
-    
 }
-
 
 //#Preview {
 //    PreferenceBuses()

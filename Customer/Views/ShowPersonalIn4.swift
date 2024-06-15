@@ -16,7 +16,7 @@ struct ShowPersonalIn4: View {
     @State var isPresentingChangePass: Bool = false
     @State var isChangePersonIn4 : Bool = false
     @Binding var email: String
-    @Binding var token: String
+    @EnvironmentObject var appData: AppData
     
     @State var showChangeDb = false
     @State private var hasReceivedData = false
@@ -54,7 +54,7 @@ struct ShowPersonalIn4: View {
                                     isChangePersonIn4.toggle()
                                 }
                                 .fullScreenCover(isPresented: $isChangePersonIn4) {
-                                    ChangeNormalIn4(email: $email, token: $token, isChangePersonIn4: $isChangePersonIn4, hasReceivedData: $hasReceivedData)
+                                    ChangeNormalIn4(email: $email, token: $appData.token, isChangePersonIn4: $isChangePersonIn4, hasReceivedData: $hasReceivedData)
                                 }
                         }
                         
@@ -65,7 +65,7 @@ struct ShowPersonalIn4: View {
                                     isPresentingChangePass.toggle()
                                 }
                                 .fullScreenCover(isPresented: $isPresentingChangePass) {
-                                    ChangePassword(email: $email, token: $token, isPresentingChangePass: $isPresentingChangePass)
+                                     ChangePassword(email: $email,  isPresentingChangePass: $isPresentingChangePass)
                                 }
                         }
                         
@@ -134,7 +134,7 @@ struct ShowPersonalIn4: View {
         let url = URL(string: "http://localhost:8000/getInfor")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");
+        urlRequest.setValue("Bearer \(appData.token)", forHTTPHeaderField: "Authorization");
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type");
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         

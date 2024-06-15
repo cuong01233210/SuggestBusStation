@@ -17,7 +17,7 @@ struct MainScreen: View {
     @State var showSearchView : Bool = false
     
     @Binding var email : String
-    @Binding var token: String
+    //@Binding var token: String
     var width: CGFloat = 200
     var height: CGFloat = 100
     var name = ""
@@ -45,14 +45,14 @@ struct MainScreen: View {
                             isPresentingPersonalIn4.toggle()
                         }
                         .fullScreenCover(isPresented: $isPresentingPersonalIn4) {
-                            ShowPersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4,  email: $email, token: $token)
+                            ShowPersonalIn4(isPresentingPersonalIn4: $isPresentingPersonalIn4,  email: $email)
                         }
                     ItemView(name: "Đánh giá / Góp ý", systemName: "envelope.badge.person.crop")
                         .onTapGesture {
                             isPresentingCommentView.toggle()
                         }
                         .fullScreenCover(isPresented : $isPresentingCommentView) {
-                            CommentView(isPresentingCommentView: $isPresentingCommentView, token: $token, isLoggedIn: $isLoggedIn)
+                            CommentView(isPresentingCommentView: $isPresentingCommentView,  isLoggedIn: $isLoggedIn)
                         }
                     ItemView(name: "Tuyến đường giờ cao điểm bị tắc")
                     ItemView(name: "Thông tin các tuyến xe buýt", systemName: "bus.doubledecker")
@@ -60,14 +60,15 @@ struct MainScreen: View {
                             showBuses.toggle()
                         }
                         .fullScreenCover(isPresented: $showBuses) {
-                            ShowBuses( showBuses: $showBuses, token: $token)
+                            
+                            BusesManage(showBusesManage: $showBuses)
                         }
                     ItemView(name: "Tuyến xe buýt yêu thích", systemName: "bus.doubledecker")
                         .onTapGesture {
                             showPreferenceBuses.toggle()
                         }
                         .fullScreenCover(isPresented: $showPreferenceBuses) {
-                            PreferenceBuses(showPreferenceBuses: $showPreferenceBuses, token: $token)
+                            PreferenceBuses(showPreferenceBuses: $showPreferenceBuses)
                         }
                     ItemView(name: "Thông tin các trạm xe buýt", systemName: "house.and.flag.fill")
                         .onTapGesture {
