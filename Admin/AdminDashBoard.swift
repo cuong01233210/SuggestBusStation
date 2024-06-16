@@ -10,6 +10,7 @@ import SwiftUI
 struct AdminDashBoard: View {
     @Binding var isLoggedIn : Bool
     @State var presentStaffManageView : Bool = false
+    @EnvironmentObject var appData: AppData
     var body: some View {
         NavigationView {
             VStack {
@@ -28,7 +29,9 @@ struct AdminDashBoard: View {
             .toolbar{
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button{
+                        appData.needGetStaff = true
                         isLoggedIn.toggle()
+                        
                     } label: {
                         Image(systemName: "arrowshape.backward.fill")
                     }

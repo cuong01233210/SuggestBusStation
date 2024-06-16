@@ -27,6 +27,7 @@ class AppData: ObservableObject {
     @Published var hasUpdatedPreStations : Bool = false
     @Published var hasUpdatedPreBuses: Bool = false
     @Published var needGetStaff : Bool = true
+    @Published var staffs : [Account] = []
     init() {
         self.outputData = OutputData(
             route: "test",

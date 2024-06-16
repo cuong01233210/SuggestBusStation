@@ -61,33 +61,31 @@ struct ChangeNormalIn4: View {
                 Section {
                     TextField("Họ và tên", text: $name)
                     Text("Giới tính")
-//                    VStack{
-//                        List{
-                            HStack {
-                                Image(systemName: male ?
-                                      "checkmark.circle.fill": "circle")
-                                Text("Male");
-                            }.onTapGesture {
-                                male = true
-                                female = false
-                            }
-                            
-                            HStack {
-                                Image(systemName: female ?
-                                      "checkmark.circle.fill": "circle")
-                                Text("Female");
-                            }.onTapGesture {
-                                male = false
-                                female = true
-//                            }
-//                        }
+                    
+                    HStack {
+                        Image(systemName: male ?
+                              "checkmark.circle.fill": "circle")
+                        Text("Male");
+                    }.onTapGesture {
+                        male = true
+                        female = false
+                    }
+                    
+                    HStack {
+                        Image(systemName: female ?
+                              "checkmark.circle.fill": "circle")
+                        Text("Female");
+                    }.onTapGesture {
+                        male = false
+                        female = true
+                        
                     }
                     DatePicker("Ngày sinh", selection: $birthdate, displayedComponents: .date)
                     TextField("Số điện thoại", text: $phoneNumber)
                 } header: {
                     Text("Thông tin cá nhân")
                 }
-
+                
                 
                 
             }
@@ -114,14 +112,14 @@ struct ChangeNormalIn4: View {
                         Text("Lưu thay đổi")
                     }
                     // Hiển thị cảnh báo
-                            .alert(isPresented: $isShowingAlert) {
-                                Alert(
-                                    title: Text("Thông báo"),
-                                    message: Text(alertMessage ?? ""), // Hiển thị thông báo thành công hoặc lỗi
-                                    dismissButton: .default(Text("OK"))
-                                )
-                            }
-
+                    .alert(isPresented: $isShowingAlert) {
+                        Alert(
+                            title: Text("Thông báo"),
+                            message: Text(alertMessage ?? ""), // Hiển thị thông báo thành công hoặc lỗi
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
+                    
                 }
                 
                 ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -142,17 +140,17 @@ struct ChangeNormalIn4: View {
         //print("User Saved")
         //print(name)
         if male {
-            sex = "Male"
-            print("male")
+            sex = "Nam"
+           
         } else {
-            sex = "Female"
-            print("female")
+            sex = "Nữ"
+           
         }
         //print(birthdate)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         let formattedDate = dateFormatter.string(from: birthdate)
-       // print("Ngày: \(formattedDate)")
+        // print("Ngày: \(formattedDate)")
         //print(phoneNumber)
         
         var userIn4: UserIn4 = UserIn4(
@@ -173,16 +171,16 @@ struct ChangeNormalIn4: View {
             return
         }
         let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
-                    
-                    print("Error \(errorData)")
-                    alertMessage = errorData
-                    isShowingAlert.toggle()
-                    throw URLError(.cannotParseResponse)
-                }
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            
+            print("Error \(errorData)")
+            alertMessage = errorData
+            isShowingAlert.toggle()
+            throw URLError(.cannotParseResponse)
+        }
         let jsonData =  try JSONDecoder().decode(Message.self, from: data)
-               // print(jsonData.message)
+        // print(jsonData.message)
         alertMessage = jsonData.message
         isShowingAlert.toggle()
         

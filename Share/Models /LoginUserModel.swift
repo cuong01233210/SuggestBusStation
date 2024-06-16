@@ -32,10 +32,20 @@ struct LoginUser : Codable {
     }
 }
 
-struct Account: Codable{
+struct Account: Codable,  Identifiable{
     var id: String
     var email: String
     var password: String
     var role: String
 }
 
+struct fullAccountInfo: Codable {
+    var id: String
+    var email: String
+    var password: String
+    var role: String
+    var name: String
+    var sex: String
+    var dateOfBirth: String
+    var phoneNumber: String
+}

@@ -44,7 +44,7 @@ struct PlusStation: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button("Lưu") {
                         // Split the input string into an array of bus numbers
                         let busNumbers = busStationInput.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
                         
