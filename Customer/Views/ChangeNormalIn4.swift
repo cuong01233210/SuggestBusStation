@@ -85,14 +85,14 @@ struct ChangeNormalIn4: View {
                     DatePicker("Ngày sinh", selection: $birthdate, displayedComponents: .date)
                     TextField("Số điện thoại", text: $phoneNumber)
                 } header: {
-                    Text("Personal Information")
+                    Text("Thông tin cá nhân")
                 }
 
                 
                 
             }
             .accentColor(.red)
-            .navigationTitle("Account")
+            .navigationTitle("Tài khoản")
             .toolbar{
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button{
@@ -111,7 +111,7 @@ struct ChangeNormalIn4: View {
                             }
                         }
                     } label: {
-                        Text("Save")
+                        Text("Lưu thay đổi")
                     }
                     // Hiển thị cảnh báo
                             .alert(isPresented: $isShowingAlert) {
