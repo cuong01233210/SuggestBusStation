@@ -19,6 +19,7 @@
 		52248D0D2ACD026B00587532 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52248D0C2ACD026B00587532 /* CommentView.swift */; };
 		52248D0F2ACD0A7500587532 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52248D0E2ACD0A7500587532 /* Comment.swift */; };
 		5234C4492C1EF7A500777BB8 /* LoginUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5234C4482C1EF7A500777BB8 /* LoginUserModel.swift */; };
+		5234C44B2C1F3C2F00777BB8 /* PlusStaff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5234C44A2C1F3C2F00777BB8 /* PlusStaff.swift */; };
 		52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */; };
 		52425EA92A34BF3400AD47B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EA82A34BF3400AD47B6 /* Assets.xcassets */; };
 		52425EAC2A34BF3400AD47B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EAB2A34BF3400AD47B6 /* Preview Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		52248D0C2ACD026B00587532 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		52248D0E2ACD0A7500587532 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5234C4482C1EF7A500777BB8 /* LoginUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserModel.swift; sourceTree = "<group>"; };
+		5234C44A2C1F3C2F00777BB8 /* PlusStaff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStaff.swift; sourceTree = "<group>"; };
 		52425EA12A34BF3000AD47B6 /* SuggestBusStation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuggestBusStation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestBusStationApp.swift; sourceTree = "<group>"; };
 		52425EA82A34BF3400AD47B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				5205EB682C1C402D00511017 /* AdminDashBoard.swift */,
 				5205EB6A2C1C45C400511017 /* StaffManageView.swift */,
+				5234C44A2C1F3C2F00777BB8 /* PlusStaff.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 			files = (
 				52CD686A2B4ED6E9002732C8 /* PlusBus.swift in Sources */,
 				52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */,
+				5234C44B2C1F3C2F00777BB8 /* PlusStaff.swift in Sources */,
 				52CD686E2B4EDC2C002732C8 /* ShowBusRouteV2.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
 				52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */,

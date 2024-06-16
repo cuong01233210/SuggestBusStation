@@ -10,15 +10,17 @@ import SwiftUI
 struct StaffManageView: View {
     @Binding var presentStaffManageView : Bool
     @EnvironmentObject var appData: AppData
-    @State var staffs: [Account] = []
+   
+    @State var searchText: String = ""
+    @State var plusStaff : Bool = false
     var body: some View {
-        if appData.needGetStaff == true {
+        if appData.needGetStaff == true && plusStaff == false{
             NavigationView{
                 ProgressView("Loading ...")
                     .onAppear {
                         Task {
                             do {
-                                try await getBuses()
+                                try await getStaffs()
                                 // Set hasReceivedData only after the data is received
                                 appData.needGetStaff = false
                             } catch {
@@ -38,8 +40,28 @@ struct StaffManageView: View {
             }
         } else{
             NavigationView {
-                Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                    .navigationTitle("Admin")
+                VStack {
+                    TextField("Tìm kiếm tài khoản", text: $searchText)
+                        .padding(7)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                    
+                    List {
+                        Section(header: Text("Danh sách tài khoản")) {
+                            ForEach(filteredStaffs) { staff in
+                                VStack(alignment: .leading) {
+                                    Text("\(staff.email)")
+                                        .bold()
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.red)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                    .navigationTitle("Quản lý nhân viên")
                     .toolbar{
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             Button{
@@ -50,13 +72,33 @@ struct StaffManageView: View {
                         }
                     }
                     .accentColor(.red)
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            Button {
+                                plusStaff.toggle()
+                            } label : {
+                                Image(systemName: "plus.square.on.square")
+                            }
+                        }
+                    }.accentColor(.red)
+                    .fullScreenCover(isPresented: $plusStaff) {
+                        PlusStaff(plusStaff: $plusStaff)
+                    }
             }
         }
         
         
     }
-    func getBuses() async throws{
-        staffs = []
+    var filteredStaffs : [Account] {
+        if searchText.isEmpty {
+            return appData.staffs
+        } else {
+            return appData.staffs.filter { $0.email.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+   
+    func getStaffs() async throws{
+        appData.staffs = []
         let url = URL(string: "http://localhost:8000/auth/get-staffs")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
@@ -75,9 +117,12 @@ struct StaffManageView: View {
 
         let jsonData = try JSONDecoder().decode([Account].self, from: data)
        // print("jsonData")
-        staffs.append(contentsOf: jsonData)
-        print(staffs)
+        appData.staffs.append(contentsOf: jsonData)
+        
+        
     }
+    
+    
     
 }
 
