@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5205EB692C1C402D00511017 /* AdminDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205EB682C1C402D00511017 /* AdminDashBoard.swift */; };
 		5205EB6B2C1C45C400511017 /* StaffManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205EB6A2C1C45C400511017 /* StaffManageView.swift */; };
+		520CFD992C1FD01C004AB30F /* ShowStaff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520CFD982C1FD01C004AB30F /* ShowStaff.swift */; };
 		520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */; };
 		520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */; };
 		522162DC2C0B776900909BF3 /* SearchSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522162DB2C0B776900909BF3 /* SearchSetting.swift */; };
@@ -65,6 +66,7 @@
 		40B466861CD4440F78EC6E00 /* Pods_SuggestBusStation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuggestBusStation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5205EB682C1C402D00511017 /* AdminDashBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashBoard.swift; sourceTree = "<group>"; };
 		5205EB6A2C1C45C400511017 /* StaffManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffManageView.swift; sourceTree = "<group>"; };
+		520CFD982C1FD01C004AB30F /* ShowStaff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowStaff.swift; sourceTree = "<group>"; };
 		520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestView.swift; sourceTree = "<group>"; };
 		520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location Manager.swift"; sourceTree = "<group>"; };
 		522162DB2C0B776900909BF3 /* SearchSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSetting.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				5205EB682C1C402D00511017 /* AdminDashBoard.swift */,
 				5205EB6A2C1C45C400511017 /* StaffManageView.swift */,
 				5234C44A2C1F3C2F00777BB8 /* PlusStaff.swift */,
+				520CFD982C1FD01C004AB30F /* ShowStaff.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				52B380592B4BB16B00B7D8FB /* PreferenceStations.swift in Sources */,
 				52C1E9222B8C788800F6E260 /* SearchView.swift in Sources */,
 				52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */,
+				520CFD992C1FD01C004AB30F /* ShowStaff.swift in Sources */,
 				52D741062ABAA86C0007BE09 /* MapView.swift in Sources */,
 				52248D0B2ACD01CA00587532 /* Stars.swift in Sources */,
 				52248D092AC5313500587532 /* LoginView.swift in Sources */,
