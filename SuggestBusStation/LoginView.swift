@@ -20,6 +20,8 @@ struct AuthenticationView: View {
     @Binding var token : String
     @State var showPass: Bool = false
     @Binding var email: String
+    @State var showingAlert: Bool = false
+    @State var errorMessage = "Bạn đã đăng nhập thất bại"
 //    @Binding var role: String
     @EnvironmentObject var appData: AppData
     var body: some View {
@@ -103,6 +105,11 @@ struct AuthenticationView: View {
                 }
             }
         }
+        .alert($errorMessage.wrappedValue, isPresented: $showingAlert) {
+            Button("OK", role: .cancel) {
+                showingAlert = false
+            }
+        }
     }
        
     private func loginHandler() async throws {
@@ -118,7 +125,8 @@ struct AuthenticationView: View {
         let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encoded)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             let errorData = try JSONDecoder().decode(AuthenticationErrorData.self, from: data).message
-            
+            showingAlert.toggle()
+            errorMessage = errorData
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }

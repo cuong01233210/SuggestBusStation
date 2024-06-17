@@ -10,6 +10,8 @@
 		5205EB692C1C402D00511017 /* AdminDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205EB682C1C402D00511017 /* AdminDashBoard.swift */; };
 		5205EB6B2C1C45C400511017 /* StaffManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205EB6A2C1C45C400511017 /* StaffManageView.swift */; };
 		520CFD992C1FD01C004AB30F /* ShowStaff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520CFD982C1FD01C004AB30F /* ShowStaff.swift */; };
+		520CFD9B2C208BC0004AB30F /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520CFD9A2C208BC0004AB30F /* AppInfo.swift */; };
+		520CFD9D2C208E64004AB30F /* ShowAppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520CFD9C2C208E64004AB30F /* ShowAppInfo.swift */; };
 		520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */; };
 		520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */; };
 		522162DC2C0B776900909BF3 /* SearchSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522162DB2C0B776900909BF3 /* SearchSetting.swift */; };
@@ -67,6 +69,8 @@
 		5205EB682C1C402D00511017 /* AdminDashBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashBoard.swift; sourceTree = "<group>"; };
 		5205EB6A2C1C45C400511017 /* StaffManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffManageView.swift; sourceTree = "<group>"; };
 		520CFD982C1FD01C004AB30F /* ShowStaff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowStaff.swift; sourceTree = "<group>"; };
+		520CFD9A2C208BC0004AB30F /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
+		520CFD9C2C208E64004AB30F /* ShowAppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAppInfo.swift; sourceTree = "<group>"; };
 		520E3DE32AA095E600FFB0D9 /* LocationRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestView.swift; sourceTree = "<group>"; };
 		520E3DE52AA0970E00FFB0D9 /* Location Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location Manager.swift"; sourceTree = "<group>"; };
 		522162DB2C0B776900909BF3 /* SearchSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSetting.swift; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 				52F9C2512B3C7C3D00C7E29C /* Message.swift */,
 				52C8885A2A66858000BDD10C /* BusStation.swift */,
 				5234C4482C1EF7A500777BB8 /* LoginUserModel.swift */,
+				520CFD9A2C208BC0004AB30F /* AppInfo.swift */,
 			);
 			path = "Models ";
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */,
+				520CFD9C2C208E64004AB30F /* ShowAppInfo.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -436,6 +442,7 @@
 			files = (
 				52CD686A2B4ED6E9002732C8 /* PlusBus.swift in Sources */,
 				52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */,
+				520CFD9D2C208E64004AB30F /* ShowAppInfo.swift in Sources */,
 				5234C44B2C1F3C2F00777BB8 /* PlusStaff.swift in Sources */,
 				52CD686E2B4EDC2C002732C8 /* ShowBusRouteV2.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
@@ -455,6 +462,7 @@
 				52B380512B49910B00B7D8FB /* ShowDataBusStation.swift in Sources */,
 				52F9C2522B3C7C3D00C7E29C /* Message.swift in Sources */,
 				52248D0F2ACD0A7500587532 /* Comment.swift in Sources */,
+				520CFD9B2C208BC0004AB30F /* AppInfo.swift in Sources */,
 				527E2A6D2B20AFFE00252B09 /* ChangePassword.swift in Sources */,
 				520E3DE42AA095E600FFB0D9 /* LocationRequestView.swift in Sources */,
 				522162DE2C0CC41B00909BF3 /* ResponseData.swift in Sources */,

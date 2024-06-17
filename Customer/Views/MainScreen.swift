@@ -15,7 +15,7 @@ struct MainScreen: View {
     @State var busStationsManageV2 : Bool = false
     @State var showPreferenceStations: Bool = false
     @State var showSearchView : Bool = false
-    
+    @State var showAppInfo : Bool = false
     @Binding var email : String
     //@Binding var token: String
     var width: CGFloat = 200
@@ -54,7 +54,7 @@ struct MainScreen: View {
                         .fullScreenCover(isPresented : $isPresentingCommentView) {
                             CommentView(isPresentingCommentView: $isPresentingCommentView,  isLoggedIn: $isLoggedIn)
                         }
-                    ItemView(name: "Tuyến đường giờ cao điểm bị tắc")
+                    
                     ItemView(name: "Thông tin các tuyến xe buýt", systemName: "bus.doubledecker")
                         .onTapGesture {
                             showBuses.toggle()
@@ -85,7 +85,13 @@ struct MainScreen: View {
                         .fullScreenCover(isPresented: $showPreferenceStations) {
                             PreferenceStations(showPreferenceStations: $showPreferenceStations)
                         }
-                    ItemView(name: "Thông tin về app")
+                    ItemView(name: "Thông tin về ứng dụng", systemName: "book.pages")
+                        .onTapGesture {
+                            showAppInfo.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showAppInfo) {
+                            ShowAppInfo(showAppInfo: $showAppInfo)
+                        }
                 }
                 
             }
