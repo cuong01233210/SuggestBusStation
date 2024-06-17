@@ -12,6 +12,7 @@ struct StaffDashBoard: View {
     @State var checkComment: Bool = false
     @State var busStationsManage : Bool = false
     @State var showBusesManage: Bool = false
+    @State var showAppInfo = false
     @EnvironmentObject var appData: AppData
     let sampleProducts = (1...50).map { Product(id: $0, name: "Product \($0)") }
     var body: some View {
@@ -27,7 +28,7 @@ struct StaffDashBoard: View {
                            // AnotherView1(isPresentingAnotherView1: $isPresentingAnotherView1)
                     }
                     
-                    ItemView(name: "Tuyến đường giờ cao điểm bị tắc")
+                    
                     ItemView(name: "Quản lý thông tin các tuyến xe buýt", systemName: "bus.doubledecker")
                         .onTapGesture {
                             showBusesManage.toggle()
@@ -42,8 +43,15 @@ struct StaffDashBoard: View {
                         .fullScreenCover(isPresented: $busStationsManage) {
                             BusStationsManage( busStationsManage: $busStationsManage)
                         }
-                    ItemView(name: "Yêu thích")
-                    ItemView(name: "Thông tin về app")
+                    
+                    ItemView(name: "Quản lý thông tin về ứng dụng", systemName: "book.pages")
+                        .onTapGesture {
+                            showAppInfo.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showAppInfo) {
+                            ShowAppInfo(showAppInfo: $showAppInfo)
+                        }
+                                         
                 }
                 
             }
