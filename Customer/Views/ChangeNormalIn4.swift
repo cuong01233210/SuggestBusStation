@@ -40,8 +40,6 @@ struct ChangeNormalIn4: View {
     @State private var name = ""
     @State private var sex = ""
     @State private var birthdate = Date()
-    @State private var shouldSendNewsletter = false
-    @State private var numberOfLikes = 1
     @State private var phoneNumber = ""
     @State var isPresentingChangePass: Bool = false
     @Binding var email: String
@@ -160,6 +158,7 @@ struct ChangeNormalIn4: View {
             phoneNumber: phoneNumber,
             email: email
         )
+        print("userIn4")
         print(userIn4)
         let url = URL(string: "http://localhost:8000/update-user-infor")!
         var urlRequest = URLRequest(url: url)

@@ -12,6 +12,7 @@ struct StaffDashBoard: View {
     @State var checkComment: Bool = false
     @State var busStationsManage : Bool = false
     @State var showBusesManage: Bool = false
+    @EnvironmentObject var appData: AppData
     let sampleProducts = (1...50).map { Product(id: $0, name: "Product \($0)") }
     var body: some View {
         NavigationView{
@@ -51,7 +52,14 @@ struct StaffDashBoard: View {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         Button{
                             isLoggedIn.toggle()
-                        } label: {
+                            appData.loadDataBusesManage = 0 // chua load
+                            appData.loadDataStationsManage = false
+                            appData.userRole  = ""
+                            appData.token = ""
+                            appData.hasUpdatedPreStations  = false
+                            appData.hasUpdatedPreBuses = false
+                            
+                      } label: {
                             Image(systemName: "arrowshape.backward.fill")
                         }
                     }

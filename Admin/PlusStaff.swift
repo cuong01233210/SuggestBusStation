@@ -142,7 +142,7 @@ struct PlusStaff: View {
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        var newStaff = fullAccountInfo(id: "", email: email, password: password, role: "1", name: name, sex: sex, dateOfBirth: dateOfBirth, phoneNumber: phoneNumber)
+        var newStaff = FullAccountInfo(id: "", email: email, password: password, role: "1", name: name, sex: sex, dateOfBirth: dateOfBirth, phoneNumber: phoneNumber)
         guard let encoded = try? JSONEncoder().encode(newStaff) else {
             return
         }

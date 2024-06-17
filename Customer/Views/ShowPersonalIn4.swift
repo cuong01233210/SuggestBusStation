@@ -59,7 +59,7 @@ struct ShowPersonalIn4: View {
                         }
                         
                         HStack {
-                            Image(systemName: "bus.fill")
+                            Image(systemName: "lock")
                             Text("Đổi mật khẩu")
                                 .onTapGesture {
                                     isPresentingChangePass.toggle()

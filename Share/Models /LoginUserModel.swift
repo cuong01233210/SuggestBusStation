@@ -39,7 +39,7 @@ struct Account: Codable,  Identifiable{
     var role: String
 }
 
-struct fullAccountInfo: Codable {
+struct FullAccountInfo: Codable {
     var id: String
     var email: String
     var password: String

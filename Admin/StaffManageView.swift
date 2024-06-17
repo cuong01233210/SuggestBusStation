@@ -13,6 +13,8 @@ struct StaffManageView: View {
    
     @State var searchText: String = ""
     @State var plusStaff : Bool = false
+    @State var selectedStaff : Account = Account(id: "", email: "", password: "", role: "")
+    @State var showStaff : Bool = false
     var body: some View {
         if appData.needGetStaff == true && plusStaff == false{
             NavigationView{
@@ -56,6 +58,10 @@ struct StaffManageView: View {
                                         .font(.system(size: 20))
                                         .foregroundColor(.red)
                                 }
+                                .onTapGesture {
+                                    selectedStaff = staff
+                                    showStaff.toggle()
+                                }
                             }
                         }
                     }
@@ -83,6 +89,9 @@ struct StaffManageView: View {
                     }.accentColor(.red)
                     .fullScreenCover(isPresented: $plusStaff) {
                         PlusStaff(plusStaff: $plusStaff)
+                    }
+                    .fullScreenCover(isPresented: $showStaff) {
+                        ShowStaff(showStaff: $showStaff, selectedStaff: $selectedStaff)
                     }
             }
         }
