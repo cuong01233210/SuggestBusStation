@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct BusStation: Codable {
+struct BusStation: Codable , Identifiable{
     var name: String
     var buses: [String]
     var lat: Double

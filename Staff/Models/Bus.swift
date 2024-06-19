@@ -44,6 +44,7 @@ struct BusFullData: Codable {
     var price : Int
     var activityTime: String
     var gianCachChayXe: String
-    var chieuDi: [StationRouteData]
-    var chieuVe: [StationRouteData]
+    var gianCachTrungBinh: Double
+    var chieuDi: [BusStation]
+    var chieuVe: [BusStation]
 }
