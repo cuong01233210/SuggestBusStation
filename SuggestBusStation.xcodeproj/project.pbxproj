@@ -26,6 +26,8 @@
 		52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */; };
 		52425EA92A34BF3400AD47B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EA82A34BF3400AD47B6 /* Assets.xcassets */; };
 		52425EAC2A34BF3400AD47B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52425EAB2A34BF3400AD47B6 /* Preview Assets.xcassets */; };
+		5247FCA02C231931006DF676 /* AddRoutePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5247FC9F2C231931006DF676 /* AddRoutePaths.swift */; };
+		5247FCA22C2332D2006DF676 /* AddPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5247FCA12C2332D2006DF676 /* AddPath.swift */; };
 		525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */; };
 		525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C3DF02AC3CF41000EF11A /* MainScreen.swift */; };
 		5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C05E2B42F56600AE7E0C /* Comments.swift */; };
@@ -86,6 +88,8 @@
 		52425EA42A34BF3000AD47B6 /* SuggestBusStationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestBusStationApp.swift; sourceTree = "<group>"; };
 		52425EA82A34BF3400AD47B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52425EAB2A34BF3400AD47B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5247FC9F2C231931006DF676 /* AddRoutePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutePaths.swift; sourceTree = "<group>"; };
+		5247FCA12C2332D2006DF676 /* AddPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPath.swift; sourceTree = "<group>"; };
 		525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenItemView.swift; sourceTree = "<group>"; };
 		525C3DF02AC3CF41000EF11A /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		5267C05E2B42F56600AE7E0C /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
@@ -313,6 +317,8 @@
 				52CD68672B4ED4B6002732C8 /* BusesManage.swift */,
 				52CD68692B4ED6E9002732C8 /* PlusBus.swift */,
 				52CD686B2B4ED91F002732C8 /* ShowBusRoute.swift */,
+				5247FC9F2C231931006DF676 /* AddRoutePaths.swift */,
+				5247FCA12C2332D2006DF676 /* AddPath.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -446,6 +452,7 @@
 				5234C44B2C1F3C2F00777BB8 /* PlusStaff.swift in Sources */,
 				52CD686E2B4EDC2C002732C8 /* ShowBusRouteV2.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
+				5247FCA02C231931006DF676 /* AddRoutePaths.swift in Sources */,
 				52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */,
 				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
 				5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */,
@@ -489,6 +496,7 @@
 				52B9F2862BE3180100D889E2 /* InputView.swift in Sources */,
 				52D740DE2AB7F33F0007BE09 /* OutputData.swift in Sources */,
 				520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */,
+				5247FCA22C2332D2006DF676 /* AddPath.swift in Sources */,
 				5205EB6B2C1C45C400511017 /* StaffManageView.swift in Sources */,
 				52425EA52A34BF3000AD47B6 /* SuggestBusStationApp.swift in Sources */,
 			);
