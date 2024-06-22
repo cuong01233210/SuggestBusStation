@@ -26,6 +26,8 @@ class AppData: ObservableObject {
     @Published var token: String = ""
     @Published var hasUpdatedPreStations : Bool = false
     @Published var hasUpdatedPreBuses: Bool = false
+    @Published var userPreStations : [BusStation] = []
+    @Published var userPreBuses : [Bus] = []
     @Published var needGetStaff : Bool = true
     @Published var staffs : [Account] = []
     init() {

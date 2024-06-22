@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct Bus: Codable, Identifiable{
+struct Bus: Codable, Identifiable {
     var id: String
     var bus: String
-    var price : Int
+    var price: Int
     var activityTime: String
     var gianCachChayXe: String
-    // tạm thời chưa thêm trường gianCachTrungBinh vào để xử lý
+    var gianCachTrungBinh: Double
 }
 
 struct Buses: Codable {
@@ -21,8 +21,10 @@ struct Buses: Codable {
 }
 
 struct BusRoute: Codable {
-    var chieuDi: [String]
-    var chieuVe: [String]
+    var chieuDi: [BusStation]
+    var chieuVe: [BusStation]
+    //var chieuDi : [String]
+    //var chieuVe: [String]
 }
 
 struct BusName: Codable {

@@ -4,7 +4,7 @@ struct AddPath: View {
     @State var busStations: [BusStation] = []
     @State private var selectedStationIndex: Int? = nil
     @State private var searchText: String = ""
-    @State var busStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0, id: "-1")
+    @State var busStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0)
     @Binding var addPath: Bool
     @Binding var direction: Bool
     @Binding var chieuDi: [BusStation]
