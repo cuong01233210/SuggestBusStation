@@ -15,7 +15,8 @@ struct ShowDataBusStation: View {
     @State private var isInvalidInputAlertPresented = false
     @State private var successAlert = false
     @State private var showUpdateAlert = false
-    @State private var newStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0, id: "")
+   // @State private var newStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0, id: "")
+    @State var newStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0)
     @State private var isLoved = false
     @EnvironmentObject var appData: AppData
     
@@ -53,7 +54,7 @@ struct ShowDataBusStation: View {
                         newStation.buses = busStation.buses
                         newStation.lat = busStation.lat
                         newStation.long = busStation.long
-                        newStation.id = busStation.id
+                      //  newStation.id = busStation.id
                         editedSetup = true
                         do {
                             try await getAllBookmark()
@@ -236,7 +237,7 @@ struct ShowDataBusStation: View {
         newStation.buses = busStation.buses
         newStation.lat = busStation.lat
         newStation.long = busStation.long
-        newStation.id = busStation.id
+       // newStation.id = busStation.id
         editedSetup = true
     }
     

@@ -9,12 +9,10 @@ import SwiftUI
 
 struct PreferenceStations: View {
     @Binding var showPreferenceStations : Bool
-    
-   
     @State private var showDataBusStationV2 = false
     @State private var selectedStationIndex: Int = -1
     @State private var Ids: [String] = []
-    @State var busStations : [BusStation] = []
+   // @State var busStations : [BusStation] = []
     @EnvironmentObject var appData: AppData
     var body: some View {
         if appData.hasUpdatedPreStations == false {
@@ -55,18 +53,17 @@ struct PreferenceStations: View {
         } else {
             NavigationView {
                 TabView {
-                    let pageNum = busStations.count / 10 + 1
+                    let pageNum = appData.userPreStations.count / 10 + 1
                     ForEach(0..<pageNum) { pageIndex in
                         let startIndex = pageIndex * 10
-                        let end = (pageIndex + 1) * 10
-                        let endIndex = min((pageIndex + 1) * 10, busStations.count)
+                        let endIndex = min((pageIndex + 1) * 10, appData.userPreStations.count)
                         
                         //let productsPage = Array(busStations[startIndex..<endIndex])
                         
                         //ProductPageView(busStations: productsPage)
                         List (startIndex..<endIndex, id: \.self) { index in
                             VStack(alignment: .leading){
-                                Text(busStations[index].name)
+                                Text(appData.userPreStations[index].name)
                             }
                             .onTapGesture {
                                 selectedStationIndex = index
@@ -86,7 +83,7 @@ struct PreferenceStations: View {
                 }
                 .fullScreenCover(isPresented: $showDataBusStationV2) {
 
-                    ShowDataBusStation(showDataBusStation: $showDataBusStationV2, busStation: $busStations[selectedStationIndex])
+                    ShowDataBusStation(showDataBusStation: $showDataBusStationV2, busStation: $appData.userPreStations[selectedStationIndex])
                 }
 
                 .navigationTitle("Trạm xe buýt yêu thích")
@@ -103,7 +100,7 @@ struct PreferenceStations: View {
         }
     }
     func getAllBookmarkData() async throws {
-        busStations = []
+        appData.userPreStations = []
         let url = URL(string: "http://localhost:8000/get-stations-by-ids")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -122,7 +119,7 @@ struct PreferenceStations: View {
                 }
         let jsonData =  try JSONDecoder().decode(BusStations.self, from: data)
        // print(jsonData)
-     busStations.append(contentsOf: jsonData.busStations)
+        appData.userPreStations.append(contentsOf: jsonData.busStations)
         //print(busStations)
     }
     func getAllBookmark() async throws {
@@ -146,7 +143,7 @@ struct PreferenceStations: View {
             Ids.append(jId)
         }
         //print(userStationIds)
-       // print(sbuses)
+        //print(Ids)
         
     }
 }

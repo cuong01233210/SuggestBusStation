@@ -11,7 +11,9 @@ struct BusStation: Codable , Identifiable{
     var buses: [String]
     var lat: Double
     var long: Double
-    var id: String
+    var id: String {
+           return name
+       }
 }
 struct BusStations: Codable {
     var busStations: [BusStation]

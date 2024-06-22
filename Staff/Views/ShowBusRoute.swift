@@ -6,12 +6,13 @@ struct ShowBusRoute: View {
     @State var isLoved = false
     @State var hasReceivedData = false
     
-    @State var chieuDi: [String] = []
-    @State var chieuVe: [String] = []
+    @State var chieuDi: [BusStation] = []
+    @State var chieuVe: [BusStation] = []
     @State var showChieuDi = true
     
     @State var showDeleteAlert = false
     @EnvironmentObject var appData: AppData
+    @State var updateBus = false
     
     var body: some View {
         if !hasReceivedData {
@@ -67,7 +68,7 @@ struct ShowBusRoute: View {
                 if showChieuDi {
                     List(0..<chieuDi.count, id: \.self) { index in
                         VStack(alignment: .leading) {
-                            Text(chieuDi[index])
+                            Text(chieuDi[index].name)
                         }
                     }
                     .navigationTitle("Tuyến \(bus)")
@@ -75,10 +76,13 @@ struct ShowBusRoute: View {
                         ToolbarItems
                     }
                     .accentColor(.red)
+                    .fullScreenCover(isPresented: $updateBus) {
+                        UpdateBus(updateBus: $updateBus, busName: $bus, chieuDi: chieuDi, chieuVe: chieuVe)
+                    }
                 } else {
                     List(0..<chieuVe.count, id: \.self) { index in
                         VStack(alignment: .leading) {
-                            Text(chieuVe[index])
+                            Text(chieuVe[index].name)
                         }
                     }
                     .navigationTitle("Tuyến \(bus)")
@@ -86,6 +90,9 @@ struct ShowBusRoute: View {
                         ToolbarItems
                     }
                     .accentColor(.red)
+                    .fullScreenCover(isPresented: $updateBus) {
+                        UpdateBus(updateBus: $updateBus,  busName: $bus, chieuDi: chieuDi, chieuVe: chieuVe)
+                    }
                 }
             }
         }
@@ -95,7 +102,7 @@ struct ShowBusRoute: View {
         Group {
             if appData.userRole == "1" {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Menu("Chọn chiều của tuyến") {
+                    Menu("Chọn chiều") {
                         Button {
                             showChieuDi = true
                         } label: {
@@ -128,6 +135,11 @@ struct ShowBusRoute: View {
                             },
                             secondaryButton: .cancel()
                         )
+                    }
+                    Button {
+                        updateBus.toggle()
+                    } label : {
+                        Image(systemName: "pencil.circle")
                     }
                 }
                 ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -315,5 +327,7 @@ struct ShowBusRoute: View {
             }
         }
     }
+    
+    
 }
 

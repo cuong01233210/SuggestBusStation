@@ -20,6 +20,7 @@ struct PlusBus: View {
     @State var direction : Bool = false
     @State private var chieuDi: [BusStation] = []
     @State private var chieuVe: [BusStation] = []
+    
     var body: some View {
         NavigationView {
             List {
@@ -46,7 +47,7 @@ struct PlusBus: View {
                         direction =  false
                         addRoutePaths.toggle()
                     } label: {
-                        Text("Thêm các trạm chiều đi")
+                        Text("Thêm/xoá các trạm chiều đi")
                     }
                 }
                 Section (header: Text("Nhập các trạm của chiều về")){
@@ -54,7 +55,7 @@ struct PlusBus: View {
                         direction = true
                         addRoutePaths.toggle()
                     } label: {
-                        Text("Thêm các trạm chiều về")
+                        Text("Thêm/xoá các trạm chiều về")
                     }
                 }
                 
@@ -62,7 +63,7 @@ struct PlusBus: View {
             .fullScreenCover(isPresented: $addRoutePaths, content: {
                 AddRoutePaths(addRoutePaths: $addRoutePaths, direction: $direction, chieuDi: $chieuDi, chieuVe: $chieuVe)
             })
-            .navigationTitle("Thêm trạm xe buýt")
+            .navigationTitle("Thêm tuyến xe buýt")
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {

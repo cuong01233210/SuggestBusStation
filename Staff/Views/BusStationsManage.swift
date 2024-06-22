@@ -12,7 +12,8 @@ struct BusStationsManage: View {
     @State private var selectedStationIndex = -1
     @State private var plusStation = false
     @State private var searchText: String = ""
-    @State var busStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0, id: "-1")
+   // @State var busStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0, id: "-1")
+    @State var busStation: BusStation = BusStation(name: "", buses: [], lat: 0, long: 0)
     @EnvironmentObject var appData: AppData
 
     var body: some View {

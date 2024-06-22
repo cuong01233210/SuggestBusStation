@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PlusStation: View {
     @Binding var plusStation: Bool
-    @State private var newStation: BusStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0, id: "")
+    @State private var newStation: BusStation = BusStation(name: "", buses: [], lat: 0.0, long: 0.0)
     @State private var busStationInput: String = ""
     @State private var slat: String = ""
     @State private var slong: String = ""

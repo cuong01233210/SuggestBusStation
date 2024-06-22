@@ -125,8 +125,11 @@ struct BusesManage: View {
             print("Error \(errorData)")
             throw URLError(.cannotParseResponse)
         }
-        
+//        if let jsonString = String(data: data, encoding: .utf8) {
+//                   print("Response JSON: \(jsonString)")
+//               }
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
+       
         print("jsonData")
         // print(jsonData)
         appData.managedBuses.append(contentsOf: jsonData.buses)

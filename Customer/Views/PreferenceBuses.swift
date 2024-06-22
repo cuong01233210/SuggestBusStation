@@ -4,7 +4,7 @@ struct PreferenceBuses: View {
     @Binding var showPreferenceBuses: Bool
     @EnvironmentObject var appData: AppData
     @State var sbuses: [String] = []
-    @State var buses: [Bus] = []
+  //  @State var buses: [Bus] = []
    
     @State var showBusRoute = false
     @State private var selectedBusIndex: Int = -1
@@ -41,17 +41,17 @@ struct PreferenceBuses: View {
             }
         } else {
             NavigationView {
-                List(0..<buses.count, id: \.self) { index in
+                List(0..<appData.userPreBuses.count, id: \.self) { index in
                     VStack(alignment: .leading) {
-                        Text("Tuyến số \(buses[index].bus)")
+                        Text("Tuyến số \(appData.userPreBuses[index].bus)")
                             .bold()
                             .font(.system(size: 20))
                             .foregroundColor(.red)
-                        Text("Giá vé \(buses[index].price)")
+                        Text("Giá vé \(appData.userPreBuses[index].price)")
                         HStack {
-                            Text(buses[index].activityTime)
+                            Text(appData.userPreBuses[index].activityTime)
                                 .padding(.trailing, 20)
-                            Text(buses[index].gianCachChayXe)
+                            Text(appData.userPreBuses[index].gianCachChayXe)
                         }
                     }
                     .onTapGesture {
@@ -63,7 +63,7 @@ struct PreferenceBuses: View {
                     
                 }
                 .fullScreenCover(isPresented: $showBusRoute) {
-                    ShowBusRoute(bus: $buses[selectedBusIndex].bus, showBusRoute: $showBusRoute)
+                    ShowBusRoute(bus: $appData.userPreBuses[selectedBusIndex].bus, showBusRoute: $showBusRoute)
                         .onChange(of: showBusRoute) { _ in
                             selectedBusIndex = -1
                         }
@@ -84,7 +84,7 @@ struct PreferenceBuses: View {
     }
     
     func getAllBookmarkData() async throws {
-        buses = []
+        appData.userPreBuses = []
         let url = URL(string: "http://localhost:8000/get-bus-prefer-by-array")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -102,7 +102,7 @@ struct PreferenceBuses: View {
         }
         let jsonData = try JSONDecoder().decode(Buses.self, from: data)
         print("getAllBookmarkData response: \(jsonData)")
-        buses.append(contentsOf: jsonData.buses)
+        appData.userPreBuses.append(contentsOf: jsonData.buses)
     }
     
     func getAllBookmark() async throws {

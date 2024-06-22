@@ -31,15 +31,13 @@
 		525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */; };
 		525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C3DF02AC3CF41000EF11A /* MainScreen.swift */; };
 		5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C05E2B42F56600AE7E0C /* Comments.swift */; };
-		5267C0612B443D3E00AE7E0C /* ShowBuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C0602B443D3E00AE7E0C /* ShowBuses.swift */; };
 		5267C0652B44FDA800AE7E0C /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267C0642B44FDA800AE7E0C /* Bus.swift */; };
 		527E2A6D2B20AFFE00252B09 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527E2A6C2B20AFFE00252B09 /* ChangePassword.swift */; };
 		527E2A6F2B20BC0800252B09 /* PersonalIn4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527E2A6E2B20BC0800252B09 /* PersonalIn4.swift */; };
+		52A12DF62C25788F00FCAFEB /* UpdateBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A12DF52C25788E00FCAFEB /* UpdateBus.swift */; };
 		52B380482B484A6F00B7D8FB /* PreferenceBuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */; };
 		52B3804A2B49502D00B7D8FB /* BusStationsManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380492B49502D00B7D8FB /* BusStationsManage.swift */; };
 		52B380512B49910B00B7D8FB /* ShowDataBusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380502B49910B00B7D8FB /* ShowDataBusStation.swift */; };
-		52B380532B4A462800B7D8FB /* BusStationsManageV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */; };
-		52B380552B4A477A00B7D8FB /* ShowDataBusStationV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */; };
 		52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380562B4A4EE300B7D8FB /* PlusStation.swift */; };
 		52B380592B4BB16B00B7D8FB /* PreferenceStations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */; };
 		52B9F2842BE23DD500D889E2 /* SuggestPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B9F2832BE23DD500D889E2 /* SuggestPlaces.swift */; };
@@ -51,7 +49,6 @@
 		52CD68682B4ED4B6002732C8 /* BusesManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CD68672B4ED4B6002732C8 /* BusesManage.swift */; };
 		52CD686A2B4ED6E9002732C8 /* PlusBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CD68692B4ED6E9002732C8 /* PlusBus.swift */; };
 		52CD686C2B4ED91F002732C8 /* ShowBusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CD686B2B4ED91F002732C8 /* ShowBusRoute.swift */; };
-		52CD686E2B4EDC2C002732C8 /* ShowBusRouteV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CD686D2B4EDC2C002732C8 /* ShowBusRouteV2.swift */; };
 		52D740DE2AB7F33F0007BE09 /* OutputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D740DD2AB7F33F0007BE09 /* OutputData.swift */; };
 		52D741042ABA98890007BE09 /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D741032ABA98890007BE09 /* CardData.swift */; };
 		52D741062ABAA86C0007BE09 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D741052ABAA86C0007BE09 /* MapView.swift */; };
@@ -93,15 +90,13 @@
 		525C3DEE2AC3CF02000EF11A /* MainScreenItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenItemView.swift; sourceTree = "<group>"; };
 		525C3DF02AC3CF41000EF11A /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		5267C05E2B42F56600AE7E0C /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
-		5267C0602B443D3E00AE7E0C /* ShowBuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBuses.swift; sourceTree = "<group>"; };
 		5267C0642B44FDA800AE7E0C /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		527E2A6C2B20AFFE00252B09 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		527E2A6E2B20BC0800252B09 /* PersonalIn4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalIn4.swift; sourceTree = "<group>"; };
+		52A12DF52C25788E00FCAFEB /* UpdateBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateBus.swift; sourceTree = "<group>"; };
 		52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceBuses.swift; sourceTree = "<group>"; };
 		52B380492B49502D00B7D8FB /* BusStationsManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationsManage.swift; sourceTree = "<group>"; };
 		52B380502B49910B00B7D8FB /* ShowDataBusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataBusStation.swift; sourceTree = "<group>"; };
-		52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationsManageV2.swift; sourceTree = "<group>"; };
-		52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataBusStationV2.swift; sourceTree = "<group>"; };
 		52B380562B4A4EE300B7D8FB /* PlusStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStation.swift; sourceTree = "<group>"; };
 		52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceStations.swift; sourceTree = "<group>"; };
 		52B9F2832BE23DD500D889E2 /* SuggestPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestPlaces.swift; sourceTree = "<group>"; };
@@ -113,7 +108,6 @@
 		52CD68672B4ED4B6002732C8 /* BusesManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusesManage.swift; sourceTree = "<group>"; };
 		52CD68692B4ED6E9002732C8 /* PlusBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusBus.swift; sourceTree = "<group>"; };
 		52CD686B2B4ED91F002732C8 /* ShowBusRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBusRoute.swift; sourceTree = "<group>"; };
-		52CD686D2B4EDC2C002732C8 /* ShowBusRouteV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBusRouteV2.swift; sourceTree = "<group>"; };
 		52D740DD2AB7F33F0007BE09 /* OutputData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputData.swift; sourceTree = "<group>"; };
 		52D741032ABA98890007BE09 /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
 		52D741052ABAA86C0007BE09 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -287,12 +281,8 @@
 				527E2A6E2B20BC0800252B09 /* PersonalIn4.swift */,
 				52F9C24B2B383FB200C7E29C /* ShowPersonalIn4.swift */,
 				52F9C24D2B383FFA00C7E29C /* ChangeNormalIn4.swift */,
-				5267C0602B443D3E00AE7E0C /* ShowBuses.swift */,
 				52B380472B484A6F00B7D8FB /* PreferenceBuses.swift */,
-				52B380522B4A462800B7D8FB /* BusStationsManageV2.swift */,
-				52B380542B4A477A00B7D8FB /* ShowDataBusStationV2.swift */,
 				52B380582B4BB16B00B7D8FB /* PreferenceStations.swift */,
-				52CD686D2B4EDC2C002732C8 /* ShowBusRouteV2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,6 +309,7 @@
 				52CD686B2B4ED91F002732C8 /* ShowBusRoute.swift */,
 				5247FC9F2C231931006DF676 /* AddRoutePaths.swift */,
 				5247FCA12C2332D2006DF676 /* AddPath.swift */,
+				52A12DF52C25788E00FCAFEB /* UpdateBus.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -450,14 +441,12 @@
 				52F9C2582B3E7B2F00C7E29C /* CheckComment.swift in Sources */,
 				520CFD9D2C208E64004AB30F /* ShowAppInfo.swift in Sources */,
 				5234C44B2C1F3C2F00777BB8 /* PlusStaff.swift in Sources */,
-				52CD686E2B4EDC2C002732C8 /* ShowBusRouteV2.swift in Sources */,
 				525C3DEF2AC3CF02000EF11A /* MainScreenItemView.swift in Sources */,
 				5247FCA02C231931006DF676 /* AddRoutePaths.swift in Sources */,
 				52B380572B4A4EE300B7D8FB /* PlusStation.swift in Sources */,
 				52248D0D2ACD026B00587532 /* CommentView.swift in Sources */,
 				5267C05F2B42F56600AE7E0C /* Comments.swift in Sources */,
 				52CD68682B4ED4B6002732C8 /* BusesManage.swift in Sources */,
-				52B380532B4A462800B7D8FB /* BusStationsManageV2.swift in Sources */,
 				52B380592B4BB16B00B7D8FB /* PreferenceStations.swift in Sources */,
 				52C1E9222B8C788800F6E260 /* SearchView.swift in Sources */,
 				52F9C2502B386EB900C7E29C /* UserIn4.swift in Sources */,
@@ -484,10 +473,8 @@
 				52C888612A668E8500BDD10C /* UserInputLocation.swift in Sources */,
 				522162DC2C0B776900909BF3 /* SearchSetting.swift in Sources */,
 				525C3DF12AC3CF41000EF11A /* MainScreen.swift in Sources */,
-				5267C0612B443D3E00AE7E0C /* ShowBuses.swift in Sources */,
 				52F9C22B2B302D9C00C7E29C /* MyApp.swift in Sources */,
 				52B9F2882BE3896B00D889E2 /* CategoryInputView.swift in Sources */,
-				52B380552B4A477A00B7D8FB /* ShowDataBusStationV2.swift in Sources */,
 				5205EB692C1C402D00511017 /* AdminDashBoard.swift in Sources */,
 				52C8885B2A66858000BDD10C /* BusStation.swift in Sources */,
 				5234C4492C1EF7A500777BB8 /* LoginUserModel.swift in Sources */,
@@ -495,6 +482,7 @@
 				527E2A6F2B20BC0800252B09 /* PersonalIn4.swift in Sources */,
 				52B9F2862BE3180100D889E2 /* InputView.swift in Sources */,
 				52D740DE2AB7F33F0007BE09 /* OutputData.swift in Sources */,
+				52A12DF62C25788F00FCAFEB /* UpdateBus.swift in Sources */,
 				520E3DE62AA0970E00FFB0D9 /* Location Manager.swift in Sources */,
 				5247FCA22C2332D2006DF676 /* AddPath.swift in Sources */,
 				5205EB6B2C1C45C400511017 /* StaffManageView.swift in Sources */,
