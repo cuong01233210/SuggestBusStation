@@ -10,7 +10,11 @@ import SwiftUI
 struct ReturnRoute: Codable, Identifiable {
     var id: UUID { UUID() }
     let source: String
+  //  let sourceLat : Double
+   // let sourceLong : Double
     let destination: String
+    let destinationLat: Double
+    let destinationLong : Double
     let buses: [String]
     let transportTime: Int
     let transportS: Int
@@ -26,6 +30,10 @@ struct ResultRoute: Codable, Identifiable {
     var id: UUID { UUID() }
     let startStation: String
     let endStation: String
+   // let startStationLat: Double
+   // let startStationLong: Double
+  //  let endStationLat: Double
+   // let endStationLong : Double
     let buses: [String]
     let cost: Double
     let transportHour: Int

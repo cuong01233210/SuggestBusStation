@@ -17,60 +17,70 @@ struct CommentView: View {
     @State private var alertMessage = ""
     @EnvironmentObject var appData: AppData
     var body: some View {
-        
-        List {
-            Text("Hãy cho tôi biết ý kiến/ đề xuất của bạn ")
-                .font(Font.custom("Arial", size: 20))
-                .fontWeight(.bold)
-            TextField("Ý kiến/ đề xuất", text: $suggestion, axis: .vertical)
-                .frame(height: 100) // Điều chỉnh chiều cao tùy ý
-                .lineLimit(5...20)
-                .textFieldStyle(.roundedBorder)
-                .padding(.bottom, 30)
-            Text("Hãy đánh giá cho app 5 sao nhé!")
-                .font(Font.custom("Arial", size: 20))
-                .fontWeight(.bold)
-            Stars(rating: $rating)
-            HStack {
-                Spacer()
-                Button(action: {
-                    Task {
-                        print("Gửi")
-                        print("Nội dung comment \(suggestion)")
-                        print("Rating \(rating)")
-                        var comment = Comment(suggestion: suggestion, date: "", rating: rating)
-                        
-                        do{
-                            try await postComment(comment: comment)
-                            alertMessage = "Comment sent successfully!"
-                            showAlert = true // Hiển thị Alert khi thành công
-                            //appData.outputData = self.outputData
+        NavigationView {
+            List {
+                Text("Hãy cho tôi biết ý kiến/ đề xuất của bạn ")
+                    .font(Font.custom("Arial", size: 20))
+                    .fontWeight(.bold)
+                TextField("Ý kiến/ đề xuất", text: $suggestion, axis: .vertical)
+                    .frame(height: 100) // Điều chỉnh chiều cao tùy ý
+                    .lineLimit(5...20)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.bottom, 30)
+                Text("Hãy đánh giá cho app 5 sao nhé!")
+                    .font(Font.custom("Arial", size: 20))
+                    .fontWeight(.bold)
+                Stars(rating: $rating)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        Task {
+                            print("Gửi")
+                            print("Nội dung comment \(suggestion)")
+                            print("Rating \(rating)")
+                            var comment = Comment(suggestion: suggestion, date: "", rating: rating)
+                            
+                            do{
+                                try await postComment(comment: comment)
+                                alertMessage = "Comment sent successfully!"
+                                showAlert = true // Hiển thị Alert khi thành công
+                                //appData.outputData = self.outputData
+                            }
+                            catch{
+                                print("Error: \(error)")
+                                alertMessage = "An error occurred while sending the comment."
+                                showAlert = true // Hiển thị Alert khi có lỗi
+                            }
                         }
-                        catch{
-                            print("Error: \(error)")
-                            alertMessage = "An error occurred while sending the comment."
-                            showAlert = true // Hiển thị Alert khi có lỗi
+                        
+                    }, label: {
+                        Label("Gửi", systemImage: "paperplane")
+                    }).buttonStyle(.bordered)
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("Thông báo"),
+                                message: Text(alertMessage),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
+                }
+            }.listStyle(PlainListStyle())
+                .padding(.top, 40)
+            //List {
+                .navigationTitle("Đánh giá/Góp ý")
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarLeading) {
+                        Button {
+                            isPresentingCommentView = false
+                        } label: {
+                            Image(systemName: "arrowshape.backward.fill")
                         }
                     }
-                    
-                }, label: {
-                    Label("Gửi", systemImage: "paperplane")
-                }).buttonStyle(.bordered)
-                    .alert(isPresented: $showAlert) {
-                        Alert(
-                            title: Text("Thông báo"),
-                            message: Text(alertMessage),
-                            dismissButton: .default(Text("OK"))
-                        )
-                }
-            }
-        }.listStyle(PlainListStyle())
-            .padding(.top, 40)
-        //List {
-        
-        Spacer()
-        Button("Quay lại trang chủ") {
-            isPresentingCommentView = false
+                }.accentColor(.red)
+//            Spacer()
+//            Button("Quay lại trang chủ") {
+//                isPresentingCommentView = false
+//            }
         }
     }
     func postComment(comment: Comment) async throws{

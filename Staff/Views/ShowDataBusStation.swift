@@ -95,7 +95,7 @@ struct ShowDataBusStation: View {
                             if index % 5 == 0 {
                                 let endIndex = Swift.min(index + 5, newStation.buses.count)
                                 let chunk = newStation.buses[index..<endIndex]
-                                Text("Buses List: \(chunk.joined(separator: ", "))")
+                                Text("Danh sách tuyến: \(chunk.joined(separator: ", "))")
                             }
                         }
                     }
@@ -242,7 +242,7 @@ struct ShowDataBusStation: View {
     }
     
     func update() async throws {
-        let url = URL(string: "http://localhost:8000/update-bus-station")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/update-bus-station")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

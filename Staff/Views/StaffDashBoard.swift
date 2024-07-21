@@ -13,6 +13,7 @@ struct StaffDashBoard: View {
     @State var busStationsManage : Bool = false
     @State var showBusesManage: Bool = false
     @State var showAppInfo = false
+    @State var errorFormManage = false
     @EnvironmentObject var appData: AppData
     let sampleProducts = (1...50).map { Product(id: $0, name: "Product \($0)") }
     var body: some View {
@@ -51,7 +52,14 @@ struct StaffDashBoard: View {
                         .fullScreenCover(isPresented: $showAppInfo) {
                             ShowAppInfo(showAppInfo: $showAppInfo)
                         }
-                                         
+                   
+                    ItemView(name: "Kiểm tra các lỗi của ứng dụng do người dùng báo")
+                        .onTapGesture {
+                            errorFormManage.toggle()
+                        }
+                        .fullScreenCover(isPresented: $errorFormManage, content: {
+                            ErrorFormManage(errorFormManage: $errorFormManage)
+                        })
                 }
                 
             }

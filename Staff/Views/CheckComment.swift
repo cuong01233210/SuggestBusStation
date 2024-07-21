@@ -75,7 +75,7 @@ struct CheckComment: View {
         }
     }
     func getAllComments() async throws{
-        let url = URL(string: "http://localhost:8000/get-all-comments")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/get-all-comments")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         //urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");

@@ -114,7 +114,7 @@ struct AuthenticationView: View {
        
     private func loginHandler() async throws {
         //let url = URL(string: "http://localhost:8000/auth/login")!
-        let url = URL(string: "http://localhost:8000/auth/login")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/auth/login")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -143,7 +143,7 @@ struct AuthenticationView: View {
     }
     private func signUpHandler() async throws {
         //let url = URL(string: "http://localhost:8000/auth/signup")!
-        let url = URL(string: "http://localhost:8000/auth/signup")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/auth/signup")!
         var urlRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = "PUT"
@@ -172,7 +172,7 @@ struct AuthenticationView: View {
     }
     
     func getPlaces() async throws{
-            let url = URL(string: "http://localhost:8000/get-places")!
+            let url = URL(string: "https://bus-station-server-production.up.railway.app/get-places")!
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = "GET"
             //urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");

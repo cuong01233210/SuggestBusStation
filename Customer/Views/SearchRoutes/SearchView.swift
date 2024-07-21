@@ -27,7 +27,7 @@ struct SearchView: View {
     @State private var showError = false
     @State var selectedIndex = 0
     @State var isPresentingRouteDetail = false
-    
+    @State var noResultMessage = false
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
@@ -50,11 +50,17 @@ struct SearchView: View {
                             backButton()
                         }
                     }
+                    .accentColor(.red)
                     .sheet(isPresented: $showRouteOptions) {
                         SearchSetting()
                     }
                     .alert(isPresented: $showError) {
                         Alert(title: Text("Bạn cần nhập thêm dữ liệu"),
+                              dismissButton: .default(Text("OK"))
+                        )
+                    }
+                    .alert(isPresented: $noResultMessage) {
+                        Alert(title: Text("Rất tiếc, phương thức này không tìm được kết quả, hãy thử phương thức tìm kiếm khác"),
                               dismissButton: .default(Text("OK"))
                         )
                     }
@@ -105,10 +111,18 @@ struct SearchView: View {
                 if appData.startPlace.lat != 0 && appData.endPlace.lat != 0 {
                     Task {
                         do {
-                            try await search()
+                            if appData.isOneBusSearch == true {
+                                print("da vao one search")
+                                try await search2()
+                                
+                            } else {
+                                try await search()
+                            }
+                            
                         }
-                        catch {
-                            print("error")
+                        catch let error {
+                            print("Error: \(error.localizedDescription)")
+                            print("Error details: \(error)")
                         }
                     }
                 } else {
@@ -238,6 +252,7 @@ struct SearchView: View {
             appData.userInputHour = hour
             appData.userInputMinute = minute
         }
+        print("search mode: \(appData.searchMode)")
         let inputData = InputData(startPlace: appData.startPlace, endPlace: appData.endPlace, searchMode: appData.searchMode, userInputHour: appData.userInputHour, userInputMinute: appData.userInputMinute)
         guard let encodedInputData = try? JSONEncoder().encode(inputData) else {
             return
@@ -254,8 +269,53 @@ struct SearchView: View {
         
         
         searchResults = jsonData.resultRoutes
+        if (searchResults.count == 0){
+            noResultMessage = true
+        }
+        print(searchResults)
     }
     
-    
+    func search2() async throws {
+        searchResults = []
+        let url = URL(string: "http://localhost:8000/search-route-2")!
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if appData.userTimeMode == 0 {
+            let currentDate = Date()
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: currentDate)
+            let minute = calendar.component(.minute, from: currentDate)
+            print(hour, " ", minute)
+            appData.userInputHour = hour
+            appData.userInputMinute = minute
+        }
+        let inputData = InputData(startPlace: appData.startPlace, endPlace: appData.endPlace, searchMode: appData.searchMode, userInputHour: appData.userInputHour, userInputMinute: appData.userInputMinute)
+        guard let encodedInputData = try? JSONEncoder().encode(inputData) else {
+            return
+        }
+        let (data, response) = try await URLSession.shared.upload(for: urlRequest, from: encodedInputData)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            let errorData = try JSONDecoder().decode(ErrorData.self, from: data).message
+            
+            print("Error \(errorData)")
+            throw URLError(.cannotParseResponse)
+        }
+        
+        let jsonData = try JSONDecoder().decode(ResultRoutes.self, from: data)
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    print("Response JSON: \(jsonString)")
+                }
+
+        
+        searchResults = jsonData.resultRoutes
+        if (searchResults.count == 0){
+            noResultMessage = true
+        }
+        
+        
+    }
 }
 
