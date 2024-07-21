@@ -143,7 +143,7 @@ struct UpdateBus: View {
         newBus.chieuVe = chieuVe
         newBus.gianCachTrungBinh = gianCachTrungBinh
         newBus.bus = busName
-        let url = URL(string: "http://localhost:8000/update-bus")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/update-bus")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

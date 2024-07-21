@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SearchSetting: View {
-    @State private var noWalkingSearch = true
-    @State private var combineWalkingSearch = false
+   
+    
     @State private var departNow = true
     @State private var customTime = false
     @State private var showPicker = false
@@ -28,44 +28,66 @@ struct SearchSetting: View {
                 .foregroundColor(.green)
                 .bold()
             
-            Toggle(isOn: $noWalkingSearch) {
+            
+            Toggle(isOn: $appData.isOneBusSearch) {
                 VStack(alignment: .leading) {
-                    Text("Tìm kiếm không đi bộ")
+                    Text("Tìm kiếm chỉ dùng 1 tuyến")
                         .font(.headline)
-                    Text("Ứng dụng sẽ tìm kiếm tuyến đường mà bạn không cần đi bộ giữa các trạm. Tuy nhiên lộ trình có thể sẽ dài hơn so với tìm kiếm có đi bộ")
+                    Text("Ứng dụng sẽ tìm kiếm xem có thể di chuyển mà chỉ cần dùng đúng 1 tuyến xe buýt không")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
             }
-            .onChange(of: noWalkingSearch) { value in
+            .onChange(of: appData.isOneBusSearch) { value in
                 if value {
-                    appData.searchMode = 1
-                    combineWalkingSearch = false
+                    appData.isOneBusSearch = true
+                    
                 } else {
-                    appData.searchMode = 2
-                    combineWalkingSearch = true
+                    appData.isOneBusSearch = false
+                    //oneBusSearch = true
                 }
             }
             
-            Toggle(isOn: $combineWalkingSearch) {
-                VStack(alignment: .leading) {
-                    Text("Tìm kiếm kết hợp đi bộ")
-                        .font(.headline)
-                    Text("Ứng dụng sẽ tìm kiếm tuyến đường kết hợp việc đi bộ qua đường để tới được trạm tiếp theo cần nhảy tuyến nếu cần thiết. Kết quả tìm kiếm sẽ tối ưu quãng đường cần đi hơn.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-            }
-            .onChange(of: combineWalkingSearch) { value in
-                if value {
-                    appData.searchMode = 2
-                    noWalkingSearch = false
-                } else {
-                    appData.searchMode = 1
-                    noWalkingSearch = true
-                }
-            }
             
+            if appData.isOneBusSearch == false {
+                Toggle(isOn: $appData.isNoWalkingSearch) {
+                    VStack(alignment: .leading) {
+                        Text("Tìm kiếm không đi bộ")
+                            .font(.headline)
+                        Text("Ứng dụng sẽ tìm kiếm tuyến đường mà bạn không cần đi bộ giữa các trạm. Tuy nhiên lộ trình có thể sẽ dài hơn so với tìm kiếm có đi bộ")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .onChange(of: appData.isNoWalkingSearch) { value in
+                    if value {
+                        appData.searchMode = 1
+                        appData.isCombineWalkingSearch = false
+                    } else {
+                        appData.searchMode = 2
+                        appData.isCombineWalkingSearch = true
+                    }
+                }
+                
+                Toggle(isOn: $appData.isCombineWalkingSearch) {
+                    VStack(alignment: .leading) {
+                        Text("Tìm kiếm kết hợp đi bộ")
+                            .font(.headline)
+                        Text("Ứng dụng sẽ tìm kiếm tuyến đường kết hợp việc đi bộ qua đường để tới được trạm tiếp theo cần nhảy tuyến nếu cần thiết. Kết quả tìm kiếm sẽ tối ưu quãng đường cần đi hơn.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .onChange(of: appData.isCombineWalkingSearch) { value in
+                    if value {
+                        appData.searchMode = 2
+                        appData.isNoWalkingSearch = false
+                    } else {
+                        appData.searchMode = 1
+                        appData.isNoWalkingSearch = true
+                    }
+                }
+            }
             Text("Cài đặt thời gian gợi ý xe")
                 .font(.title2)
                 .foregroundColor(.green)

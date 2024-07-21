@@ -99,7 +99,7 @@ struct PlusStation: View {
     }
     
     func createNewStation() async throws {
-        let url = URL(string: "http://localhost:8000/add-bus-station")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/add-bus-station")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

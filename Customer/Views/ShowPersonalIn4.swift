@@ -96,7 +96,7 @@ struct ShowPersonalIn4: View {
                     
                 }
                 .accentColor(.red)
-                .navigationTitle("Account")
+                .navigationTitle("Tài khoản")
                 .toolbar{
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         Button{

@@ -87,6 +87,7 @@ struct BusesManage: View {
                                 Image(systemName: "arrowshape.backward.fill")
                             }
                         }
+                        
                         ToolbarItemGroup(placement: .navigationBarTrailing) {
                             Image(systemName: "plus.square.on.square")
                                 .onTapGesture {
@@ -113,7 +114,7 @@ struct BusesManage: View {
     
     func getBuses() async throws {
         appData.managedBuses = []
-        let url = URL(string: "http://localhost:8000/get-all-bus-in4")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/get-all-bus-in4")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         //urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization");

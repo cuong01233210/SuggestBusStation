@@ -63,7 +63,7 @@ struct ChangeNormalIn4: View {
                     HStack {
                         Image(systemName: male ?
                               "checkmark.circle.fill": "circle")
-                        Text("Male");
+                        Text("Nam");
                     }.onTapGesture {
                         male = true
                         female = false
@@ -72,7 +72,7 @@ struct ChangeNormalIn4: View {
                     HStack {
                         Image(systemName: female ?
                               "checkmark.circle.fill": "circle")
-                        Text("Female");
+                        Text("Nữ");
                     }.onTapGesture {
                         male = false
                         female = true
@@ -180,7 +180,7 @@ struct ChangeNormalIn4: View {
         }
         let jsonData =  try JSONDecoder().decode(Message.self, from: data)
         // print(jsonData.message)
-        alertMessage = jsonData.message
+        alertMessage = "Thay đổi thông tin thành công"
         isShowingAlert.toggle()
         
     }

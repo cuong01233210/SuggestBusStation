@@ -128,7 +128,7 @@ struct BusStationsManage: View {
 
     func getData() async throws {
         appData.managedStations = []
-        let url = URL(string: "http://localhost:8000/get-all-bus-stations")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/get-all-bus-stations")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

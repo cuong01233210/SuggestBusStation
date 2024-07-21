@@ -124,7 +124,7 @@ struct PlusBus: View {
         newBus.chieuDi = chieuDi
         newBus.chieuVe = chieuVe
         newBus.gianCachTrungBinh = gianCachTrungBinh
-        let url = URL(string: "http://localhost:8000/add-bus")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/add-bus")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

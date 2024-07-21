@@ -30,6 +30,9 @@ class AppData: ObservableObject {
     @Published var userPreBuses : [Bus] = []
     @Published var needGetStaff : Bool = true
     @Published var staffs : [Account] = []
+    @Published var isOneBusSearch : Bool = true
+    @Published var isNoWalkingSearch : Bool = true
+    @Published var isCombineWalkingSearch: Bool = false
     init() {
         self.outputData = OutputData(
             route: "test",

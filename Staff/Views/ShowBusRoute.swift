@@ -209,7 +209,7 @@ struct ShowBusRoute: View {
     }
     
     func getData() async throws {
-        let url = URL(string: "http://localhost:8000/get-one-bus-data/\(bus)")!
+        let url = URL(string: "https://bus-station-server-production.up.railway.app/get-one-bus-data/\(bus)")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
